@@ -81,7 +81,7 @@ public class ThreeStrokeAttack : Card
         Bullet b = launcher.GetBullet();
         b.gameObject.SetActive(true);
         b.transform.position = launcher.muzzle.position;
-        b.transform.localEulerAngles = new Vector3(0, launcher.launcher.eulerAngles.y - 90 - 90 + angle, 0);
+        b.transform.localEulerAngles = new Vector3(0, launcher.angle + angle, 0);
         b.Straight();
     }
 }

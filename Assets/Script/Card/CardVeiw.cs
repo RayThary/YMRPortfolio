@@ -17,6 +17,6 @@ public class CardVeiw : MonoBehaviour
         GameManager.instance.GetPlayer.weapon.CardAdd(card);
         Debug.Log($"{card} º±≈√");
         CardManager.Selected();
-        GameManager.instance.GetPlayerTransform.position = new Vector3();
+        //GameManager.instance.GetPlayerTransform.position = new Vector3();
     }
 }

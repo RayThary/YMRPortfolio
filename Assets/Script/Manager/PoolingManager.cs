@@ -211,7 +211,9 @@ public class PoolingManager : MonoBehaviour
     {
         string name = _obj.name;
         Transform parent = transform.Find(name);
+        
         cPoolingObject poolingObj = m_listPoolingObj.Find(x => x.obj.name == name);
+        
         int poolingCount = poolingObj.count;
 
         if (parent.childCount < poolingCount)//부족했을때

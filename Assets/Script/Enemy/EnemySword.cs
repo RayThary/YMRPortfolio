@@ -63,24 +63,21 @@ public class EnemySword : Unit
     {
         Collider[] col = Physics.OverlapBox(transform.position + upsize, size / 2, Quaternion.identity, LayerMask.GetMask("Player"));
 
-        if (col.Length > 0)
+        for (int i = 0; i < col.Length; i++)
         {
-            for (int i = 0; i < col.Length; i++)
+            Transform tf_Target = col[i].transform;
+            if (tf_Target.tag == "Player")
             {
-                Transform tf_Target = col[i].transform;
-                if (tf_Target.tag == "Player")
+                if (attackDelayCheck == false)
                 {
-                    if (attackDelayCheck == false)
-                    {
-                        attackCheck = true;
-                    }
+                    attackCheck = true;
                 }
             }
         }
-       
 
         if (attackCheck)
         {
+            Target.GetComponent<Unit>().Hit(this, 3);
             attackDelayCheck = true;
             animator.SetFloat("AttackState", 0);
             animator.SetFloat("NormalState", 0);
