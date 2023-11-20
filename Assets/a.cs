@@ -44,7 +44,7 @@ public static class a
 
 
     //270도와 -90도는 같은거지만 비교하기 힘들기에
-    //각도를 항상 -180 ~ 180도 이내로 만들어 서로 비교하기에 편하게 만듬
+    //각도를 항상 -180 ~ 180도 이내로 만들어 서로 비교하기에 편하게 만듬a
     public static float NormalizeAngle(float angle)
     {
         angle %= 360; // 각도를 360도 범위 내로 줄임
