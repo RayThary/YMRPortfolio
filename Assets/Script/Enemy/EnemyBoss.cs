@@ -28,11 +28,11 @@ public class EnemyBoss : MonoBehaviour
     {
         if (transform.position.x + 0.2f <= Target.position.x)
         {
-            transform.localScale = new Vector3(-1, 1, 1);
+            transform.localScale = new Vector3(-2, 1, 1);
         }
         else if (transform.position.x - 0.2 >= Target.position.x)
         {
-            transform.localScale = new Vector3(1, 1, 1);
+            transform.localScale = new Vector3(2, 1, 1);
         }
         nav.SetDestination(Target.position);
     }
