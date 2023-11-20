@@ -57,7 +57,6 @@ public class Bullet : MonoBehaviour
     {
         if (other.GetComponent<Unit>() != null && unit != null)
         {
-            Debug.Log(other.name);
             other.GetComponent<Unit>().Hit(unit, damage);
         }
     }
@@ -68,7 +67,6 @@ public class Bullet : MonoBehaviour
         {
             StopCoroutine(straight);
         }
-        Debug.Log("Ãæµ¹");
 
         Judgment(other);
 
