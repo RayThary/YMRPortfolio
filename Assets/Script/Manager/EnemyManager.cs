@@ -89,6 +89,7 @@ public class Stage
     //이 맵에 스폰될 유닛과 그 확률
     [SerializeField]
     private EnemyProbability[] enemyProbabilities;
+    //토큰 == 확률 
 
     public void spawnEnemy(Transform parent)
     {
@@ -129,7 +130,7 @@ public class Stage
                 //낮다면 그친구가 나오는거임
                 else
                 {
-                    enemy = PoolingManager.Instance.CreateObject(enemyProbabilities[j].enemyType, parent);
+                    enemy = PollingManager.Instance.CreateObject(enemyProbabilities[j].enemyType, parent);
                     break;
                 }
             }
@@ -146,7 +147,7 @@ public class Stage
 public class EnemyProbability
 {
     [Header("이 객체가")]
-    public PoolingManager.ePoolingObject enemyType;
+    public PollingManager.ePoolingObject enemyType;
     [Header("이 만큼 기회가 있음")]
     public int token;
 }

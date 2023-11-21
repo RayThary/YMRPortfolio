@@ -101,7 +101,7 @@ public class Launcher
 
     public virtual Bullet GetBullet()
     {
-        return PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.TestBullet, objectParent).transform.GetComponent<Bullet>();
+        return PollingManager.Instance.CreateObject(PollingManager.ePoolingObject.TestBullet, objectParent).transform.GetComponent<Bullet>();
     }
 
     public void FireCallbackAdd(Action action)

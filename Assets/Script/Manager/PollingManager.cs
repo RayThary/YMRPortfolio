@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PoolingManager : MonoBehaviour
+public class PollingManager : MonoBehaviour
 {
     public enum ePoolingObject
     {
@@ -12,6 +12,7 @@ public class PoolingManager : MonoBehaviour
         EnemyBow,
         TestBullet,
         Laser,
+        EnemyBullet,
 
     }
 
@@ -25,7 +26,7 @@ public class PoolingManager : MonoBehaviour
 
     [SerializeField] private List<cPoolingObject> m_listPoolingObj;
 
-    public static PoolingManager Instance;
+    public static PollingManager Instance;
 
     private void Awake()
     {

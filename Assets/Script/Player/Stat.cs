@@ -120,7 +120,7 @@ public class Stat : MonoBehaviour
                     parent = parent.parent;
                 else
                 {
-                    PoolingManager.Instance.RemovePoolingObject(parent.gameObject);
+                    PollingManager.Instance.RemovePoolingObject(parent.gameObject);
                     break;
                 }
 

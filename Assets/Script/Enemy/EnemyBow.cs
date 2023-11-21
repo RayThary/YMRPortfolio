@@ -42,7 +42,7 @@ public class EnemyBow : Unit
 
     void Update()
     {
-
+        objectParent = GameManager.instance.GetComponent<Transform>();
         launcher.Direction_Calculation(m_playerTrs.position);
         enemyPlayerBox();
         enemyMoveX();

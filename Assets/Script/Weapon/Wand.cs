@@ -52,7 +52,7 @@ public class Laser : Card
         figure = 5;
         launcher.FireCallbackAdd(Impact);
         launcher.FireCallbackRemove(launcher.BulletControl);
-        laser = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.Laser, launcher.objectParent).transform.GetComponent<Bullet>();
+        laser = PollingManager.Instance.CreateObject(PollingManager.ePoolingObject.Laser, launcher.objectParent).transform.GetComponent<Bullet>();
     }
 
     public override void Deactivation()
