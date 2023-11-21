@@ -17,12 +17,14 @@ public class EnemySword : Unit
     [SerializeField] private float AttackDelayTime = 2f;
     private float attackDelayTimer = 0.0f;
     private bool right = false;
-    private bool attackPlayerCheck;
+    [SerializeField] private bool attackPlayerCheck;
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-
+        Vector3 enemyAttackBox = new Vector3(0.9f, 1, 1.3f);
+        Vector3 center = new Vector3(transform.position.x - 0.45f, transform.position.y, transform.position.z + 0.23f);
+        Gizmos.DrawWireCube(center, enemyAttackBox);
     }
 
 
@@ -30,7 +32,7 @@ public class EnemySword : Unit
     {
         base.Start();
         nav = GetComponentInParent<NavMeshAgent>();
-        rigd = GetComponentInParent<Rigidbody>();
+        rigd = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         Target = GameManager.instance.GetPlayerTransform;
     }
@@ -47,7 +49,7 @@ public class EnemySword : Unit
     private void FixedUpdate()
     {
         rigd.velocity = Vector3.zero;
-        rigd.angularVelocity = Vector3.zero;
+        //rigd.angularVelocity = Vector3.zero;
     }
 
     private void enemyMove()
@@ -55,13 +57,13 @@ public class EnemySword : Unit
         if (transform.position.x + 0.2f <= Target.position.x)
         {
             transform.localScale = new Vector3(-1, 1, 1);
-            right = false;
+            right = true;
 
         }
         else if (transform.position.x - 0.2 >= Target.position.x)
         {
             transform.localScale = new Vector3(1, 1, 1);
-            right = true;
+            right = false;
         }
         nav.SetDestination(Target.position);
     }
@@ -108,8 +110,17 @@ public class EnemySword : Unit
     {
         if (attackPlayerCheck)
         {
-            Vector3 center = new Vector3(transform.position.x - 0.6f, transform.position.y + 0.23f, transform.position.z);
-            Vector3 enemyAttackBox = new Vector3(0.65f, 1.3f, 0);
+            Vector3 enemyAttackBox = new Vector3(0.9f, 1, 1.3f);
+            Vector3 center;
+            if (right == false)
+            {
+                center = new Vector3(transform.position.x - 0.45f, transform.position.y, transform.position.z + 0.23f);
+            }
+            else
+            {
+                center = new Vector3(transform.position.x + 0.45f, transform.position.y, transform.position.z + 0.23f);
+            }
+
             Collider[] col = Physics.OverlapBox(center, enemyAttackBox / 2, Quaternion.identity, LayerMask.GetMask("Player"));
             for (int i = 0; i < col.Length; i++)
             {
