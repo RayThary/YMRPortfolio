@@ -64,6 +64,10 @@ public class Bullet : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log(other.name);
+        if(other.gameObject.name == "test")
+        {
+            return;
+        }
         if (straight != null)
         {
             StopCoroutine(straight);

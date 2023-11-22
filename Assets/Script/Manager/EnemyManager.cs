@@ -49,7 +49,7 @@ public class EnemyManager : MonoBehaviour
     {
         if(EnemyClear())
         {
-            Debug.Log("다음 스테이지로");
+            //Debug.Log("다음 스테이지로");
         //    //카드 고르고 다음 라운드로
         //    cardManager.ViewCards();
         //    //스테이지 바꾸고 spawnEnemy
