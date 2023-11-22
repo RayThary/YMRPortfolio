@@ -184,8 +184,6 @@ public class PollingManager : MonoBehaviour
 
     private GameObject getPoolingObject(string _name, Transform _parent)
     {
-        //Debug.Log($"<color=red>오브젝트 생성</color> = {_name}");
-
         Transform parent = transform.Find(_name);
 
         if (parent == null)

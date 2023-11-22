@@ -2,20 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class tdstgsdf : MonoBehaviour
+public class AreaTransform : MonoBehaviour
 {
-    private void OnTriggerEnter(Collider other)
-    {
-
-    }
+    [SerializeField] private Transform m_target;
     void Start()
     {
         
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        transform.position = m_target.position;    
     }
 }
