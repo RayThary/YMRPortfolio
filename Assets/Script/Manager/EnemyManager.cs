@@ -141,7 +141,9 @@ public class Stage
             enemy.transform.position = position[enemyPositionList[i]].position;
         }
     }
+    
 }
+
 
 [System.Serializable]
 public class EnemyProbability

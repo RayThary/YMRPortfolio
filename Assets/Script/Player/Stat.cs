@@ -105,7 +105,6 @@ public class Stat : MonoBehaviour
     public void MinusHp(float figure)
     {
         hp -= figure;
-        Debug.Log($"{user.name}의 남은 체력 {hp}");
         if(nrhp == null && naturalHPing)
         {
             nrhp = StartCoroutine(Natural_Recovery_HP());
@@ -116,14 +115,15 @@ public class Stat : MonoBehaviour
             Transform parent = transform;
             while (parent != null)
             {
-                if (transform.parent != null)
+                if (parent.parent != null)
+                {
                     parent = parent.parent;
+                }
                 else
                 {
-                    PollingManager.Instance.RemovePoolingObject(parent.gameObject);
+                    PollingManager.Instance.RemovePoolingObject(parent.GetChild(0).gameObject);
                     break;
                 }
-
             }
         }
 

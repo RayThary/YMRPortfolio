@@ -47,35 +47,7 @@ public class PollingManager : MonoBehaviour
         initPoolingChild();
     }
 
-    private void getdiff()
-    {
-        List<GameObject> listTileMap = new List<GameObject>();
-        GameObject[] listTileMap2 = new GameObject[3]; 
-
-        string diffValue = PlayerPrefs.GetString("Diff");
-        if (diffValue == "Easy")
-        {
-            listTileMap[0].SetActive(true);
-            listTileMap2[0].SetActive(true);
-        }
-        else if (diffValue == "Nomal")
-        {
-            listTileMap[1].SetActive(true);
-            listTileMap2[1].SetActive(true);
-        }
-        else if (diffValue == "Hard")
-        {
-            listTileMap[2].SetActive(true);
-            listTileMap2[2].SetActive(true);
-        }
-
-            listTileMap[0].SetActive(diffValue == "Easy");
-            listTileMap2[0].SetActive(diffValue == "Easy");
-            listTileMap[1].SetActive(diffValue == "Nomal");
-            listTileMap2[1].SetActive(diffValue == "Nomal");
-            listTileMap[2].SetActive(diffValue == "Hard");
-            listTileMap2[2].SetActive(diffValue == "Hard");
-    }
+ 
 
     private void initPoolingParents()
     {
@@ -136,15 +108,7 @@ public class PollingManager : MonoBehaviour
             Transform parent = transform.Find(name);
 
             int objCount = parent.childCount;
-            //if (objCount > objPooing.count)// 지워야함
-            //{
-            //    int diffCount = objCount - objPooing.count;
-            //    for (int irNum = diffCount - 1; irNum > objPooing.count - 1; --irNum)
-            //    {
-            //        GameObject delObj = parent.GetChild(irNum).gameObject;
-            //        Destroy(delObj);
-            //    }
-            //}
+           
             for (int idNum = objCount - 1; idNum > -1; --idNum)
             {
                 Destroy(transform.GetChild(idNum).gameObject);
