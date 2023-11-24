@@ -49,11 +49,11 @@ public class Player : Unit
         if(canMove)
             transform.Translate(moveVelocity * Time.deltaTime);
 
+        Vector3 i = Camera.main.WorldToScreenPoint(transform.position);
+        UnitLook(Input.mousePosition - i);
 
-        
 
-
-        if(Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             Space();
         }
@@ -68,6 +68,20 @@ public class Player : Unit
         if (Input.GetMouseButtonDown(0))
         {
             weapon.Fire();
+        }
+    }
+
+    private void UnitLook(Vector3 dir)
+    {
+        if (dir.x < 0)
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+            r_weapon.localScale = new Vector3(1, 1, 1);
+        }
+        else
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+            r_weapon.localScale = new Vector3(-1, 1, 1);
         }
     }
 

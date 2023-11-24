@@ -44,7 +44,6 @@ public class EnemyBow : Unit
 
     void Update()
     {
-
         launcher.Direction_Calculation(m_playerTrs.position);
         enemyPlayerBox();
         enemyMoveX();

@@ -7,6 +7,7 @@ public class CardVeiw : MonoBehaviour
     private CardManager CardManager;
     public Card card;
 
+
     public void Init(CardManager c)
     {
         CardManager = c;
@@ -15,7 +16,6 @@ public class CardVeiw : MonoBehaviour
     public void Select()
     {
         GameManager.instance.GetPlayer.weapon.CardAdd(card);
-        Debug.Log($"{card} º±≈√");
         CardManager.Selected();
         //GameManager.instance.GetPlayerTransform.position = new Vector3();
     }

@@ -9,14 +9,14 @@ public class TestGun : Weapon
 
     public TestGun(Unit unit, Transform launcher, Transform muzzle, float mistake, float firerate, Transform objectParent) : base(unit, launcher, muzzle, mistake, firerate, objectParent)
     {
-        this.firerate = 0.2f;
+        this.firerate = 0.3f;
         sprite = Resources.Load<Sprite>("SPUM/SPUM_Sprites/Items/6_Weapons/Bow_1");
 
         spriteRenderer = launcher.GetChild(0).GetComponent<SpriteRenderer>();
 
         spriteRenderer.sprite = sprite;
 
-        cards.Add(new ThreeStrokeAttack());
+        cards.Add(new ShotGun());
         cards.Add(new PoisonBullet());
         cards.Add(new Bloodsucking());
     }
@@ -50,29 +50,30 @@ public class TestGun : Weapon
 
 
 
-
-public class ThreeStrokeAttack : Card
+[System.Serializable]
+public class ShotGun : Card
 {
     public override void Activation(Launcher launcher)
     {
         base.Activation(launcher);
-        figure = 0;
+        launcher.FireRate += 0.5f;
         launcher.FireCallbackAdd(Impact);
+        launcher.FireCallbackRemove(launcher.BulletControl);
     }
 
     public override void Deactivation()
     {
         launcher.FireCallbackRemove(Impact);
+        launcher.FireCallbackAdd(launcher.BulletControl);
     }
 
     public override void Impact()
     {
-        figure++;
-        if (figure >= 3)
+        if(launcher.CanShot())
         {
-            SpecialFire(30);
-            SpecialFire(-30);
-            figure = 0;
+            SpecialFire(10);
+            SpecialFire(0);
+            SpecialFire(-10);
         }
     }
 
@@ -80,12 +81,15 @@ public class ThreeStrokeAttack : Card
     {
         Bullet b = launcher.GetBullet();
         b.gameObject.SetActive(true);
+        b.timer = 0.5f;
+        b.speed += 2;
         b.transform.position = launcher.muzzle.position;
         b.transform.localEulerAngles = new Vector3(0, launcher.angle + angle, 0);
         b.Straight();
     }
 }
 
+[System.Serializable]
 public class PoisonBullet : Card
 {
     public override void Activation(Launcher launcher)
@@ -110,6 +114,7 @@ public class PoisonBullet : Card
     }
 }
 
+[System.Serializable]
 public class Bloodsucking : Card
 {
     public override void Activation(Launcher launcher)
@@ -134,6 +139,7 @@ public class Bloodsucking : Card
     }
 }
 
+[System.Serializable]
 public class Armor_Of_Thorns : Card
 {
     public override void Activation(Launcher launcher)

@@ -110,10 +110,25 @@ public class Stat : MonoBehaviour
         {
             nrhp = StartCoroutine(Natural_Recovery_HP());
         }
+        if (transform.CompareTag("Player"))
+            return;
 
         if (hp <= 0)
-            //PoolingManager.Instance.RemovePoolingObject(gameObject);
-            gameObject.SetActive(false);
+        {
+            Transform parent = transform;
+            while (parent != null)
+            {
+                if(parent.parent != null)
+                {
+                    parent = parent.parent;
+                }
+                else
+                {
+                    PoolingManager.Instance.RemovePoolingObject(parent.GetChild(0).gameObject);
+                    break;
+                }
+            }
+        }
     }
 
     public void MinusMp(float figure) 
