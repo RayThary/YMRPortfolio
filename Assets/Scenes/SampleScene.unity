@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -38681,7 +38681,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 579911879}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 34.5, y: 0, z: 8.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -79790,7 +79790,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 14, y: 2, z: 14}
+  m_Size: {x: 11, y: 1, z: 11}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1164699381
 GameObject:
@@ -113133,7 +113133,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1666659730}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 34, y: 0, z: 14}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -148415,9 +148415,9 @@ GameObject:
   - component: {fileID: 6402594587123641397}
   - component: {fileID: 8094656326475109157}
   - component: {fileID: 5953700373392746554}
+  - component: {fileID: 8094656326475109161}
   - component: {fileID: 8094656326475109159}
   - component: {fileID: 8094656326475109160}
-  - component: {fileID: 8094656326475109161}
   m_Layer: 8
   m_Name: UnitRoot
   m_TagString: Untagged
@@ -149520,11 +149520,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68f0af56ea72212428c08b2d8fa05b05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meteorBoxSize: {x: 10, y: 0, z: 10}
+  objPatten1: {fileID: 8107354721529028118, guid: c3868180b7d58d24085637668821ae3a, type: 3}
   trsArea: {fileID: 1164285804}
   MeteorSapwnCount: 3
-  G: {fileID: 8107354721529028118, guid: c3868180b7d58d24085637668821ae3a, type: 3}
-  spawn: 0
+  objPatten2: {fileID: 7747638319077484056, guid: 9cc527392caf10b488479d13a1ba49cd, type: 3}
+  patten2DurationTime: 10
+  objPatten3: {fileID: 362274270047863809, guid: 4e6f0c00ff4fab3458b02cdbc7535b7d, type: 3}
+  patten1Check: 0
+  patten2Check: 0
+  patten3Check: 0
 --- !u!4 &8178716944452812892
 Transform:
   m_ObjectHideFlags: 0

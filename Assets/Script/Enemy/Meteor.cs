@@ -44,6 +44,6 @@ public class Meteor : MonoBehaviour
 
     private void shadowFalse()
     {
-        shadow.SetActive(false);
+        Destroy(gameObject);
     }
 }
