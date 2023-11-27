@@ -3799,6 +3799,7 @@ MonoBehaviour:
   spaceCooltime: 1
   spaceDis: 2.5
   travel: 0.1
+  hit_invincibility: 0
 --- !u!114 &934922146812428978
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -107655,6 +107655,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1577929315 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8802860837535315168, guid: 4509c0e6655133e43be6dac58e257cf7, type: 3}
+  m_PrefabInstance: {fileID: 1891719893}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1580851213
 GameObject:
   m_ObjectHideFlags: 0
@@ -108421,8 +108426,8 @@ MonoBehaviour:
   stages:
   - map: {fileID: 299732562}
     enemyList: []
-    min: 0
-    max: 0
+    min: 3
+    max: 5
     enemyProbabilities:
     - enemyType: 2
       token: 7
@@ -127280,6 +127285,10 @@ PrefabInstance:
       propertyPath: objectParent
       value: 
       objectReference: {fileID: 979450041}
+    - target: {fileID: 23018044173033137, guid: 4509c0e6655133e43be6dac58e257cf7, type: 3}
+      propertyPath: hit_invincibility
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3189620322496369218, guid: 4509c0e6655133e43be6dac58e257cf7, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -127335,13 +127344,31 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8802860837535315168, guid: 4509c0e6655133e43be6dac58e257cf7, type: 3}
+      insertIndex: 4
+      addedObject: {fileID: 1891719897}
   m_SourcePrefab: {fileID: 100100000, guid: 4509c0e6655133e43be6dac58e257cf7, type: 3}
 --- !u!4 &1891719894 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3189620322496369218, guid: 4509c0e6655133e43be6dac58e257cf7, type: 3}
   m_PrefabInstance: {fileID: 1891719893}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1891719897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1577929315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc0d33a2a1e40fa4a89da1dcdbcf47aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isHit: 0
+  ReturnTime: 1
+  Transparency: 0.5
 --- !u!1 &1891747749
 GameObject:
   m_ObjectHideFlags: 0

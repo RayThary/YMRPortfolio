@@ -6,12 +6,12 @@ public class PoolingManager : MonoBehaviour
 {
     public enum ePoolingObject
     {
-        Fireball,
         PlayerBullet,
-        EnemySword,
-        EnemyBow,
         TestBullet,
         Laser,
+        EnemyBow,
+        EnemySword,
+        Fireball,
         Player,
     }
 
@@ -37,13 +37,15 @@ public class PoolingManager : MonoBehaviour
         {
             Destroy(this);
         }
+
+        DontDestroyOnLoad(this);
+        initPoolingParents();
+        initPoolingChild();
     }
 
     private void Start()
     {
-        DontDestroyOnLoad(this);
-        initPoolingParents();
-        initPoolingChild();
+        
     }
 
     private void getdiff()

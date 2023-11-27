@@ -17,18 +17,31 @@ public class Player : Unit
     Ray ray;
     RaycastHit hit;
 
+    //대쉬의 쿨타임을 알려줄 이미지
     public Image spaceImage;
+    //대쉬의 쿨타임
     public float spaceCooltime = 3;
+    //대쉬가 움직일 거리
     public float spaceDis;
+    //대쉬의 이동시간과 무적시간
     public float travel = 0.1f;
+    //시간을 잴 변수
     private float spaceTimer;
+    //플레이어가 움직일 수 있는지
     private bool canMove = true;
+    public bool CanMove { get { return canMove; }  set { canMove = value; } }
 
+    //맞고 나서 무적시간
+    public float hit_invincibility;
+    //무적시간을 재는 코루틴
+    public Coroutine invincibility = null;
+    private SpriteAlphaControl spriteAlpha;
 
     protected new void Start()
     {
         base.Start();
         weapon = new TestGun(this, r_weapon, r_weapon, 0, 1, objectParent);
+        spriteAlpha = GetComponent<SpriteAlphaControl>();
     }
 
 
@@ -71,6 +84,28 @@ public class Player : Unit
         }
     }
 
+    //플레이어는 맞을때 잠시 무적시간이 필요함
+    public override void Hit(Unit unit, float figure)
+    {
+        base.Hit(unit, figure);
+        //플레이어는 체력이 0이되면 게임이 끝난거임
+        if (stat.HP <= 0)
+        {
+            Time.timeScale = 0;
+            //게임 다시시작
+            return;
+        }
+        else
+        {
+            //플레이어 무적시간
+            if(invincibility != null)
+                StopCoroutine(invincibility);
+            invincibility = StartCoroutine(Invincibility(hit_invincibility));
+            spriteAlpha.isHit = true;
+        }
+    }
+
+    //플레이어가 어디를 보는지에 따라 좌우 반전
     private void UnitLook(Vector3 dir)
     {
         if (dir.x < 0)
@@ -85,6 +120,7 @@ public class Player : Unit
         }
     }
 
+    //스페이스를 누르면 대쉬
     public void Space()
     {
         if(moveVelocity != Vector3.zero && spaceTimer < 0)
@@ -94,6 +130,7 @@ public class Player : Unit
         }
     }
 
+    //대쉬 무적시간을 재는 코루틴
     private IEnumerator SpaceCoroutine(float t, Vector3 velocity)
     {
         float timer = 0;
@@ -109,6 +146,13 @@ public class Player : Unit
             yield return null;
         }
         canMove = true;
+        GetComponent<Collider>().enabled = true;
+    }
+
+    private IEnumerator Invincibility(float t)
+    {
+        GetComponent<Collider>().enabled = false;
+        yield return new WaitForSeconds(t);
         GetComponent<Collider>().enabled = true;
     }
 }

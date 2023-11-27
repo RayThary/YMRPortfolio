@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
         enemyManager.Init();
         enemyManager.GetStage = enemyManager.Stages[0];
         enemyManager.GetStage.spawnEnemy();
-        cardManager.ViewCards();
+        //cardManager.ViewCards();
     }
 
     private void Update()

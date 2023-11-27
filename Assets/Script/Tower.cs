@@ -6,7 +6,7 @@ using UnityEngine;
 public class Tower : Unit
 {
     public Player player;
-    public Launcher launcher;
+    public Launcher[] launcher;
     public Transform objectParent;
 
     private Coroutine operationCoroutine = null;
@@ -29,7 +29,12 @@ public class Tower : Unit
     protected new void Start()
     {
         base.Start();
-        launcher = new Launcher(this, body, muzzles[0], 30, rate, objectParent);
+        launcher = new Launcher[muzzles.Length];
+        for (int i = 0; i < muzzles.Length; i++)
+        {
+            launcher[i] = new Launcher(this, body, muzzles[i], 0, rate, objectParent);
+        }
+
         if (player == null)
         {
             //플레이어 찾기
@@ -37,7 +42,7 @@ public class Tower : Unit
         else
         {
             //공격
-            //launcher.Operation();
+            Operation();
         }
     }
 
@@ -77,11 +82,10 @@ public class Tower : Unit
     {
         while (true)
         {
-            timer -= Time.deltaTime;
-            if (timer < 0)
+            for (int i = 0; i < launcher.Length; i++)
             {
-                timer = rate;
-                launcher.Fire();
+                launcher[i].angle = muzzles[i].eulerAngles.y;
+                launcher[i].Fire();
             }
             yield return null;
         }
@@ -142,27 +146,24 @@ public class Tower : Unit
     //    FireCallback();
     //}
 
-    ////회전하면서 발사
-    //private void LauncherRotation()
-    //{
-    //    for (int i = 0; i < muzzles.Length; i++)
-    //    {
-    //        Bullet b = GetBullet();
-    //        b.gameObject.SetActive(true);
-    //        b.transform.position = muzzles[i].position;
-    //        b.transform.localEulerAngles = new Vector3(0, rotation + muzzles[i].localEulerAngles.y, 0);
-    //        b.Straight();
-    //    }
+    //회전하면서 발사
+    private void LauncherRotation()
+    {
+        for (int i = 0; i < muzzles.Length; i++)
+        {
+            launcher[i].angle = muzzles[i].eulerAngles.y;
+            launcher[i].Fire();
+        }
 
-    //    //몸 회전코드
-    //    if (bodyCoroutine != null)
-    //    {
-    //        StopCoroutine(bodyCoroutine);
-    //    }
-    //    //다음에 회전을 여기로 해라
-    //    desired = rotation + (rotationSpeed * timer);
-    //    bodyCoroutine = StartCoroutine(BodyRotationCoroutine( timer));
-    //}
+        //몸 회전코드
+        if (bodyCoroutine != null)
+        {
+            StopCoroutine(bodyCoroutine);
+        }
+        //다음에 회전을 여기로 해라
+        desired = rotation + (rotationSpeed * timer);
+        bodyCoroutine = StartCoroutine(BodyRotationCoroutine(timer));
+    }
 
     ////원모양으로 발사
     //private void LauncherCircle() 
