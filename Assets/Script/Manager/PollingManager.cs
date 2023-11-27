@@ -6,14 +6,14 @@ public class PollingManager : MonoBehaviour
 {
     public enum ePoolingObject
     {
-        Fireball,
         PlayerBullet,
-        EnemySword,
-        EnemyBow,
         TestBullet,
         Laser,
         EnemyBullet,
-
+        Meteor,
+        MeteorObj,
+        RotatingSphere,
+        BigBullet,
     }
 
     [System.Serializable]
@@ -38,13 +38,14 @@ public class PollingManager : MonoBehaviour
         {
             Destroy(this);
         }
+        DontDestroyOnLoad(this);
+        initPoolingParents();
+        initPoolingChild();
     }
 
     private void Start()
     {
-        DontDestroyOnLoad(this);
-        initPoolingParents();
-        initPoolingChild();
+        
     }
 
  

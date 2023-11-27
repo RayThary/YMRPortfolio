@@ -16,7 +16,8 @@ public class Meteor : MonoBehaviour
     void Start()
     {
         spr= GetComponentInChildren<SpriteRenderer>();
-        shadow = transform.GetChild(0).gameObject;
+
+        shadow = spr.gameObject;
     }
 
     
@@ -32,18 +33,21 @@ public class Meteor : MonoBehaviour
         sY = Mathf.Lerp(0.2f, 0.1f, Ratio);
 
         shadow.transform.localScale = new Vector3(sX, sY, 0.1f);
-        if (sY <= 0.1f)
+        if (sY <= 0.1f ) 
         {
             spr.color = Color.red;
-            GameObject meteor = Instantiate(objMeteor, transform);
+            GameObject meteor = PollingManager.Instance.CreateObject(PollingManager.ePoolingObject.MeteorObj,transform);
             meteor.transform.position = new Vector3(transform.position.x, 2, transform.position.z);
-            Invoke("shadowFalse", 1f);
+            StartCoroutine(shodwFalse());
+
             meteorSpawn = true;
         }
     }
-
-    private void shadowFalse()
+    IEnumerator shodwFalse()
     {
-        Destroy(gameObject);
+        yield return new WaitForSeconds(0.5f);
+        PollingManager.Instance.RemovePoolingObject(gameObject);
+
     }
+    
 }

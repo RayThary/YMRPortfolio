@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyBossType2 : MonoBehaviour
+public class EnemyBossType2 : Unit
 {
     private Transform target;
     //private
@@ -13,13 +13,16 @@ public class EnemyBossType2 : MonoBehaviour
     /// </summary>
     //패턴1
     public GameObject objPatten1;//임시 메테오오브젝트
+    private GameObject patten1ObjCheck = null;
 
     [SerializeField] private Transform trsArea;//스테이지위치를저장해줄필요가있음
-    [SerializeField] private int MeteorSapwnCount = 4;//메테오 소환개수
+    [SerializeField] private int MeteorSapwnCount = 3;//메테오 소환개수
 
     private Vector3 meteorBoxSize;
     private Vector3 spawnPos;
 
+    private float timer = 0.0f;
+    private bool allSpawnCheck = false;
     //패턴2 
     public GameObject objPatten2;//임시 플레이어근접시 구체4개소환
     private GameObject patten2ObjCheck = null;
@@ -40,8 +43,9 @@ public class EnemyBossType2 : MonoBehaviour
     public bool patten2Check = false;//근접패턴 적이오면 주위구체3개소환하는곳
     public bool patten3Check = false;
 
-    void Start()
+    protected new void Start()
     {
+        base.Start();
         nav = transform.parent.GetComponent<NavMeshAgent>();
         target = GameManager.instance.GetPlayerTransform;
         meteorBoxSize = trsArea.GetComponent<BoxCollider>().bounds.size;
@@ -69,7 +73,7 @@ public class EnemyBossType2 : MonoBehaviour
             nav.enabled = false;
             if (patten2ObjCheck != null)
             {
-            //  패턴 2시작 채워져있으면 소환중이니여기들어오면안됨
+                //  패턴 2시작 채워져있으면 소환중이니여기들어오면안됨
             }
         }
     }
@@ -80,14 +84,10 @@ public class EnemyBossType2 : MonoBehaviour
     {
         if (patten1Check)
         {
+            allSpawnCheck = false;
             //2초간격으로 메테오카운트만큼 총3번에걸쳐서 소환한다
             for (int i = 0; i < MeteorSapwnCount; i++)
             {
-
-                //spawnPos = GetRandomPosition();
-
-                //Instantiate(G, spawnPos, Quaternion.identity, trsArea);
-
 
                 StartCoroutine("patten1");
                 if (i == MeteorSapwnCount - 1)
@@ -98,22 +98,31 @@ public class EnemyBossType2 : MonoBehaviour
 
         }
 
+
+        if (patten1Check == false && allSpawnCheck == true) 
+        {
+            timer += Time.deltaTime / 3;
+            if (timer > 1.0f)
+            {
+                timer = 0.0f;
+                patten1Check = true;
+            }
+        }
     }
 
     IEnumerator patten1()
     {
         for (int i = 0; i < 3; i++)
         {
-
             spawnPos = GetRandomPosition();
-
-            Instantiate(objPatten1, spawnPos, Quaternion.identity, trsArea);
-
-            yield return new WaitForSeconds(3f);
-
+            patten1ObjCheck = PollingManager.Instance.CreateObject("Meteor", transform.parent);
+            patten1ObjCheck.transform.position = spawnPos;
+            yield return new WaitForSeconds(1f);
+            if (i == 2)
+            {
+                allSpawnCheck = true;
+            }
         }
-
-        yield return new WaitForSeconds(2);
     }
     private Vector3 GetRandomPosition()
     {
@@ -148,8 +157,10 @@ public class EnemyBossType2 : MonoBehaviour
         if (patten2Check)
         {
 
-            Vector3 spawnPos = new Vector3(transform.position.x, 0, transform.position.z+1 );
-            patten2ObjCheck = Instantiate(objPatten2, spawnPos, Quaternion.identity, transform.parent);
+            Vector3 spawnPos = new Vector3(transform.position.x, 0, transform.position.z + 1);
+            patten2ObjCheck = PollingManager.Instance.CreateObject("RotatingSphere", transform.parent);
+            patten2ObjCheck.transform.position = spawnPos;
+            //patten2ObjCheck = Instantiate(objPatten2, spawnPos, Quaternion.identity, transform.parent);
 
             patten2Check = false;
         }
@@ -168,7 +179,9 @@ public class EnemyBossType2 : MonoBehaviour
     {
         if (patten3Check)
         {
-            patten3ObjCheck =Instantiate(objPatten3, transform.position, Quaternion.identity, transform.parent);
+            patten3ObjCheck = PollingManager.Instance.CreateObject(PollingManager.ePoolingObject.BigBullet, transform.parent);
+            patten3ObjCheck.transform.position = transform.position;
+            //patten3ObjCheck =Instantiate(objPatten3, transform.position, Quaternion.identity, transform.parent);
             patten3ObjCheck.transform.rotation = Quaternion.LookRotation(target.position - patten3ObjCheck.transform.position);
             patten3Check = false;
         }
