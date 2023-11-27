@@ -115,7 +115,7 @@ public class EnemyBossType2 : Unit
         for (int i = 0; i < 3; i++)
         {
             spawnPos = GetRandomPosition();
-            patten1ObjCheck = PollingManager.Instance.CreateObject("Meteor", transform.parent);
+            patten1ObjCheck = PoolingManager.Instance.CreateObject("Meteor", transform.parent);
             patten1ObjCheck.transform.position = spawnPos;
             yield return new WaitForSeconds(1f);
             if (i == 2)
@@ -158,7 +158,7 @@ public class EnemyBossType2 : Unit
         {
 
             Vector3 spawnPos = new Vector3(transform.position.x, 0, transform.position.z + 1);
-            patten2ObjCheck = PollingManager.Instance.CreateObject("RotatingSphere", transform.parent);
+            patten2ObjCheck = PoolingManager.Instance.CreateObject("RotatingSphere", transform.parent);
             patten2ObjCheck.transform.position = spawnPos;
             //patten2ObjCheck = Instantiate(objPatten2, spawnPos, Quaternion.identity, transform.parent);
 
@@ -179,7 +179,7 @@ public class EnemyBossType2 : Unit
     {
         if (patten3Check)
         {
-            patten3ObjCheck = PollingManager.Instance.CreateObject(PollingManager.ePoolingObject.BigBullet, transform.parent);
+            patten3ObjCheck = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.BigBullet, transform.parent);
             patten3ObjCheck.transform.position = transform.position;
             //patten3ObjCheck =Instantiate(objPatten3, transform.position, Quaternion.identity, transform.parent);
             patten3ObjCheck.transform.rotation = Quaternion.LookRotation(target.position - patten3ObjCheck.transform.position);

@@ -75,6 +75,6 @@ public class Bullet : MonoBehaviour
 
         Judgment(other);
 
-        PollingManager.Instance.RemovePoolingObject(gameObject);
+        PoolingManager.Instance.RemovePoolingObject(gameObject);
     }
 }

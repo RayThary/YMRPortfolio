@@ -33,6 +33,6 @@ public class Weapon : Launcher
 
     public override Bullet GetBullet()
     {
-        return PollingManager.Instance.CreateObject(PollingManager.ePoolingObject.PlayerBullet, objectParent).transform.GetComponent<Bullet>();
+        return PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.PlayerBullet, objectParent).transform.GetComponent<Bullet>();
     }
 }

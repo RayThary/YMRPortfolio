@@ -2,25 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PollingManager : MonoBehaviour
+public class PoolingManager : MonoBehaviour
 {
     public enum ePoolingObject
     {
         PlayerBullet,
         TestBullet,
         Laser,
-<<<<<<<< HEAD:Assets/Script/Manager/PollingManager.cs
         EnemyBullet,
         Meteor,
         MeteorObj,
         RotatingSphere,
         BigBullet,
-========
-        EnemyBow,
-        EnemySword,
-        Fireball,
-        Player,
->>>>>>>> origin/jun:Assets/Script/Manager/PoolingManager.cs
     }
 
     [System.Serializable]
@@ -33,7 +26,7 @@ public class PollingManager : MonoBehaviour
 
     [SerializeField] private List<cPoolingObject> m_listPoolingObj;
 
-    public static PollingManager Instance;
+    public static PoolingManager Instance;
 
     private void Awake()
     {
@@ -45,11 +38,6 @@ public class PollingManager : MonoBehaviour
         {
             Destroy(this);
         }
-<<<<<<<< HEAD:Assets/Script/Manager/PollingManager.cs
-        DontDestroyOnLoad(this);
-        initPoolingParents();
-        initPoolingChild();
-========
 
         DontDestroyOnLoad(this);
         initPoolingParents();
@@ -59,12 +47,7 @@ public class PollingManager : MonoBehaviour
     private void Start()
     {
         
->>>>>>>> origin/jun:Assets/Script/Manager/PoolingManager.cs
-    }
 
-    private void Start()
-    {
-        
     }
 
  

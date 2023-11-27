@@ -36,7 +36,7 @@ public class Meteor : MonoBehaviour
         if (sY <= 0.1f ) 
         {
             spr.color = Color.red;
-            GameObject meteor = PollingManager.Instance.CreateObject(PollingManager.ePoolingObject.MeteorObj,transform);
+            GameObject meteor = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.MeteorObj,transform);
             meteor.transform.position = new Vector3(transform.position.x, 2, transform.position.z);
             StartCoroutine(shodwFalse());
 
@@ -46,7 +46,7 @@ public class Meteor : MonoBehaviour
     IEnumerator shodwFalse()
     {
         yield return new WaitForSeconds(0.5f);
-        PollingManager.Instance.RemovePoolingObject(gameObject);
+        PoolingManager.Instance.RemovePoolingObject(gameObject);
 
     }
     

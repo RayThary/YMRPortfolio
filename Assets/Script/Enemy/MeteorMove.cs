@@ -19,7 +19,7 @@ public class MeteorMove : MonoBehaviour
         
         if (posY <= 0.1f)
         {
-            PollingManager.Instance.RemovePoolingObject(gameObject);
+            PoolingManager.Instance.RemovePoolingObject(gameObject);
         }
     }
 }
