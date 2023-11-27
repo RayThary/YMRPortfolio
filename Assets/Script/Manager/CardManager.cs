@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,6 +23,7 @@ public class CardManager : MonoBehaviour
         {
             view[i].gameObject.SetActive(true);
             view[i].card = cards[i];
+            view[i].transform.GetChild(0).GetComponent<Text>().text = view[i].card.ToString();
         }
     }
 

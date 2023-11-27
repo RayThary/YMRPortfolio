@@ -7,30 +7,33 @@ public class EnemyManager : MonoBehaviour
 {
     [SerializeField]
     private Stage nowStage;//현재스테이지를찾아주는것
+    public Stage GetStage { get { return nowStage; } set { nowStage = value; } }
     private Transform[] childTrs;
     public Transform EnemyParent;
 
     [SerializeField]
     private Stage[] stages;
+    public Stage[] Stages { get { return stages; } }
     private bool stageChange = true;
     private int stageindex;
-    public CardManager cardManager;
 
-    void Start()
+
+    public void Init()
     {
         childTrs = transform.GetComponentsInChildren<Transform>();
-        for(int i = 0; i <stages.Length; i++)
+        for (int i = 0; i < stages.Length; i++)
         {
-            stages[i].Init();
+            stages[i].Init(EnemyParent);
         }
-        stageindex = 0;
-        nowStage = stages[0];
-        //spawnEnemy();
-        nowStage.spawnEnemy(EnemyParent);
-        cardManager.ViewCards();
     }
 
-
+    IEnumerator Test()
+    {
+        while(true)
+        {
+            yield return null;
+        }
+    }
 
     //적이 모두 비활성화되면 true를 리턴해야하는데 SwordNav가 비활성화 되서 일단은 false만 리턴함
     public bool EnemyClear()
@@ -44,30 +47,18 @@ public class EnemyManager : MonoBehaviour
         }
         return true;
     }
-
-    void Update()
-    {
-        if(EnemyClear())
-        {
-            //Debug.Log("다음 스테이지로");
-        //    //카드 고르고 다음 라운드로
-        //    cardManager.ViewCards();
-        //    //스테이지 바꾸고 spawnEnemy
-        //    stageindex++;
-        //    nowStage = stages[stageindex];
-        //    spawnEnemy();
-        }
-    }
 }
 
 
 [System.Serializable]
 public class Stage
 {
+    private Transform EnemyParent;
     //초기화 이 함수를 처음에 반드시 호출해줘야 함
-    public void Init()
+    public void Init(Transform EnemyParent)
     {
         position = new  List<Transform>();
+        this.EnemyParent = EnemyParent;
         for (int i = 0; i < map.transform.childCount; i++)
             position.Add(map.transform.GetChild(i).transform);
         enemyList = new List<GameObject> ();
@@ -89,16 +80,14 @@ public class Stage
     //이 맵에 스폰될 유닛과 그 확률
     [SerializeField]
     private EnemyProbability[] enemyProbabilities;
-    //토큰 == 확률 
 
-    public void spawnEnemy(Transform parent)
+    public void spawnEnemy()
     {
         //몇마리 스폰될지 정하고
         int enemyCount = Random.Range(min, max);
         //이미 스폰된 에네미들은 (아마 다시시작할때 리스트에 적이 남아있을테니)
         //초기화해서 없애주고 Clear만 해주면 어처피 유닛이 죽을때 PoolingManager를 사용해서 문제없음
         enemyList.Clear();
-
         //적들이 나올 수 있는 위치들을 정해주고
         List<int> enemyPositionList = new List<int>();
         //enemy가 나올 위치를 중복이 없도록
@@ -130,26 +119,24 @@ public class Stage
                 //낮다면 그친구가 나오는거임
                 else
                 {
-                    enemy = PollingManager.Instance.CreateObject(enemyProbabilities[j].enemyType, parent);
+                    enemy = PoolingManager.Instance.CreateObject(enemyProbabilities[j].enemyType, EnemyParent);
                     break;
                 }
             }
             //생성된 적을 list에 추가
             enemyList.Add(enemy);
             //위치도 바꿔주고
-            Debug.Log(position[enemyPositionList[i]].position);
+
             enemy.transform.position = position[enemyPositionList[i]].position;
         }
     }
-    
 }
-
 
 [System.Serializable]
 public class EnemyProbability
 {
     [Header("이 객체가")]
-    public PollingManager.ePoolingObject enemyType;
+    public PoolingManager.ePoolingObject enemyType;
     [Header("이 만큼 기회가 있음")]
     public int token;
 }

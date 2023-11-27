@@ -652,7 +652,7 @@ Transform:
   m_Children:
   - {fileID: 1001281511690298133}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4291445778241403941
 MonoBehaviour:
@@ -3519,7 +3519,7 @@ MonoBehaviour:
   attackDelay: 2
   hand: {fileID: 8410732306542665324}
   muzzle: {fileID: 8410732306542665324}
-  objectParent: {fileID: 360438677879167467}
+  objectParent: {fileID: 0}
 --- !u!114 &372659598219182554
 MonoBehaviour:
   m_ObjectHideFlags: 0

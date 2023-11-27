@@ -19,6 +19,7 @@ public class Launcher
     protected float mistake = 0;
     //다음 발사까지 걸리는 시간
     protected float firerate;
+    public float FireRate { get { return firerate; } set { firerate = value; } }
     //발사 타이머
     protected Coroutine firerateCoroutine;
     //총을 발사할 때마다 호출하는 콜백함수
@@ -75,7 +76,7 @@ public class Launcher
 
     public virtual void BulletControl()
     {
-        if (firerateCoroutine == null)
+        if (CanShot())
         {
             Bullet b = GetBullet();
             b.unit = parent;
@@ -85,12 +86,22 @@ public class Launcher
         }
     }
 
+    public bool CanShot()
+    {
+        if (firerateCoroutine == null)
+            return true;
+        return false;
+    }
+
     public void FireCallback()
     {
         if (fireCallback != null)
             fireCallback();
 
-        firerateCoroutine = parent.StartCoroutine(FirerateTimerC());
+        if (CanShot())
+        {
+            firerateCoroutine = parent.StartCoroutine(FirerateTimerC());
+        }
     }
 
     private IEnumerator FirerateTimerC()

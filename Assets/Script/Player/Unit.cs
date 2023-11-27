@@ -21,17 +21,11 @@ public abstract class Unit : MonoBehaviour
         stat.Init();
     }
 
-    public void Hit(Unit unit, float figure)
+
+    public virtual void Hit(Unit unit, float figure)
     {
         stat.Be_Attacked_TRUE(figure, unit);
         unit.stat.AttackInvocation(this, figure);
-
-        if(transform.CompareTag("Player"))
-        {
-            Debug.Log(transform.tag);
-            //게임 다시시작
-            return;
-        }
 
     }
     public void HitDot(_DOT dot, int duration, float figure, Unit perpetrator)

@@ -9,11 +9,18 @@ public class PollingManager : MonoBehaviour
         PlayerBullet,
         TestBullet,
         Laser,
+<<<<<<<< HEAD:Assets/Script/Manager/PollingManager.cs
         EnemyBullet,
         Meteor,
         MeteorObj,
         RotatingSphere,
         BigBullet,
+========
+        EnemyBow,
+        EnemySword,
+        Fireball,
+        Player,
+>>>>>>>> origin/jun:Assets/Script/Manager/PoolingManager.cs
     }
 
     [System.Serializable]
@@ -38,9 +45,21 @@ public class PollingManager : MonoBehaviour
         {
             Destroy(this);
         }
+<<<<<<<< HEAD:Assets/Script/Manager/PollingManager.cs
         DontDestroyOnLoad(this);
         initPoolingParents();
         initPoolingChild();
+========
+
+        DontDestroyOnLoad(this);
+        initPoolingParents();
+        initPoolingChild();
+    }
+
+    private void Start()
+    {
+        
+>>>>>>>> origin/jun:Assets/Script/Manager/PoolingManager.cs
     }
 
     private void Start()
@@ -177,7 +196,7 @@ public class PollingManager : MonoBehaviour
         Transform parent = transform.Find(name);
         
         cPoolingObject poolingObj = m_listPoolingObj.Find(x => x.obj.name == name);
-        
+
         int poolingCount = poolingObj.count;
 
         if (parent.childCount < poolingCount)//부족했을때

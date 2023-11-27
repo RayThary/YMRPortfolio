@@ -15,6 +15,7 @@ public class EnemyBossType2Patten3 : MonoBehaviour
     [SerializeField] private Transform[] muzzles;
     private Transform sprTrs;
     [SerializeField] private Unit boss;
+    public float rate;
     void Start()
     {
         SpriteRenderer spr = GetComponentInChildren<SpriteRenderer>();
@@ -24,10 +25,9 @@ public class EnemyBossType2Patten3 : MonoBehaviour
         bulletParent = FindObjectOfType<GameManager>().transform;
         for (int i = 0; i < muzzles.Length; i++)
         {
-            launcher[i] = new Launcher(boss, sprTrs, muzzles[i], 0, 1, bulletParent);
+            launcher[i] = new Launcher(boss, sprTrs, muzzles[i], 0, rate, bulletParent);
         }
 
-        StartCoroutine("smallBullet");
         Operation();
     }
 
@@ -35,8 +35,6 @@ public class EnemyBossType2Patten3 : MonoBehaviour
     void Update()
     {
         bigBulletMove();
-        smallBulletSpawn();
-        
     }
     private void bigBulletMove()
     {
@@ -44,25 +42,6 @@ public class EnemyBossType2Patten3 : MonoBehaviour
         sprTrs.transform.Rotate(new Vector3(0, 0, -1) * rotateSpeed * Time.deltaTime);
     }
 
-    private void smallBulletSpawn()
-    {
-
-        if (bulletCount >= 10)
-        {
-            StopCoroutine("smallBullet");
-        }
-
-    }
-
-    IEnumerator smallBullet()
-    {
-        for (int i = 0; i < bulletSpawnCount; i++)
-        {
-            bulletCount++;
-            yield return new WaitForSeconds(1);
-        }
-
-    }
     public void Operation()
     {
         operationCoroutine = StartCoroutine(OperationCoroutine());
