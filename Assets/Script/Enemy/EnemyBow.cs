@@ -19,8 +19,6 @@ public class EnemyBow : Unit
     [SerializeField] private float attackDelay = 2f;
     private float attackTimer = 0.0f;
 
-    private bool shootingCheck;
-
     [SerializeField]
     private Launcher launcher;
     public Transform hand;
@@ -44,6 +42,7 @@ public class EnemyBow : Unit
 
     void Update()
     {
+        objectParent = GameManager.instance.GetComponent<Transform>();
         launcher.Direction_Calculation(m_playerTrs.position);
         enemyPlayerBox();
         enemyMoveX();
@@ -191,10 +190,9 @@ public class EnemyBow : Unit
         return enemyAttackDelayCheck = false;
     }
 
-    private bool EnemyBulletShoot()
+    private void EnemyBulletShoot()
     {
         launcher.Fire();
-        return shootingCheck = true;
     }
 
     //자식참조용&외부참조용
