@@ -45,22 +45,23 @@ public class EnemyBossType3Patten2 : MonoBehaviour
     {
 
         RaycastHit hit;
-        
-        if(Physics.Raycast(midPoint,downZ.position,out hit))
+
+        if (Physics.Raycast(midPoint, downZ.position, out hit, Mathf.Infinity, LayerMask.GetMask("Wall")))
         {
-            startVec.z = hit.point.z;
+            startVec = hit.point;
         }
-        if (Physics.Raycast(midPoint,upZ.position , out hit))
+        if (Physics.Raycast(midPoint, upZ.position, out hit, Mathf.Infinity, LayerMask.GetMask("Wall")))
         {
-            endVec.z = hit.point.z;
+            
+            endVec = hit.point;
         }
         //float startXpos = box.center.
         float endXpos = box.bounds.center.x * 2;
 
         //if ()
         lineRen.SetPosition(0, startVec);
-        lineRen.SetPosition(0, midVec);
-        lineRen.SetPosition(0, endVec);
-        
+        lineRen.SetPosition(1, midVec);
+        lineRen.SetPosition(2, endVec);
+
     }
 }
