@@ -7,14 +7,17 @@ public class EnemyBossType3Patten1 : MonoBehaviour
 {
     private LineRenderer lineRen;
     [SerializeField] BoxCollider box;//현재맵크기를알아오는곳 
-    private Vector3 midPoint;//가운데위치
-    [SerializeField] private Transform startPoint;//움직이는곳 중앙기준 한쪽
-    [SerializeField] private Transform endPoint;//움직이는곳 중앙기준 나머지한쪽
-    [SerializeField] private float speed;
+    private Vector3 midPoint;//가운데위치 이부분부터 모든선이 나가는기준
+    [SerializeField] private Transform startPoint;//나가는기준의 한쪽 오브젝트의 위치  
+    [SerializeField] private Transform endPoint;// 나가는기준의 나머지한쪽 오브젝트 위치 
+    [SerializeField] private float speed;//회전속도
 
+    // 각각 오브젝트의 중앙으로부터 뻗어나갔을때 벽을다은위치를 받아줄곳
     private Vector3 startVec;
     private Vector3 endVec;
+    //이오브젝트가 세로 시작이면 true 가로 시작이면 false
     [SerializeField] private bool Lenght;
+
     void Start()
     {
         lineRen = GetComponent<LineRenderer>();
