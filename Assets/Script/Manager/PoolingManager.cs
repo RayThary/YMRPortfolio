@@ -28,6 +28,8 @@ public class PoolingManager : MonoBehaviour
 
     public static PoolingManager Instance;
 
+    private int spawnCount = 0;
+
     private void Awake()
     {
         if (Instance == null)
@@ -46,11 +48,11 @@ public class PoolingManager : MonoBehaviour
 
     private void Start()
     {
-        
+
 
     }
 
- 
+
 
     private void initPoolingParents()
     {
@@ -111,7 +113,7 @@ public class PoolingManager : MonoBehaviour
             Transform parent = transform.Find(name);
 
             int objCount = parent.childCount;
-           
+
             for (int idNum = objCount - 1; idNum > -1; --idNum)
             {
                 Destroy(transform.GetChild(idNum).gameObject);
@@ -149,6 +151,17 @@ public class PoolingManager : MonoBehaviour
         return getPoolingObject(_name, _parent);
     }
 
+    public List<GameObject> CreateObject(string _name, Transform _parent, int _count)
+    {
+        List<GameObject> listobj = new List<GameObject>();
+        for (int i = 0; i < _count; i++)
+        {
+            listobj.Add(getPoolingObject(_name, _parent));
+        }
+
+        return listobj;
+    }
+
     private GameObject getPoolingObject(string _name, Transform _parent)
     {
         Transform parent = transform.Find(_name);
@@ -177,7 +190,7 @@ public class PoolingManager : MonoBehaviour
     {
         string name = _obj.name;
         Transform parent = transform.Find(name);
-        
+
         cPoolingObject poolingObj = m_listPoolingObj.Find(x => x.obj.name == name);
 
         int poolingCount = poolingObj.count;

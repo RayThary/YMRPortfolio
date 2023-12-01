@@ -27,19 +27,17 @@ public class EnemyBossType3Patten2 : MonoBehaviour
 
     //위아래로 움직이면 true 좌우로움직이면 false
     [SerializeField] private bool UPAndDown;
-    //오른쪽시작이면 true 왼쪽시작이면 false
+    //오른쪽에서 시작하는라인이면 true 왼쪽시작이면 false
     [SerializeField] private bool Right;
-    //위에서시작이면 true 왼쪽시작이면 false
+    //위쪽에서 시작하는 라인이면 true 왼쪽시작이면 false
     [SerializeField] private bool Up;
 
     [SerializeField] private bool IsTestDebuging = false;
-
 
     private float startX;
     private float endX;
     private float startXZPso;
 
-    private float moveX;
     private bool moveReturn = true;
 
     void Start()
@@ -55,9 +53,9 @@ public class EnemyBossType3Patten2 : MonoBehaviour
                 midPoint = new Vector3(box.bounds.center.z, 0.1f, box.bounds.min.z + startXZPso);
                 endPoint = new Vector3(box.bounds.center.z * 2, 0.1f, box.bounds.min.z + startXZPso);
 
-                startX = Mathf.Lerp(box.bounds.min.z, box.bounds.max.z, 0.6f) + box.bounds.min.x;
-                endX = Mathf.Lerp(box.bounds.min.z, box.bounds.max.z, 0.9f) + box.bounds.min.x;
-              
+                startX = Mathf.Lerp(box.bounds.min.z, box.bounds.max.z, 0.6f);
+                endX = Mathf.Lerp(box.bounds.min.z, box.bounds.max.z, 0.9f);
+
 
                 moveReturn = false;
             }
@@ -69,8 +67,8 @@ public class EnemyBossType3Patten2 : MonoBehaviour
                 midPoint = new Vector3(box.bounds.center.z, 0.1f, box.bounds.min.z + startXZPso);
                 endPoint = new Vector3(box.bounds.center.z * 2, 0.1f, box.bounds.min.z + startXZPso);
 
-                startX = Mathf.Lerp(box.bounds.min.z, box.bounds.max.z, 0.1f) + box.bounds.min.x;
-                endX = Mathf.Lerp(box.bounds.min.z, box.bounds.max.z, 0.4f) + box.bounds.min.x;
+                startX = Mathf.Lerp(box.bounds.min.z, box.bounds.max.z, 0.1f);
+                endX = Mathf.Lerp(box.bounds.min.z, box.bounds.max.z, 0.4f);
 
                 if (IsTestDebuging)
                 {
@@ -84,6 +82,7 @@ public class EnemyBossType3Patten2 : MonoBehaviour
         {
             if (Right)
             {
+
                 //시작위치 백분률 시작부터 끝까지의 0~1로표현시 0.7부분의 위치에서시작 아래도똑같음
                 startXZPso = (box.bounds.max.x - box.bounds.min.x) * 0.75f;
 
@@ -91,13 +90,8 @@ public class EnemyBossType3Patten2 : MonoBehaviour
                 midPoint = new Vector3(box.bounds.min.x + startXZPso, 0.1f, box.bounds.center.z);
                 endPoint = new Vector3(box.bounds.min.x + startXZPso, 0.1f, box.bounds.center.z * 2);
 
-                startX = Mathf.Lerp(box.bounds.min.x, box.bounds.max.x, 0.6f) + box.bounds.min.x;
-                endX = Mathf.Lerp(box.bounds.min.x, box.bounds.max.x, 0.9f) + box.bounds.min.x;
-
-                if (IsTestDebuging)
-                {
-                    Debug.Log($"{gameObject.name} 오브젝트 시작점 = {box.bounds.min.x}, 끝점 = {box.bounds.max.x}\n StartX = {startX}, End X={endX}");
-                }
+                startX = Mathf.Lerp(box.bounds.min.x, box.bounds.max.x, 0.6f);
+                endX = Mathf.Lerp(box.bounds.min.x, box.bounds.max.x, 0.9f);
 
                 moveReturn = false;
             }
@@ -105,12 +99,13 @@ public class EnemyBossType3Patten2 : MonoBehaviour
             {
                 startXZPso = (box.bounds.max.x - box.bounds.min.x) * 0.25f;
 
+
                 startPoint = new Vector3(box.bounds.min.x + startXZPso, 0.1f, 0);
                 midPoint = new Vector3(box.bounds.min.x + startXZPso, 0.1f, box.bounds.center.z);
                 endPoint = new Vector3(box.bounds.min.x + startXZPso, 0.1f, box.bounds.center.z * 2);
 
-                startX = Mathf.Lerp(box.bounds.min.x, box.bounds.max.x, 0.1f) + box.bounds.min.x;
-                endX = Mathf.Lerp(box.bounds.min.x, box.bounds.max.x, 0.4f) + box.bounds.min.x;
+                startX = Mathf.Lerp(box.bounds.min.x, box.bounds.max.x, 0.1f);
+                endX = Mathf.Lerp(box.bounds.min.x, box.bounds.max.x, 0.4f);
 
                 moveReturn = true;
             }
@@ -126,6 +121,11 @@ public class EnemyBossType3Patten2 : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+    {
+        laserMove();
+        playerHitCheck();
+    }
+    private void laserMove()
     {
         RaycastHit hit;
         if (UPAndDown)
@@ -179,17 +179,15 @@ public class EnemyBossType3Patten2 : MonoBehaviour
                 endPoint.z = hit.point.z;
             }
 
-        
+
 
             if (startX >= midPoint.x)
             {
                 moveReturn = true;
-                testMethod();
             }
             else if (endX <= midPoint.x)
             {
                 moveReturn = false;
-                testMethod();
             }
 
             if (moveReturn)
@@ -211,27 +209,14 @@ public class EnemyBossType3Patten2 : MonoBehaviour
             lineRen.SetPosition(1, midPoint);
             lineRen.SetPosition(2, endPoint);
         }
-
-
-
-
     }
 
-    private void testMethod()
+    private void playerHitCheck()
     {
-        //Transform trsParent = transform.parent;
-        //EnemyBossType3Patten2[] scs = trsParent.GetComponentsInChildren<EnemyBossType3Patten2>();
-        //int count = scs.Length;
-        //foreach (EnemyBossType3Patten2 data in scs)
-        //{
-        //    Debug.Log($"{data.gameObject.name} 의 midPoint = {data.MidPoint}");
-        //}
-        //EditorApplication.isPaused = true;
-        //위아래로움직일때 만적용해주셧습니다
-
-        if (IsTestDebuging == true)
+        if (Physics.Linecast(startPoint, endPoint, LayerMask.GetMask("Player")))
         {
-            Debug.Log($"midPoint = {MidPoint}");
+            Debug.Log("플레이어맞음");
         }
     }
+
 }
