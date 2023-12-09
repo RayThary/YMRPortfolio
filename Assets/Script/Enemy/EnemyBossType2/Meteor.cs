@@ -4,50 +4,57 @@ using UnityEngine;
 
 public class Meteor : MonoBehaviour
 {
-    [SerializeField] private GameObject objMeteor;
+    
     private SpriteRenderer spr;
     
     private float rangeSpeed = 0.5f;
-    private float sX, sY;
+    private float sXY;
     private float Ratio;
     private bool meteorSpawn = false;
     private GameObject shadow;
+    private GameObject meteor;
+    private Color originalColor;
 
     void Start()
     {
         spr= GetComponentInChildren<SpriteRenderer>();
 
         shadow = spr.gameObject;
+        originalColor = spr.color;
     }
 
     
     void Update()
     {
+
         if (meteorSpawn)
         {
             return;
         }
 
         Ratio += Time.deltaTime * rangeSpeed;
-        sX = Mathf.Lerp(0.2f, 0.1f, Ratio);
-        sY = Mathf.Lerp(0.2f, 0.1f, Ratio);
+        sXY = Mathf.Lerp(0.2f, 0.1f, Ratio);
 
-        shadow.transform.localScale = new Vector3(sX, sY, 0.1f);
-        if (sY <= 0.1f ) 
+        shadow.transform.localScale = new Vector3(sXY, sXY, 0.1f);
+        if (sXY <= 0.1f ) 
         {
             spr.color = Color.red;
-            GameObject meteor = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.MeteorObj,transform);
+            meteor = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.MeteorObj,transform.parent);
             meteor.transform.position = new Vector3(transform.position.x, 2, transform.position.z);
             StartCoroutine(shodwFalse());
-
             meteorSpawn = true;
         }
     }
     IEnumerator shodwFalse()
     {
         yield return new WaitForSeconds(0.5f);
+        
+        spr.color = originalColor;
+        Ratio = 0;
+        sXY = 0.2f;
+        meteorSpawn = false;
         PoolingManager.Instance.RemovePoolingObject(gameObject);
-
     }
     
+  
 }

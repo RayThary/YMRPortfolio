@@ -6,13 +6,10 @@ using UnityEngine.AI;
 public class EnemyBossType2 : Unit
 {
     private Transform target;
-    //private
+    private Animator anim;
+    [SerializeField] private float attsp = 0.5f;
 
-    /// <summary>
-    /// 모든 패턴의 게임오브젝트는 나중에 풀링에넣어주어서 만들고 지워주는걸 바꿔줘야함 
-    /// </summary>
     //패턴1
-    public GameObject objPatten1;//임시 메테오오브젝트
     private GameObject patten1ObjCheck = null;
 
     [SerializeField] private Transform trsArea;//스테이지위치를저장해줄필요가있음
@@ -29,6 +26,7 @@ public class EnemyBossType2 : Unit
 
     [SerializeField] private float patten2DurationTime = 4;//패턴2지속시간
     private float patten2Timer = 0.0f;//패턴2 타이머
+    private bool patten2SpawnCheck = false;
 
     //패턴3
     public GameObject objPatten3;//임시 반피되면쓰는패턴 
@@ -49,6 +47,7 @@ public class EnemyBossType2 : Unit
         nav = transform.parent.GetComponent<NavMeshAgent>();
         target = GameManager.instance.GetPlayerTransform;
         meteorBoxSize = trsArea.GetComponent<BoxCollider>().bounds.size;
+        anim = GetComponent<Animator>();
     }
 
 
@@ -82,43 +81,52 @@ public class EnemyBossType2 : Unit
 
     private void enemyAttack()
     {
+        if (patten2Check)
+        {
+            return;
+        }
+
         if (patten1Check)
         {
-            allSpawnCheck = false;
-            //2초간격으로 메테오카운트만큼 총3번에걸쳐서 소환한다
-            for (int i = 0; i < MeteorSapwnCount; i++)
-            {
+            anim.SetTrigger("Attack");
+            anim.SetFloat("AttackState", 0);
+            anim.SetFloat("NormalState", 1);
+            anim.SetFloat("AttackSpeed", attsp);
 
-                StartCoroutine("patten1");
-                if (i == MeteorSapwnCount - 1)
+
+            allSpawnCheck = false;
+            StartCoroutine(patten1());
+            patten1Check = false;
+        }
+        else
+        {
+            if (allSpawnCheck)
+            {
+                timer += Time.deltaTime / 3;
+                if (timer > 1.0f)
                 {
-                    patten1Check = false;
+                    timer = 0.0f;
+                    patten1Check = true;
                 }
             }
 
-        }
-
-
-        if (patten1Check == false && allSpawnCheck == true) 
-        {
-            timer += Time.deltaTime / 3;
-            if (timer > 1.0f)
-            {
-                timer = 0.0f;
-                patten1Check = true;
-            }
         }
     }
 
     IEnumerator patten1()
     {
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 9; i++)
         {
             spawnPos = GetRandomPosition();
-            patten1ObjCheck = PoolingManager.Instance.CreateObject("Meteor", transform.parent);
+            patten1ObjCheck = PoolingManager.Instance.CreateObject("Meteor", transform.parent.parent);
             patten1ObjCheck.transform.position = spawnPos;
-            yield return new WaitForSeconds(1f);
-            if (i == 2)
+
+            if (i % 2 == 0)
+            {
+                yield return new WaitForSeconds(0.5f);
+            }
+
+            if (i == 8)
             {
                 allSpawnCheck = true;
             }
@@ -156,23 +164,42 @@ public class EnemyBossType2 : Unit
     {
         if (patten2Check)
         {
+            anim.SetTrigger("Attack");
+            anim.SetFloat("AttackState", 0);
+            anim.SetFloat("NormalState", 0.5f);
+            anim.SetFloat("AttackSpeed", attsp);
+
 
             Vector3 spawnPos = new Vector3(transform.position.x, 0, transform.position.z + 1);
             patten2ObjCheck = PoolingManager.Instance.CreateObject("RotatingSphere", transform.parent);
             patten2ObjCheck.transform.position = spawnPos;
-            //patten2ObjCheck = Instantiate(objPatten2, spawnPos, Quaternion.identity, transform.parent);
 
             patten2Check = false;
         }
+        else
+        {
+            if (patten2SpawnCheck == false)
+            {
+                float dis = Vector3.Distance(transform.position, target.position);
+                if (dis < 3)
+                {
+                    patten2Check = true;
+                }
+            }
+        }
+
         if (patten2ObjCheck != null)
         {
+            patten2SpawnCheck = true;
             patten2Timer += Time.deltaTime;
             if (patten2Timer >= patten2DurationTime)
             {
                 Destroy(patten2ObjCheck);
+                patten2SpawnCheck = false;
                 patten2Timer = 0;
             }
         }
+
     }
 
     private void enemyHalfHealthPatten()

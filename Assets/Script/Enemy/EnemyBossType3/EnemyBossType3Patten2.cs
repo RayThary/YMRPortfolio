@@ -215,7 +215,8 @@ public class EnemyBossType3Patten2 : MonoBehaviour
     {
         if (Physics.Linecast(startPoint, endPoint, LayerMask.GetMask("Player")))
         {
-            Debug.Log("플레이어맞음");
+            Player player = GameManager.instance.GetPlayer;
+            player.Hit(null, 1);
         }
     }
 

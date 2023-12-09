@@ -129,4 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2014c80ecb5d7914391554ff6ca1600c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objMeteor: {fileID: 3301765601838135123, guid: a708515fbeda533419072f0bb6a430fd, type: 3}
+  fallSpeed: 0.8
+  sXY: 0
+  Ratio: 0
+  meteorSpawn: 0
