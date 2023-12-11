@@ -754,6 +754,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackCheck: 0
   AttackDelayTime: 2
+  attackPlayerCheck: 0
 --- !u!195 &4069301425826131352
 NavMeshAgent:
   m_ObjectHideFlags: 0

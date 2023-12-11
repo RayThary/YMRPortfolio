@@ -9,10 +9,14 @@ public class PoolingManager : MonoBehaviour
         PlayerBullet,
         TestBullet,
         Laser,
-        EnemyBow,
-        EnemySword,
-        Fireball,
-        Player,
+        EnemyBullet,
+        Meteor,
+        MeteorObj,
+        RotatingSphere,
+        BigBullet,
+        Type2Patten3,
+        GuidedBullet,
+
     }
 
     [System.Serializable]
@@ -37,7 +41,6 @@ public class PoolingManager : MonoBehaviour
         {
             Destroy(this);
         }
-
         DontDestroyOnLoad(this);
         initPoolingParents();
         initPoolingChild();
@@ -45,38 +48,10 @@ public class PoolingManager : MonoBehaviour
 
     private void Start()
     {
-        
+
     }
 
-    private void getdiff()
-    {
-        List<GameObject> listTileMap = new List<GameObject>();
-        GameObject[] listTileMap2 = new GameObject[3]; 
 
-        string diffValue = PlayerPrefs.GetString("Diff");
-        if (diffValue == "Easy")
-        {
-            listTileMap[0].SetActive(true);
-            listTileMap2[0].SetActive(true);
-        }
-        else if (diffValue == "Nomal")
-        {
-            listTileMap[1].SetActive(true);
-            listTileMap2[1].SetActive(true);
-        }
-        else if (diffValue == "Hard")
-        {
-            listTileMap[2].SetActive(true);
-            listTileMap2[2].SetActive(true);
-        }
-
-            listTileMap[0].SetActive(diffValue == "Easy");
-            listTileMap2[0].SetActive(diffValue == "Easy");
-            listTileMap[1].SetActive(diffValue == "Nomal");
-            listTileMap2[1].SetActive(diffValue == "Nomal");
-            listTileMap[2].SetActive(diffValue == "Hard");
-            listTileMap2[2].SetActive(diffValue == "Hard");
-    }
 
     private void initPoolingParents()
     {
@@ -137,15 +112,7 @@ public class PoolingManager : MonoBehaviour
             Transform parent = transform.Find(name);
 
             int objCount = parent.childCount;
-            //if (objCount > objPooing.count)// 지워야함
-            //{
-            //    int diffCount = objCount - objPooing.count;
-            //    for (int irNum = diffCount - 1; irNum > objPooing.count - 1; --irNum)
-            //    {
-            //        GameObject delObj = parent.GetChild(irNum).gameObject;
-            //        Destroy(delObj);
-            //    }
-            //}
+
             for (int idNum = objCount - 1; idNum > -1; --idNum)
             {
                 Destroy(transform.GetChild(idNum).gameObject);
@@ -185,8 +152,6 @@ public class PoolingManager : MonoBehaviour
 
     private GameObject getPoolingObject(string _name, Transform _parent)
     {
-        //Debug.Log($"<color=red>오브젝트 생성</color> = {_name}");
-
         Transform parent = transform.Find(_name);
 
         if (parent == null)
@@ -213,7 +178,7 @@ public class PoolingManager : MonoBehaviour
     {
         string name = _obj.name;
         Transform parent = transform.Find(name);
-        
+
         cPoolingObject poolingObj = m_listPoolingObj.Find(x => x.obj.name == name);
 
         int poolingCount = poolingObj.count;

@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Wand : Weapon
 {
-    public Wand(Unit unit, Transform launcher, Transform muzzle, float mistake, float firerate, Transform objectParent) : base(unit, launcher, muzzle, mistake, firerate, objectParent)
+    public Wand(Player player, Transform launcher, Transform muzzle, float mistake, float firerate, Transform objectParent) : base(player, launcher, muzzle, mistake, firerate, objectParent)
     {
         sprite = Resources.Load<Sprite>("SPUM/SPUM_Sprites/Items/6_Weapons/Sword_3");
 
@@ -12,7 +13,8 @@ public class Wand : Weapon
 
         spriteRenderer.sprite = sprite;
 
-        CardAdd(new Laser());
+        cards.Add(new Laser());
+        cards.Add(new Guided());
     }
 
     public override void BulletControl()
@@ -41,23 +43,62 @@ public class Wand : Weapon
     }
 }
 
-public class Laser : Card
+[System.Serializable]
+public class Guided : Card
 {
-    int layer = 1 << 7;
-    private Bullet laser;
-    private float maxdistance = 10;
-    public override void Activation(Launcher launcher)
+    public Guided() 
     {
-        base.Activation(launcher);
-        figure = 5;
+        exp = "기본공격이 상대를 따라간다";
+    }
+
+    public override void Activation(Launcher launcher, Unit unit)
+    {
+        base.Activation(launcher, unit); 
+        
         launcher.FireCallbackAdd(Impact);
         launcher.FireCallbackRemove(launcher.BulletControl);
-        laser = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.Laser, launcher.objectParent).transform.GetComponent<Bullet>();
     }
 
     public override void Deactivation()
     {
+        launcher.FireCallbackAdd(launcher.BulletControl);
+        launcher.FireCallbackRemove(Impact);
+    }
 
+    public override void Impact()
+    {
+        Bullet b = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.GuidedBullet, launcher.objectParent).transform.GetComponent<GuidedBullet>();
+        b.unit = user;
+        b.transform.position = launcher.muzzle.position;
+        b.transform.eulerAngles = new Vector3(0, launcher.angle, 0);
+        b.Straight();
+    }
+}
+
+[System.Serializable]
+public class Laser : Card
+{
+    int layer = 1 << 7;
+    private float maxdistance = 10;
+    public Laser()
+    {
+        figure = 5;
+        exp = "공격시 기본공격 대신 레이저를 발사한다 \n" +
+            "대미지는 5이며 최대거리는 10이다";
+    }
+
+    public override void Activation(Launcher launcher, Unit unit)
+    {
+        base.Activation(launcher, unit);
+       
+        launcher.FireCallbackAdd(Impact);
+        launcher.FireCallbackRemove(launcher.BulletControl);
+    }
+
+    public override void Deactivation()
+    {
+        launcher.FireCallbackAdd(launcher.BulletControl);
+        launcher.FireCallbackRemove(Impact);
     }
 
     public override void Impact()
@@ -89,7 +130,8 @@ public class Laser : Card
             if (Physics.Raycast(launcher.muzzle.position, dir, out hit, distance, layer))
             {
                 //충돌을 했다는것은 남은 거리가 있다는것
-                Bullet b = GameObject.Instantiate(laser, positoin + dir * hit.distance * 0.5f, Quaternion.Euler(new Vector3(0, angle, 0)));
+                Bullet b = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.Laser, launcher.objectParent).transform.GetComponent<Bullet>();
+                b.unit = user;
                 b.transform.localScale = new Vector3(0.5f, 0.5f, hit.distance);
 
                 //레이저가 발사될 위치
@@ -104,7 +146,8 @@ public class Laser : Card
             }
             else
             {
-                Bullet b = GameObject.Instantiate(laser, positoin + dir * distance * 0.5f, Quaternion.Euler(new Vector3(0, angle, 0)));
+                Bullet b = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.Laser, launcher.objectParent).transform.GetComponent<Bullet>();
+                b.unit = user;
                 b.transform.localScale = new Vector3(0.5f, 0.5f, distance);
                 //중돌을 하지 않았다는 것은 거리가 끝났다는것
                 break;

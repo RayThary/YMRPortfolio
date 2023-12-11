@@ -15,19 +15,21 @@ public class Weapon : Launcher
     public List<Card> cards = new List<Card>();
     protected List<Card> activateCardList = new List<Card>();
 
-    public Weapon(Unit unit, Transform launcher, Transform muzzle, float mistake, float firerate, Transform objectParent) : base (unit, launcher, muzzle, mistake, firerate, objectParent)
+    public Weapon(Player player, Transform launcher, Transform muzzle, float mistake, float firerate, Transform objectParent) : base (player, launcher, muzzle, mistake, firerate, objectParent)
     {
-
+        this.player = player;
     }
 
     public void CardAdd(Card card)
     {
         activateCardList.Add(card);
-        card.Activation(this);
+        cards.Remove(card);
+        card.Activation(this, player);
     }
     public void CardRemove(Card card)
     {
         activateCardList.Remove(card);
+        cards.Add(card);
         card.Deactivation();
     }
 

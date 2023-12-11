@@ -27,14 +27,6 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    IEnumerator Test()
-    {
-        while(true)
-        {
-            yield return null;
-        }
-    }
-
     //적이 모두 비활성화되면 true를 리턴해야하는데 SwordNav가 비활성화 되서 일단은 false만 리턴함
     public bool EnemyClear()
     {
@@ -67,6 +59,13 @@ public class Stage
     //맵 이 맵오브젝트 아래에 transform으로 enemy가 스폰될 position이 결정됨
     [SerializeField]
     private GameObject map;
+    public GameObject Map { get { return map; } }
+    [SerializeField]
+    private BoxCollider mapBoxCollder;
+    public BoxCollider BoxCollider { get { return mapBoxCollder; } }
+    [SerializeField]
+    private Collider cameraCollder;
+    public Collider CameraCollider { get { return cameraCollder; } }    
     //map 자식으로 있는 transform으로 받은 스폰될 수 있는 위치들
     private List<Transform> position;
     //지금 이 스테이지에 스폰되있는 enemy들
@@ -80,6 +79,19 @@ public class Stage
     //이 맵에 스폰될 유닛과 그 확률
     [SerializeField]
     private EnemyProbability[] enemyProbabilities;
+
+    public List<GameObject> ActiveEnemy()
+    {
+        if(enemyList == null)
+            return null;
+        List<GameObject> list = new List<GameObject>();
+        for(int i = 0; i <  enemyList.Count; i++)
+        {
+            if (enemyList[i].activeSelf)
+                list.Add(enemyList[i]);
+        }
+        return list;
+    }
 
     public void spawnEnemy()
     {

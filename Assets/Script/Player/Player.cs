@@ -40,7 +40,7 @@ public class Player : Unit
     protected new void Start()
     {
         base.Start();
-        weapon = new TestGun(this, r_weapon, r_weapon, 0, 1, objectParent);
+        weapon = new Wand(this, r_weapon, r_weapon, 0, 1, objectParent);
         spriteAlpha = GetComponent<SpriteAlphaControl>();
     }
 

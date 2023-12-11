@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-
 public class TestGun : Weapon
 {
 
-    public TestGun(Unit unit, Transform launcher, Transform muzzle, float mistake, float firerate, Transform objectParent) : base(unit, launcher, muzzle, mistake, firerate, objectParent)
+    public TestGun(Player player, Transform launcher, Transform muzzle, float mistake, float firerate, Transform objectParent) : base(player, launcher, muzzle, mistake, firerate, objectParent)
     {
         this.firerate = 0.3f;
         sprite = Resources.Load<Sprite>("SPUM/SPUM_Sprites/Items/6_Weapons/Bow_1");
@@ -53,9 +52,16 @@ public class TestGun : Weapon
 [System.Serializable]
 public class ShotGun : Card
 {
-    public override void Activation(Launcher launcher)
+    public ShotGun()
     {
-        base.Activation(launcher);
+        exp = "총알이 한번에 3발씩 나가게 된다 \n" +
+            "총알의 속도가 2만큼 오르고 총알이 0.5초후 사라진다 \n" +
+            "공격속도가 0.5초 느려진다";
+    }
+
+    public override void Activation(Launcher launcher, Unit unit)
+    {
+        base.Activation(launcher, unit);
         launcher.FireRate += 0.5f;
         launcher.FireCallbackAdd(Impact);
         launcher.FireCallbackRemove(launcher.BulletControl);
@@ -92,15 +98,20 @@ public class ShotGun : Card
 [System.Serializable]
 public class PoisonBullet : Card
 {
-    public override void Activation(Launcher launcher)
+    public PoisonBullet()
     {
-        base.Activation(launcher);
         figure = 3;
-        GameManager.instance.GetPlayer.STAT.AddAttack(Poison);
+        exp = "공격시 상대방에게 대미지 3, 5회 발동하는 독데미지를 부여한다";
+    }
+
+    public override void Activation(Launcher launcher, Unit unit)
+    {
+        base.Activation(launcher, unit);
+        user.STAT.AddAttack(Poison);
     }
     public override void Deactivation()
     {
-        GameManager.instance.GetPlayer.STAT.RemoveAttack(Poison);
+        user.STAT.RemoveAttack(Poison);
     }
 
     public override void Impact()
@@ -110,22 +121,27 @@ public class PoisonBullet : Card
 
     public void Poison(Unit unit, float figure)
     {
-        unit.STAT.Be_Attacked_Poison(5, this.figure, GameManager.instance.GetPlayer);
+        unit.HitDot(_DOT.POISON, 5, this.figure, user);
     }
 }
 
 [System.Serializable]
 public class Bloodsucking : Card
 {
-    public override void Activation(Launcher launcher)
+    public Bloodsucking()
     {
-        base.Activation(launcher);
         figure = 1;
-        GameManager.instance.GetPlayer.STAT.AddAttack(Blood);
+        exp = "공격 적중시마다 체력을 1 회복한다";
+    }
+    public override void Activation(Launcher launcher, Unit unit)
+    {
+        base.Activation(launcher, unit);
+
+        user.STAT.AddAttack(Blood);
     }
     public override void Deactivation()
     {
-        GameManager.instance.GetPlayer.STAT.RemoveAttack(Blood);
+        user.STAT.RemoveAttack(Blood);
     }
 
     public override void Impact()
@@ -135,33 +151,10 @@ public class Bloodsucking : Card
 
     public void Blood(Unit unit, float f)
     {
-        GameManager.instance.GetPlayer.STAT.RecoveryHP(figure, GameManager.instance.GetPlayer);
+        user.STAT.RecoveryHP(figure, GameManager.instance.GetPlayer);
     }
 }
 
-[System.Serializable]
-public class Armor_Of_Thorns : Card
-{
-    public override void Activation(Launcher launcher)
-    {
-        base.Activation(launcher);
-        figure = 1;
-        GameManager.instance.GetPlayer.STAT.AddHit(Thorns);
-    }
-    public override void Deactivation()
-    {
-        GameManager.instance.GetPlayer.STAT.RemoveHit(Thorns);
-    }
 
-    public override void Impact()
-    {
-
-    }
-
-    public void Thorns(Unit unit, float f)
-    {
-        unit.STAT.Be_Attacked_TRUE(figure, GameManager.instance.GetPlayer);
-    }
-}
 
 

@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     public Player GetPlayer { get { return player; } }    
     public Transform GetPlayerTransform { get { return player.transform; } }
 
+    public bool b = false;
+
     private void Awake()
     {
         if (instance == null)
@@ -23,18 +25,23 @@ public class GameManager : MonoBehaviour
             Destroy(this);
         }
         player = FindObjectOfType<Player>();
+        enemyManager.Init();
+        enemyManager.GetStage = enemyManager.Stages[0];
+        enemyManager.GetStage.spawnEnemy();
     }
 
     void Start()
     {
-        enemyManager.Init();
-        enemyManager.GetStage = enemyManager.Stages[0];
-        enemyManager.GetStage.spawnEnemy();
-        //cardManager.ViewCards();
+       
     }
 
     private void Update()
     {
+        if(b)
+        {
+            b = false;
+            cardManager.ViewCards();
+        }
         //if(enemyManager.EnemyClear())
         //{
         //    Debug.Log("다음 스테이지로");

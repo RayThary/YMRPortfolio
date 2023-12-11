@@ -54,7 +54,7 @@ public class EnemyBoss : Unit
             for (int i = 0; i < 4; i++)
             {
 
-                bullet = PollingManager.Instance.CreateObject("EnemyBullet", parent);
+                bullet = PoolingManager.Instance.CreateObject("EnemyBullet", parent);
                 bullet.transform.position = parent.position;
                 bullet.transform.rotation = Quaternion.LookRotation(Target.position - transform.position);
                 Vector3 rot = bullet.transform.eulerAngles;
@@ -92,7 +92,7 @@ public class EnemyBoss : Unit
             {
                 Transform parent = transform.parent;
 
-                bullet = PollingManager.Instance.CreateObject("EnemyBullet", parent);
+                bullet = PoolingManager.Instance.CreateObject("EnemyBullet", parent);
                 bullet.transform.position = parent.position;
                 bullet.transform.rotation = Quaternion.LookRotation(Target.position - transform.position);
             }
