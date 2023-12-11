@@ -39,13 +39,14 @@ public class EnemyBossType2 : Unit
     //테스트용
     public bool patten1Check = false;//메테오 패턴1써보는곳
     public bool patten2Check = false;//근접패턴 적이오면 주위구체3개소환하는곳
-    public bool patten3Check = false;
+    public bool patten3Check = true;//반피패턴 x자로 레이저가빙빙돌게된다
 
     protected new void Start()
     {
         base.Start();
         nav = transform.parent.GetComponent<NavMeshAgent>();
         target = GameManager.instance.GetPlayerTransform;
+
         meteorBoxSize = trsArea.GetComponent<BoxCollider>().bounds.size;
         anim = GetComponent<Animator>();
     }
@@ -206,11 +207,16 @@ public class EnemyBossType2 : Unit
     {
         if (patten3Check)
         {
-            patten3ObjCheck = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.BigBullet, transform.parent);
-            patten3ObjCheck.transform.position = transform.position;
-            //patten3ObjCheck =Instantiate(objPatten3, transform.position, Quaternion.identity, transform.parent);
-            patten3ObjCheck.transform.rotation = Quaternion.LookRotation(target.position - patten3ObjCheck.transform.position);
-            patten3Check = false;
+            if (stat.HP <= stat.MAXHP / 2)
+            {
+                patten3ObjCheck = PoolingManager.Instance.CreateObject("Type2Patten3", transform.parent.parent);
+            }
+
+            //큰총알 패턴 이건 나중에다른곳에서 써줄듯 일단보류
+            //patten3ObjCheck = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.BigBullet, transform.parent);
+            //patten3ObjCheck.transform.position = transform.position;
+            //patten3ObjCheck.transform.rotation = Quaternion.LookRotation(target.position - patten3ObjCheck.transform.position);
+            //patten3Check = false;
         }
     }
 

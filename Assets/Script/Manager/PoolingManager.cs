@@ -14,6 +14,8 @@ public class PoolingManager : MonoBehaviour
         MeteorObj,
         RotatingSphere,
         BigBullet,
+        Type2Patten3,
+        aaa,//юс╫ц
     }
 
     [System.Serializable]
