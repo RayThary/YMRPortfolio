@@ -2,13 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DangerFloor : MonoBehaviour
+public class DangerZone : MonoBehaviour
 {
     [SerializeField] private float time = 2;
 
     private SpriteRenderer spr;
     private Color color;
     private bool alphaCheck;
+
+    [SerializeField] private float maxAlpha = 0.8f;
+    [SerializeField] private float minAlpha = 0.5f;
 
     private float alpha = 0.9f;
     void Start()
@@ -27,12 +30,11 @@ public class DangerFloor : MonoBehaviour
 
     private void alphaControl()
     {
-        color.a = alpha;
-        if (alpha <= 0.5f)
+        if (alpha <= minAlpha)
         {
             alphaCheck = true;
         }
-        else if (alpha >= 0.8f)
+        else if (alpha >= maxAlpha)
         {
             alphaCheck = false;
         }
@@ -45,6 +47,8 @@ public class DangerFloor : MonoBehaviour
         {
             alpha -= Time.deltaTime * 0.5f;
         }
+
+        color.a = alpha;
         spr.color = color;
     }
 

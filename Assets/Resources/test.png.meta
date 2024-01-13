@@ -2021,15 +2021,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: test_91
+      name: RedButterflyBomb
       rect:
         serializedVersion: 2
-        x: 8
-        y: 190
-        width: 256
-        height: 62
+        x: 43
+        y: 222
+        width: 28
+        height: 28
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -3869,13 +3869,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: test_179
+      name: RedButterfly
       rect:
         serializedVersion: 2
-        x: 274
-        y: 85
-        width: 11
-        height: 13
+        x: 40
+        y: 192
+        width: 32
+        height: 28
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -3885,48 +3885,6 @@ TextureImporter:
       bones: []
       spriteID: 068a0fe87287dca448c6a7cf141baeb5
       internalID: -1195068078
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: test_180
-      rect:
-        serializedVersion: 2
-        x: 287
-        y: 85
-        width: 10
-        height: 10
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0f9d3103e16e6fc4aa72cb35cc1f674f
-      internalID: -1261195776
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: test_181
-      rect:
-        serializedVersion: 2
-        x: 299
-        y: 85
-        width: 8
-        height: 10
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5bd18e0a39f55a642adee0277e91d2f7
-      internalID: -1837639201
       vertices: []
       indices: 
       edges: []
@@ -3948,27 +3906,6 @@ TextureImporter:
       bones: []
       spriteID: 30eb0d5b41d1beb4ba7e3d6d0fc45a02
       internalID: -1719896836
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: test_183
-      rect:
-        serializedVersion: 2
-        x: 320
-        y: 85
-        width: 21
-        height: 13
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e938fe33179de9847b81a9dc045a45a2
-      internalID: 82849612
       vertices: []
       indices: 
       edges: []
@@ -4310,111 +4247,6 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: test_200
-      rect:
-        serializedVersion: 2
-        x: 324
-        y: 59
-        width: 13
-        height: 17
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b5b15c544a0e4b04293156596dc6652a
-      internalID: 1417253855
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: test_201
-      rect:
-        serializedVersion: 2
-        x: 340
-        y: 59
-        width: 9
-        height: 14
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 36b965c0d0f027c43b0cb8a4debda13f
-      internalID: 1429136528
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: test_202
-      rect:
-        serializedVersion: 2
-        x: 350
-        y: 63
-        width: 10
-        height: 10
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b91e23f827844ed41b3535015aac87a2
-      internalID: 700035517
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: test_203
-      rect:
-        serializedVersion: 2
-        x: 362
-        y: 63
-        width: 8
-        height: 10
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f5c2392c6c438c840a6c54a947f183f0
-      internalID: 799829257
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: test_204
-      rect:
-        serializedVersion: 2
-        x: 380
-        y: 63
-        width: 15
-        height: 13
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 372437710e652f04a8b5db761bdd5d51
-      internalID: -1508163716
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: test_205
       rect:
         serializedVersion: 2
@@ -4557,90 +4389,6 @@ TextureImporter:
       bones: []
       spriteID: ab90a471c346b7c4b8766966dd721715
       internalID: -846181372
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: test_212
-      rect:
-        serializedVersion: 2
-        x: 376
-        y: 41
-        width: 17
-        height: 13
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: be6e1c46862296647859a3c607dcdb1a
-      internalID: 2053035228
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: test_213
-      rect:
-        serializedVersion: 2
-        x: 401
-        y: 41
-        width: 10
-        height: 13
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1754076b4ea399e4c9bff163005362d5
-      internalID: 1757023941
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: test_214
-      rect:
-        serializedVersion: 2
-        x: 414
-        y: 41
-        width: 9
-        height: 13
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6c37d164a77a6d046a80b53b88634ef8
-      internalID: 908033234
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: test_215
-      rect:
-        serializedVersion: 2
-        x: 427
-        y: 41
-        width: 9
-        height: 13
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e264530f28720684c90047aaad2ea041
-      internalID: 2043220130
       vertices: []
       indices: 
       edges: []
@@ -5011,7 +4759,7 @@ TextureImporter:
         width: 16
         height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -5034,6 +4782,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      RedButterfly: -1195068078
+      RedButterflyBomb: -1796082034
       RedLaser: 2104244175
       test_0: 1891172804
       test_1: 1935509206
@@ -5124,7 +4874,6 @@ TextureImporter:
       test_176: 1028990808
       test_177: -1973482799
       test_178: 594422282
-      test_179: -1195068078
       test_18: 2081015754
       test_180: -1261195776
       test_181: -1837639201
@@ -5185,6 +4934,7 @@ TextureImporter:
       test_230: 1260581288
       test_231: -803374949
       test_232: -1894669998
+      test_233: -1980761926
       test_24: -2141625848
       test_25: 203196023
       test_26: -2054549189
@@ -5259,7 +5009,6 @@ TextureImporter:
       test_89: -385910434
       test_9: 1973544271
       test_90: -560749560
-      test_91: -1796082034
       test_92: 210204513
       test_93: -217796598
       test_94: 1173528878

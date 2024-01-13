@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
 
     public bool b = false;
 
+    public Transform GetenemyObjectBox { get { return transform.GetChild(0); } }
     private void Awake()
     {
         if (instance == null)

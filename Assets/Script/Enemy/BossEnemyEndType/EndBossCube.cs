@@ -6,6 +6,9 @@ public class EndBossCube : Unit
 {
     //Å×½ºÆ®
     [SerializeField] private bool halfPattenCheck;
+    private float basicAttackTimer = 3;
+
+    
 
     void Start()
     {
@@ -16,19 +19,34 @@ public class EndBossCube : Unit
     void Update()
     {
 
-        
+        attackPatten();
         HaxagonPatten();
+    }
+
+    private void attackPatten()
+    {
+        basicAttackTimer += Time.deltaTime;
+        if (basicAttackTimer >= 2)
+        {
+            int pattenNum = Random.Range(0, 3);
+            if (pattenNum == 0)
+            {
+                GameObject attackObj; 
+                attackObj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.LaserPatten, transform);
+                attackObj.transform.position = transform.position;
+                basicAttackTimer = 0;
+            }
+            else if(pattenNum == 1)
+            {
+
+            }
+        }
     }
 
     private void HaxagonPatten()
     {
         if (halfPattenCheck == false)
-        {
-            //if (stat.HP == stat.MAXHP / 2)
-            //{
-            //    StartCoroutine(HaxagonLaser());
-            //    halfPattenCheck = true;
-            //}
+        {   
             StartCoroutine(HaxagonLaser());
             halfPattenCheck = true;
         }

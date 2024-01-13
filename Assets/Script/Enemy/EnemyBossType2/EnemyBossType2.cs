@@ -209,7 +209,7 @@ public class EnemyBossType2 : Unit
         {
             //if (stat.HP <= stat.MAXHP / 2)
             //{
-                patten3ObjCheck = PoolingManager.Instance.CreateObject("Type2Patten3", transform.parent.parent);
+                patten3ObjCheck = PoolingManager.Instance.CreateObject("WindMillPatten", transform.parent.parent);
                 patten3Check = false;
             //}
 

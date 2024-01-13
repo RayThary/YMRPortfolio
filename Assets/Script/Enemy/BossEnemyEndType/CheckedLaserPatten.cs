@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 public class CheckedLaserPatten : MonoBehaviour
 {
     /// <summary> #모양으로 레이저가 나오고 중앙기준으로 위아래 or 오른쪽왼쪽으로 움직이는패턴
-    /// 
+    ///  이오브젝트는 리무브를 소환한객체에서 해주어야함
     /// </summary>
     private LineRenderer lineRen;
     //시작지점

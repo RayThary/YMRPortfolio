@@ -21,6 +21,10 @@ public class PoolingManager : MonoBehaviour
         EnemyBulletType2,
         UpGround,
         UpGroundObj,
+        CheckedLaserPatten,
+        LaserPatten,
+        RedButterfly,
+        RedButterflyBomb,
     }
 
     [System.Serializable]
