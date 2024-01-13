@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class EnemyBossType2Patten3 : MonoBehaviour
+public class WindMillPatten : MonoBehaviour
 {
     /// <summary> x자로 레이저를 발사하고 시계방향으로 도는 패턴
     /// 중앙기준으로 쏘는거라 벽에맞으면 막힘

@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class EnemyBossType3Patten2 : MonoBehaviour
+public class CheckedLaserPatten : MonoBehaviour
 {
     /// <summary> #모양으로 레이저가 나오고 중앙기준으로 위아래 or 오른쪽왼쪽으로 움직이는패턴
     /// 
@@ -26,7 +26,7 @@ public class EnemyBossType3Patten2 : MonoBehaviour
     //세로면 x와 z를 바꾸면된다
     [SerializeField] private float moveSpeed = 1;
 
-    [SerializeField] BoxCollider box;//스테이지
+     BoxCollider box;//스테이지
 
     //위아래로 움직이면 true 좌우로움직이면 false
     [SerializeField] private bool UPAndDown;
@@ -46,6 +46,8 @@ public class EnemyBossType3Patten2 : MonoBehaviour
     void Start()
     {
         lineRen = GetComponent<LineRenderer>();
+        box = GameManager.instance.enemyManager.GetStage.BoxCollider;
+
         if (UPAndDown)
         {
             if (Up)

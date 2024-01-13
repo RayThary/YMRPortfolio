@@ -14,7 +14,7 @@ public class PoolingManager : MonoBehaviour
         MeteorObj,
         RotatingSphere,
         BigBullet,
-        Type2Patten3,
+        WindMillPatten,
         GuidedBullet,
         HaxagonLaser,
         BossEndAttackRange,

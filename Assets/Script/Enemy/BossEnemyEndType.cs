@@ -247,11 +247,7 @@ public class BossEnemyEndType : Unit
 
     }
 
-    private void halfAddPatten()
-    {
-        
-    }
-
+  
 
 
     //애니메이션용
