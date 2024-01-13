@@ -42,25 +42,6 @@ public static class a
         return selected;
     }
 
-
-    //270도와 -90도는 같은거지만 비교하기 힘들기에
-    //각도를 항상 -180 ~ 180도 이내로 만들어 서로 비교하기에 편하게 만듬a
-    public static float NormalizeAngle(float angle)
-    {
-        angle %= 360; // 각도를 360도 범위 내로 줄임
-
-        if (angle < -180)
-        {
-            angle += 360; // -180도 미만일 경우, 180도를 더해 180도 범위 내로 이동
-        }
-        else if (angle > 180)
-        {
-            angle -= 360; // 180도 초과일 경우, 180도를 빼 180도 범위 내로 이동
-        }
-
-        return angle;
-    }
-
     //방향벡터를 각도로 리턴해줌
     public static float DirAngle(Vector2 dir)
     {

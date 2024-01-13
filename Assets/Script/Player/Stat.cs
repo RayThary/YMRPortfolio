@@ -10,7 +10,7 @@ public class Stat : MonoBehaviour
     private float hp;
     public float HP { get { return  hp; } } 
     private float maxHp;
-    public float MAXHP { get { return maxHp; } }    
+    public float MAXHP { get { return maxHp; } set { maxHp += value; if (hp > maxHp) hp = maxHp; } }    
     //체력 자연 회복량
     private float naturalHP;
     private float mp;
@@ -262,7 +262,7 @@ public class Stat : MonoBehaviour
     }
 
     //도트대미지는 받을때 이미 발동중인 도트대미지를 없앤 후 발동함
-    //  독 : 방어력이나 저항력 판정을 받지 않음 // 이건 없애는걸로 attackDelegate 판정을 받음
+    //  독 : 방어력이나 저항력 판정을 받지 않음
     /// <summary>
     /// 독 도트뎀 1초마다 대미지가 들어감
     /// </summary>
@@ -301,7 +301,7 @@ public class Stat : MonoBehaviour
         }
         dot_poison = null;
     }
-    //화상 : 방어력이나 저항력 판정을 받지 않음 hitDelegate판정을 받음
+    //화상 : 방어력이나 저항력 판정을 받지 않음
     /// <summary>
     /// 화상 도트뎀 1초마다 대미지가 들어감
     /// </summary>
@@ -331,14 +331,14 @@ public class Stat : MonoBehaviour
 
             if (t >= dotTime)
             {
-                Be_Attacked_TRUE(figure, perpetrator);
+                MinusHp(figure);
                 du++;
                 t = 0;
             }
         }
         dot_burn = null;
     }
-    //감전 : ap딜 저항력 판정을 받음 hitDelegate판정을 받음
+    //감전 : ap딜 저항력 판정을 받음
     /// <summary>
     /// 감전 도트뎀 1초마다 대미지가 들어감
     /// </summary>
@@ -370,14 +370,14 @@ public class Stat : MonoBehaviour
 
             if(t >= dotTime)
             {
-                Be_Attacked_AP(figure, penetration, per, perpetrator);
+                MinusHp(figure);
                 du++;
                 t = 0;
             }
         }
         dot_shock = null;
     }
-    //출혈 : ad딜 방어력 판정을 받음 // 이건 없애는 걸로 attackDelegate 판정을 받음
+    //출혈 : ad딜 방어력 판정을 받음
     /// <summary>
     /// 출혈 도트뎀 1초마다 대미지가 들어감
     /// </summary>

@@ -13,7 +13,7 @@ public class Bullet : MonoBehaviour
     private Coroutine straight = null;
     private Coroutine t = null;
 
-    public void Straight()
+    public virtual void Straight()
     {
         if(straight != null)
         {
@@ -32,7 +32,7 @@ public class Bullet : MonoBehaviour
         t = StartCoroutine(OffTimer());
     }
 
-    private IEnumerator StraightC()
+    protected IEnumerator StraightC()
     {
         while(true)
         {
@@ -42,7 +42,7 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    private IEnumerator OffTimer()
+    protected IEnumerator OffTimer()
     {
         yield return new WaitForSeconds(timer);
         t = null;
@@ -63,11 +63,6 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        
-        if(other.gameObject.name == "test")
-        {
-            return;
-        }
         if (straight != null)
         {
             StopCoroutine(straight);

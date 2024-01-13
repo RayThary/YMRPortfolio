@@ -14,6 +14,13 @@ public class PoolingManager : MonoBehaviour
         MeteorObj,
         RotatingSphere,
         BigBullet,
+        Type2Patten3,
+        GuidedBullet,
+        HaxagonLaser,
+        BossEndAttackRange,
+        EnemyBulletType2,
+        UpGround,
+        UpGroundObj,
     }
 
     [System.Serializable]
@@ -38,7 +45,6 @@ public class PoolingManager : MonoBehaviour
         {
             Destroy(this);
         }
-
         DontDestroyOnLoad(this);
         initPoolingParents();
         initPoolingChild();
@@ -46,11 +52,10 @@ public class PoolingManager : MonoBehaviour
 
     private void Start()
     {
-        
 
     }
 
- 
+
 
     private void initPoolingParents()
     {
@@ -111,7 +116,7 @@ public class PoolingManager : MonoBehaviour
             Transform parent = transform.Find(name);
 
             int objCount = parent.childCount;
-           
+
             for (int idNum = objCount - 1; idNum > -1; --idNum)
             {
                 Destroy(transform.GetChild(idNum).gameObject);
@@ -177,7 +182,7 @@ public class PoolingManager : MonoBehaviour
     {
         string name = _obj.name;
         Transform parent = transform.Find(name);
-        
+
         cPoolingObject poolingObj = m_listPoolingObj.Find(x => x.obj.name == name);
 
         int poolingCount = poolingObj.count;

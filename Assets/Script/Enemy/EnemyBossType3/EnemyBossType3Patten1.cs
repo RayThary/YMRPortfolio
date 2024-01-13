@@ -2,8 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyBossType2Patten3 : MonoBehaviour
+public class EnemyBossType3Patten1 : MonoBehaviour
 {
+    /// <summary> 큰총알을발사하는패턴 돌면서 4방향으로 총알을발사하는패턴
+    ///
+    /// </summary>
+
+
     [SerializeField] private float moveSpeed;
     [SerializeField] private float rotateSpeed;
     [SerializeField] private int bulletSpawnCount = 10;

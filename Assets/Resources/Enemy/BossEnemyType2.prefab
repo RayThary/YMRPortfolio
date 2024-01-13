@@ -732,7 +732,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68f0af56ea72212428c08b2d8fa05b05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objPatten1: {fileID: 8107354721529028118, guid: c3868180b7d58d24085637668821ae3a, type: 3}
+  anim: {fileID: 0}
+  attsp: 0.5
   trsArea: {fileID: 0}
   MeteorSapwnCount: 3
   objPatten2: {fileID: 7747638319077484056, guid: 9cc527392caf10b488479d13a1ba49cd, type: 3}

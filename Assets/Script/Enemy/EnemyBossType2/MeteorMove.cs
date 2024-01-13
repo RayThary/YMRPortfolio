@@ -16,10 +16,11 @@ public class MeteorMove : MonoBehaviour
     {
         transform.Translate(Vector3.down * fallSpeed * Time.deltaTime);
         float posY = transform.position.y;
-        
+
         if (posY <= 0.1f)
         {
             PoolingManager.Instance.RemovePoolingObject(gameObject);
+
         }
     }
 }

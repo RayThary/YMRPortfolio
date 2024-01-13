@@ -22,7 +22,7 @@ public class Launcher
     public float FireRate { get { return firerate; } set { firerate = value; } }
     //발사 타이머
     protected Coroutine firerateCoroutine;
-    //총을 발사할 때마다 호출하는 콜백함수
+    //총을 발사할 때마다 호출하는 콜백함수 (그냥 총알을 발사하는 액션임)
     protected Action fireCallback = null;
 
     public Launcher(Unit unit, Transform launcher, Transform muzzle, float mistake, float firerate, Transform objectParent)
@@ -76,14 +76,11 @@ public class Launcher
 
     public virtual void BulletControl()
     {
-        if (CanShot())
-        {
-            Bullet b = GetBullet();
-            b.unit = parent;
-            b.transform.position = muzzle.position;
-            b.transform.eulerAngles = new Vector3(0, angle, 0);
-            b.Straight();
-        }
+        Bullet b = GetBullet();
+        b.unit = parent;
+        b.transform.position = muzzle.position;
+        b.transform.eulerAngles = new Vector3(0, angle, 0);
+        b.Straight();
     }
 
     public bool CanShot()
@@ -95,11 +92,10 @@ public class Launcher
 
     public void FireCallback()
     {
-        if (fireCallback != null)
-            fireCallback();
-
         if (CanShot())
         {
+            if (fireCallback != null)
+                fireCallback();
             firerateCoroutine = parent.StartCoroutine(FirerateTimerC());
         }
     }
