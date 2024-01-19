@@ -12,9 +12,20 @@ public class RedButterflyPatten : MonoBehaviour
 
     private float bombtimer = 0;
 
-    [SerializeField] private Transform parentTrs;
+    private Transform parentTrs;
     private DangerZone dangerzone;
     private Transform target;
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
+        {
+            bombCheck = true;
+            timer = 0;
+            StartCoroutine(crateButterfly());
+            dangerzone.enabled = false;
+        }
+    }
 
     void Start()
     {
@@ -38,7 +49,7 @@ public class RedButterflyPatten : MonoBehaviour
             timer += Time.deltaTime;
             //이동
             Vector3 moveTarget = target.position - transform.position;
-            parentTrs.position += moveTarget * Time.deltaTime * moveSpeed;
+            parentTrs.position += moveTarget.normalized * Time.deltaTime * moveSpeed;
 
             #region
             // 각도
@@ -58,10 +69,9 @@ public class RedButterflyPatten : MonoBehaviour
             parentTrs.LookAt(target);
             if (timer >= bombTime)
             {
-                bombCheck = true;
-                timer = 0;
                 dangerzone.enabled = true;
             }
+            
         }
 
     }
@@ -72,8 +82,10 @@ public class RedButterflyPatten : MonoBehaviour
         if (dangerzone.enabled == true)
         {
             bombtimer += Time.deltaTime;
-            if (bombtimer >= 1)
+            if (bombtimer >= 1f)
             {
+                bombCheck = true;
+                timer = 0;
                 StartCoroutine(crateButterfly());
                 dangerzone.enabled = false;
             }
@@ -82,19 +94,25 @@ public class RedButterflyPatten : MonoBehaviour
 
     IEnumerator crateButterfly()
     {
-        for (int i = 0; i < 5; i++)
+        
+        for (int i = 0; i < 10; i++)
         {
-            yield return new WaitForSeconds(0.5f);
-            GameObject butterfly;
-            float rangeX = Random.Range(-1, 1);
-            float rangeZ = Random.Range(-1, 1);
-            Vector3 randomPos = new Vector3(rangeX, 0, rangeZ);
+            yield return new WaitForSeconds(0.1f);
+            Vector3 nowPos = transform.position;
 
-            transform.position += randomPos;
-            butterfly = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.RedButterflyBomb, GameManager.instance.GetenemyObjectBox);
-            butterfly.transform.position = transform.position;
+            GameObject butterfly;
+            float rangeX = Random.Range(-0.5f, 0.5f);
+            float rangeZ = Random.Range(-0.5f, 0.5f);
+            Vector3 randomPos = new Vector3(rangeX, 0, rangeZ);
             
+            nowPos += randomPos;
+            butterfly = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.RedButterflyBomb, GameManager.instance.GetenemyObjectBox);
+            butterfly.transform.position = nowPos;
+
         }
+
+        PoolingManager.Instance.RemovePoolingObject(gameObject);
+        
     }
 
 }

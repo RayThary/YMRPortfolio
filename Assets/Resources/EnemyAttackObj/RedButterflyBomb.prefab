@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4540710535874562574}
   - component: {fileID: 4950497535232705673}
+  - component: {fileID: 965433243997959024}
   m_Layer: 0
   m_Name: RedButterflyBomb
   m_TagString: Untagged
@@ -84,6 +85,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &965433243997959024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4776957187836905547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7eebe23c7565be441817b372e267c203, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4824437571749046377
 GameObject:
   m_ObjectHideFlags: 0

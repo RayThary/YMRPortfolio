@@ -1079,10 +1079,10 @@ TextureImporter:
       name: test_46
       rect:
         serializedVersion: 2
-        x: 396
-        y: 323
-        width: 129
-        height: 142
+        x: 399
+        y: 337
+        width: 126
+        height: 126
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2029,7 +2029,7 @@ TextureImporter:
         width: 28
         height: 28
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

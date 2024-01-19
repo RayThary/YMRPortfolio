@@ -23,7 +23,6 @@ public class LaserPatten : MonoBehaviour
 
         if (other.gameObject.layer == LayerMask.NameToLayer("Wall")) 
         {
-            Debug.Log("º®");
             firstCheck = false;
             transform.position = parentTrs.position;
             PoolingManager.Instance.RemovePoolingObject(parentTrs.gameObject);
@@ -42,14 +41,9 @@ public class LaserPatten : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        laserMove();
         tartgetMove();
+        laserMove();
         hitCheck();
-    }
-    private void laserMove()
-    {
-        linRen.SetPosition(0, parentTrs.position);
-        linRen.SetPosition(1, transform.position);
     }
 
     private void tartgetMove()
@@ -58,10 +52,18 @@ public class LaserPatten : MonoBehaviour
         {
             transform.position= parentTrs.position;
             targetVec = playerTrs.transform.position - transform.position;
+            targetVec.y = 0f;
             firstCheck = true;
         }
-        transform.position += targetVec * Time.deltaTime * moveSpeed;
-
+        transform.position += targetVec.normalized * Time.deltaTime * moveSpeed;
+        
+    }
+    private void laserMove()
+    {
+        Vector3 spawnPos = parentTrs.position;
+        spawnPos.y = 0f;
+        linRen.SetPosition(0, spawnPos);
+        linRen.SetPosition(1, transform.position);
     }
 
 
