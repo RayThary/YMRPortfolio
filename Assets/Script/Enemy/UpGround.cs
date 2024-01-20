@@ -9,13 +9,16 @@ public class UpGround : MonoBehaviour
     private float timer = 0;
     [SerializeField] private float upSpeed = 1;
     private SpriteRenderer spr;
-
+    private float dangerZoneTime = 0;
     void Start()
     {
         //소환해줄위치를 소환자에서지정해줄것 y값만 -1.1로 해줘야함((-y*0.5)-0.1  값으로)
         transform.position =  new Vector3(transform.position.x,-1.1f,transform.position.z);
 
         spr = GetComponentInChildren<SpriteRenderer>();
+
+        dangerZoneTime = gameObject.GetComponentInChildren<DangerZone>().getTime();
+        dangerZoneTime += 0.3f;
     }
 
     
@@ -35,7 +38,7 @@ public class UpGround : MonoBehaviour
         }
 
         timer += Time.deltaTime;
-        if (timer >= 2.3f)
+        if (timer >= dangerZoneTime)
         {
             upTimeCheck = true;
         }
@@ -66,7 +69,7 @@ public class UpGround : MonoBehaviour
             downTimeCheck = false;
             upTimeCheck = false;
             timer = 0;
-            
+            transform.position= new Vector3(transform.position.x, -1.1f, transform.position.z);
             PoolingManager.Instance.RemovePoolingObject(gameObject);
         }
     }

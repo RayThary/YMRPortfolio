@@ -97,7 +97,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1572d30d82c3d554899bd5e7e3ff772f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 2
+  time: 1
+  maxAlpha: 0.8
+  minAlpha: 0.5
 --- !u!1 &6656935941279637534
 GameObject:
   m_ObjectHideFlags: 0
@@ -132,7 +134,7 @@ Transform:
   m_Children:
   - {fileID: 7000689946655847002}
   m_Father: {fileID: 0}
-  m_RootOrder: 20
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8955561573568637749
 MeshFilter:

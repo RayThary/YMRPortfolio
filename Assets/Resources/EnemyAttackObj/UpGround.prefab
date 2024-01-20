@@ -31,7 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 21
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &824076311474896176
 BoxCollider:
@@ -66,5 +66,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69d03e6690728194e87a350cc5654f4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  test: 0
-  MaxRange: 5
+  test: 1
+  MaxRange: 8

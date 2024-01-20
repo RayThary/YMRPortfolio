@@ -12,6 +12,9 @@ public class GameManager : MonoBehaviour
     public Player GetPlayer { get { return player; } }    
     public Transform GetPlayerTransform { get { return player.transform; } }
 
+    private Transform enemyAttackObj;
+    public Transform GetEnemyAttackObjectPatten { get { return enemyAttackObj; } }
+
     public bool b = false;
 
     public Transform GetenemyObjectBox { get { return transform.GetChild(0); } }
@@ -26,6 +29,7 @@ public class GameManager : MonoBehaviour
             Destroy(this);
         }
         player = FindObjectOfType<Player>();
+        enemyAttackObj = transform.GetChild(0);
         enemyManager.Init();
         enemyManager.GetStage = enemyManager.Stages[0];
         enemyManager.GetStage.spawnEnemy();

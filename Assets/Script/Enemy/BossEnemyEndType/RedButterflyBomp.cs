@@ -5,48 +5,31 @@ using UnityEngine;
 public class RedButterflyBomp : MonoBehaviour
 {
     private SpriteRenderer spr;
-    private Color color;
-    private bool alphaRemove = false;
 
     void Start()
     {
         spr = GetComponent<SpriteRenderer>();
-        color = spr.color;
     }
 
 
     void Update()
     {
-
-        
         alphaCheck();
-        objRemove();
-        
     }
 
     private void alphaCheck()
     {
-        if (spr.color.a == 1)
-        {
-            alphaRemove = true;
-        }
-
-        if (alphaRemove)
+        Color color = spr.color;
+        if (color.a != 0.0f)
         {
             color.a -= Time.deltaTime;
+            if (color.a < 0.0f)
+            {
+                color.a = 0.0f;
+                PoolingManager.Instance.RemovePoolingObject(transform.parent.gameObject);
+                color.a = 1f;
+            }
         }
-
         spr.color = color;
     }
-
-    private void objRemove()
-    {
-        if (color.a == 0)
-        {
-            
-            PoolingManager.Instance.RemovePoolingObject(gameObject);
-            color.a = 1;
-        }
-    }
-
 }

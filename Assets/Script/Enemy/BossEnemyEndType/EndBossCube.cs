@@ -8,6 +8,7 @@ public class EndBossCube : Unit
     [SerializeField] private bool halfPattenCheck;
     //기본스킬들 재사용 시간
     [SerializeField]private float basicAttackTimer = 3;
+    [SerializeField] private float UpGroundRange = 2;//반지름
 
     private bool upGroundPattening = false;
 
@@ -35,17 +36,15 @@ public class EndBossCube : Unit
             int pattenNum = Random.Range(0, 3);
             if (pattenNum == 0)
             {
-                Debug.Log("patten0");
                 GameObject attackObj;
-                attackObj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.LaserPatten, transform);
+                attackObj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.LaserPatten, GameManager.instance.GetEnemyAttackObjectPatten);
                 attackObj.transform.position = transform.position;
                 basicAttackTimer = 0;
             }
             else if (pattenNum == 1)
             {
-                Debug.Log("patten1");
                 GameObject attackObj;
-                attackObj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.RedButterfly, transform);
+                attackObj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.RedButterfly, GameManager.instance.GetEnemyAttackObjectPatten);
                 attackObj.transform.position = transform.position;
                 basicAttackTimer = 0;
             }
@@ -60,10 +59,21 @@ public class EndBossCube : Unit
             //}
             else if (pattenNum == 2)
             {
-                Debug.Log("patten2");
-                GameObject attackObj;
-                attackObj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGround, transform);
-                attackObj.transform.position = transform.position;
+
+                Debug.Log("2");
+                for (int i = 0; i < 8; i++)
+                {
+                    GameObject attackObj;
+                    float rangeX = Random.Range(-UpGroundRange, UpGroundRange);
+                    float rnageZ = Random.Range(-UpGroundRange, UpGroundRange);
+
+                    Vector3 randomSpawnVec = playerTrs.position;
+                    randomSpawnVec.x += rangeX;
+                    randomSpawnVec.z += rnageZ;
+                    attackObj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundObj, GameManager.instance.GetEnemyAttackObjectPatten);
+                    attackObj.transform.position = randomSpawnVec;
+                }
+                
                 basicAttackTimer = 0;
             }
         }
@@ -71,7 +81,7 @@ public class EndBossCube : Unit
 
     IEnumerator upGroundPatten()
     {
-        for(int i = 0; i < 5; i++)
+        for(int i = 0; i < 8; i++)
         {
             GameObject attackObj;
             attackObj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundObj, transform);

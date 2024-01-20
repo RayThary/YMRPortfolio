@@ -111,7 +111,7 @@ public class RedButterflyPatten : MonoBehaviour
 
         }
 
-        PoolingManager.Instance.RemovePoolingObject(gameObject);
+        PoolingManager.Instance.RemovePoolingObject(transform.parent.gameObject);
         
     }
 

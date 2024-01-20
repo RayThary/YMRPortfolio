@@ -64,4 +64,14 @@ public class DangerZone : MonoBehaviour
         yield return new WaitForSeconds(time);
         spr.enabled = false;
     }
+
+    public float getTime()
+    {
+        return time;
+    }
+    public void SetTime(float _value)
+    {
+        time = _value;
+    }
+
 }

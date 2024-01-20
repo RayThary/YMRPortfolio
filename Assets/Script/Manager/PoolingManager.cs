@@ -38,6 +38,11 @@ public class PoolingManager : MonoBehaviour
     [SerializeField] private List<cPoolingObject> m_listPoolingObj;
 
     public static PoolingManager Instance;
+    private void OnValidate()
+    {
+        
+
+    }
 
     private void Awake()
     {
