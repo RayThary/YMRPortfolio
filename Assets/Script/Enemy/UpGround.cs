@@ -10,24 +10,28 @@ public class UpGround : MonoBehaviour
     [SerializeField] private float upSpeed = 1;
     private SpriteRenderer spr;
     private float dangerZoneTime = 0;
+
+    private Transform playerTrs;
     void Start()
     {
         //소환해줄위치를 소환자에서지정해줄것 y값만 -1.1로 해줘야함((-y*0.5)-0.1  값으로)
-        transform.position =  new Vector3(transform.position.x,-1.1f,transform.position.z);
+        transform.position = new Vector3(transform.position.x, -1.1f, transform.position.z);
 
         spr = GetComponentInChildren<SpriteRenderer>();
 
         dangerZoneTime = gameObject.GetComponentInChildren<DangerZone>().getTime();
         dangerZoneTime += 0.3f;
+
+        playerTrs = GameManager.instance.GetPlayerTransform;
     }
 
-    
+
     void Update()
     {
 
         blockUpTime();
         blockUp();
-       
+
     }
 
     private void blockUpTime()
@@ -65,14 +69,21 @@ public class UpGround : MonoBehaviour
         //리무브
         if (transform.position.y <= -1.3f)
         {
-            
+
             downTimeCheck = false;
             upTimeCheck = false;
             timer = 0;
-            transform.position= new Vector3(transform.position.x, -1.1f, transform.position.z);
+            transform.position = new Vector3(transform.position.x, -1.1f, transform.position.z);
             PoolingManager.Instance.RemovePoolingObject(gameObject);
         }
     }
 
-   
+    private (bool isCloseX, bool right, bool up) playerHitDirection()
+    {
+        Vector3 hitdirection = transform.position - playerTrs.position;
+
+        return (hitdirection.x > hitdirection.y
+        , playerTrs.position.x > transform.position.x
+        , playerTrs.position.y > transform.position.y);
+    }
 }

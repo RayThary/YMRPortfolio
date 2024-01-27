@@ -98,28 +98,6 @@ public class EndBossCube : Unit
         }
     }
 
-    IEnumerator upGroundPatten()
-    {
-        for(int i = 0; i < 8; i++)
-        {
-            GameObject attackObj;
-            attackObj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundObj, transform);
-            attackObj.transform.position = playerTrs.position;
-
-            if (i == 3)
-            {
-                basicAttackTimer = 0;
-            }
-
-            if (i == 4)
-            {
-                upGroundPattening = false;
-            }
-            
-            yield return new WaitForSeconds(2f);
-            
-        }
-    }
 
 
     private void HaxagonPatten()

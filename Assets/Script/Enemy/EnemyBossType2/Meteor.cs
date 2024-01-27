@@ -38,8 +38,7 @@ public class Meteor : MonoBehaviour
         shadow.transform.localScale = new Vector3(sXY, sXY, 0.1f);
         if (sXY <= 0.1f ) 
         {
-            spr.color = Color.red;
-            meteor = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.MeteorObj,transform.parent);
+            meteor = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.MeteorObj, GameManager.instance.GetEnemyAttackObjectPatten);
             meteor.transform.position = new Vector3(transform.position.x, 2, transform.position.z);
             StartCoroutine(shodwFalse());
             meteorSpawn = true;
@@ -47,7 +46,7 @@ public class Meteor : MonoBehaviour
     }
     IEnumerator shodwFalse()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
         
         spr.color = originalColor;
         Ratio = 0;

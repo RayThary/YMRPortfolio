@@ -8,7 +8,16 @@ public class GroundPatten : MonoBehaviour
 {
     [SerializeField] private GameObject nowMap;
     private List<GameObject> maps = new List<GameObject>();
-    
+
+    [SerializeField] private bool Hrizontal;
+    [SerializeField] private bool Vitical;
+
+    [SerializeField] private bool Up;
+    [SerializeField] private bool Right;
+
+
+
+
     private List<GameObject> mapUnder = new List<GameObject>();
     private List<GameObject> mapUnderTrs = new List<GameObject>();
 
@@ -17,7 +26,7 @@ public class GroundPatten : MonoBehaviour
     {
         HrizontalAndVerticalPatten,
         WavePatten,
-
+        OpenWallGroundPatten
     }
 
     [SerializeField] private PattenName pattenName;
@@ -27,9 +36,12 @@ public class GroundPatten : MonoBehaviour
 
     private bool mapChange = true;
 
+
+    private Transform playerTrs;
+
     void Start()
     {
-
+        playerTrs = GameManager.instance.GetPlayerTransform;
 
     }
 
@@ -38,6 +50,10 @@ public class GroundPatten : MonoBehaviour
     {
         nowMapCheck();
         groundPatten();
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            pattenStart = true;
+        }
     }
 
     private void nowMapCheck()
@@ -68,16 +84,26 @@ public class GroundPatten : MonoBehaviour
                 StartCoroutine(hrizontalAndverticalPatten());
                 pattenStart = false;
             }
-            
-            if( pattenName == PattenName.WavePatten)
+
+            if (pattenName == PattenName.WavePatten)
             {
-                StartCoroutine(wavePattenRightOrLeft());
-                StartCoroutine(wavePattenUpOrDown());
+                if (Right)
+                {
+                    StartCoroutine(wavePattenRightOrLeft());
+                }
+                if (Up)
+                {
+                    StartCoroutine(wavePattenUpOrDown());
+                }
+                pattenStart = false;
+            }
+
+            if (pattenName == PattenName.OpenWallGroundPatten)
+            {
+                openWallGroundPatten(4);
                 pattenStart = false;
             }
         }
-
-
     }
 
 
@@ -141,25 +167,6 @@ public class GroundPatten : MonoBehaviour
 
     }
 
-    //private void wavePatten()
-    //{
-    //    mapUnderTrs.Clear();
-    //    for (int i = 1; i < 29; i++)
-    //    {
-    //        GameObject obj;
-    //        List<GameObject> objTrs = new List<GameObject>();
-    //        objTrs.Clear();
-
-    //        objTrs = mapUnder.FindAll((x) => x.name.Contains($"{{{i},") == true);
-    //        for(int j = 0; j < objTrs.Count;j++)
-    //        {
-    //            obj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundObj, GameManager.instance.GetEnemyAttackObjectPatten);
-    //            obj.transform.position = objTrs[j].transform.position;
-    //        }
-            
-    //    }
-    //}
-
     IEnumerator wavePattenRightOrLeft()
     {
         mapUnderTrs.Clear();
@@ -177,8 +184,8 @@ public class GroundPatten : MonoBehaviour
             }
             yield return new WaitForSeconds(1.8f);
         }
-        
-        for(int i = 25; i > 0; i--)
+
+        for (int i = 25; i > 0; i--)
         {
             GameObject obj;
             List<GameObject> objTrs = new List<GameObject>();
@@ -228,4 +235,116 @@ public class GroundPatten : MonoBehaviour
             yield return new WaitForSeconds(1.8f);
         }
     }
+
+    private void openWallGroundPatten(int _value)
+    {
+        mapUnderTrs.Clear();
+
+
+        Vector3 playerPos = playerTrs.position;
+        int x = Mathf.RoundToInt(playerPos.x);
+        int z = Mathf.RoundToInt(playerPos.z);
+
+
+        int rightX = Mathf.Clamp(x + _value, 1, 28);
+        int leftX = Mathf.Clamp(x - _value, 1, 28);
+
+
+        int upZ = Mathf.Clamp(z + _value, 1, 28);
+        int downZ = Mathf.Clamp(z - _value, 1, 28);
+
+        Vector3 rightVec = mapUnder.Find((x) => x.name.Contains($"{{{rightX},{upZ}}}") == true).transform.position;
+        Vector3 leftVec = mapUnder.Find((x) => x.name.Contains($"{{{leftX},{downZ}}}") == true).transform.position;
+        Vector3 upVec = mapUnder.Find((x) => x.name.Contains($"{{{leftX},{upZ}}}") == true).transform.position;
+        Vector3 downVec = mapUnder.Find((x) => x.name.Contains($"{{{rightX},{downZ}}}") == true).transform.position;
+
+        List<Vector3> spawnTrs = new List<Vector3>();
+
+        for (int i = 0; i < _value * 2; i++)
+        {
+
+
+            for (int j = 0; j < 4; j++)
+            {
+                switch (j)
+                {
+                    case 0:
+                        if (spawnTrs.Exists((x) => x == rightVec) == false)
+                        {
+                            spawnTrs.Add(rightVec);
+                        }
+                        break;
+                    case 1:
+                        if (spawnTrs.Exists((x) => x == leftVec) == false)
+                        {
+                            spawnTrs.Add(leftVec);
+                        }
+                        break;
+                    case 2:
+                        if (spawnTrs.Exists((x) => x == upVec) == false)
+                        {
+                            spawnTrs.Add(upVec);
+                        }
+                        break;
+                    case 3:
+                        if (spawnTrs.Exists((x) => x == downVec) == false)
+                        {
+                            spawnTrs.Add(downVec);
+                        }
+                        break;
+                }
+            }
+
+            if (rightVec.z > 1)
+            {
+                rightVec.z -= 1;
+            }
+
+            if (leftVec.z < 28)
+            {
+                leftVec.z += 1;
+            }
+
+            if (upVec.x < 28)
+            {
+                upVec.x += 1;
+            }
+
+            if (downVec.x > 1)
+            {
+                downVec.x -= 1;
+            }
+        }
+
+        if (x < _value)
+        {
+            spawnTrs = spawnTrs.FindAll((x) => x.x > rightX == false);
+        }
+
+
+        if (z < _value)
+        {
+            spawnTrs = spawnTrs.FindAll((z) => z.z > upZ == false);
+        }
+
+
+        if ( x > 28 - _value)
+        {
+            spawnTrs = spawnTrs.FindAll((x) => x.x < leftX == false);
+        }
+
+        if (z > 28 - _value)
+        {
+            spawnTrs = spawnTrs.FindAll((x) => x.z < downZ == false);
+        }
+
+
+        for (int i = 0; i < spawnTrs.Count; i++)
+        {
+            GameObject obj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundObj, GameManager.instance.GetEnemyAttackObjectPatten);
+            obj.transform.position = spawnTrs[i];
+        }
+
+    }
+
 }
