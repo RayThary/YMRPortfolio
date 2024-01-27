@@ -61,7 +61,6 @@ public class EndBossCube : Unit
         }
         if (basicAttackTimer >= basicAttackTime)
         {
-            
             if (pattenNum == 0)
             {
                 GameObject attackObj;
