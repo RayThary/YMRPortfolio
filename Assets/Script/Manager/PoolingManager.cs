@@ -25,6 +25,7 @@ public class PoolingManager : MonoBehaviour
         LaserPatten,
         RedButterfly,
         RedButterflyBomb,
+        Shield,
     }
 
     [System.Serializable]

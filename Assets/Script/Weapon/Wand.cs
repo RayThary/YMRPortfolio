@@ -7,7 +7,7 @@ public class Wand : Weapon
 {
     public Wand(Player player, Transform launcher, Transform muzzle, float mistake, float firerate, Transform objectParent) : base(player, launcher, muzzle, mistake, firerate, objectParent)
     {
-        sprite = Resources.Load<Sprite>("SPUM/SPUM_Sprites/Items/6_Weapons/Sword_3");
+        sprite = Resources.Load<Sprite>("SPUM/SPUM_Sprites/Items/6_Weapons/Soon_Spear");
 
         spriteRenderer = launcher.GetChild(0).GetComponent<SpriteRenderer>();
 
@@ -15,6 +15,8 @@ public class Wand : Weapon
 
         cards.Add(new Laser());
         cards.Add(new Guided());
+        cards.Add(new ShieldRotation());
+        //CardAdd(new ShieldRotation());
     }
 
     public override void BulletControl()
@@ -22,6 +24,7 @@ public class Wand : Weapon
         if (firerateCoroutine == null)
         {
             Bullet b = GetBullet();
+            b.damage = player.STAT.AD;
             b.unit = parent;
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -44,6 +47,38 @@ public class Wand : Weapon
 }
 
 [System.Serializable]
+public class ShieldRotation : Card
+{
+    Shield[] shields = null;
+
+    public ShieldRotation() 
+    {
+        exp = "주위에 방패가 돈다";
+        shields = new Shield[5];    
+    }
+
+    public override void Activation(Weapon launcher, Player player)
+    {
+        base.Activation(launcher, player);
+        for (int i = 0; i < shields.Length; i++)
+        {
+            shields[i] = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.Shield, launcher.objectParent).GetComponent<Shield>();
+            shields[i].Init(shields.Length, i, 2, 50, player.transform);
+        }
+    }
+
+    public override void Impact()
+    {
+
+    }
+
+    public override void Deactivation()
+    {
+
+    }
+}
+
+[System.Serializable]
 public class Guided : Card
 {
     public Guided() 
@@ -51,9 +86,9 @@ public class Guided : Card
         exp = "기본공격이 상대를 따라간다";
     }
 
-    public override void Activation(Launcher launcher, Unit unit)
+    public override void Activation(Weapon launcher, Player player)
     {
-        base.Activation(launcher, unit); 
+        base.Activation(launcher, player); 
         
         launcher.FireCallbackAdd(Impact);
         launcher.FireCallbackRemove(launcher.BulletControl);
@@ -84,12 +119,12 @@ public class Laser : Card
     {
         figure = 5;
         exp = "공격시 기본공격 대신 레이저를 발사한다 \n" +
-            "대미지는 5이며 최대거리는 10이다";
+            "최대거리는 10이다";
     }
 
-    public override void Activation(Launcher launcher, Unit unit)
+    public override void Activation(Weapon launcher, Player player)
     {
-        base.Activation(launcher, unit);
+        base.Activation(launcher, player);
        
         launcher.FireCallbackAdd(Impact);
         launcher.FireCallbackRemove(launcher.BulletControl);
@@ -147,6 +182,7 @@ public class Laser : Card
             else
             {
                 Bullet b = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.Laser, launcher.objectParent).transform.GetComponent<Bullet>();
+                b.damage = launcher.player.STAT.AD;
                 b.unit = user;
                 b.transform.localScale = new Vector3(0.5f, 0.5f, distance);
                 //중돌을 하지 않았다는 것은 거리가 끝났다는것

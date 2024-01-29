@@ -3792,6 +3792,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64f0f366d7f7a0a47a8fdc4d609fd33a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  godTimer: 0
   moveSpeed: 5
   r_weapon: {fileID: 5518516731655308601}
   objectParent: {fileID: 0}
@@ -3812,6 +3813,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2f8409e6226b6c46807ca083d53efbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hp: 0
+  maxHp: 0
+  ad: 0
   originalHP: 10
   originalNaturalHP: 0
   originalMP: 0

@@ -1,8 +1,8 @@
 public abstract class Card
 {
     //이 카드를 소유한 무기 (발사시 효과를 부여하기 위해)
-    protected Launcher launcher;
-    public Unit user;
+    protected Weapon launcher;
+    public Player user;
     //그냥 쓰라고 만들어 놓은 변수
     protected float figure;
 
@@ -11,11 +11,11 @@ public abstract class Card
 
     //카드의 효과
     public abstract void Impact();
-    
-    public virtual void Activation(Launcher launcher, Unit unit)
+
+    public virtual void Activation(Weapon launcher, Player player)
     {
         this.launcher = launcher;
-        user = unit;
+        user = player;
     }
     public abstract void Deactivation();
 }

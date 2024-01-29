@@ -7,8 +7,10 @@ public class Stat : MonoBehaviour
 {
     private Unit user;
     //체력
+    [SerializeField]
     private float hp;
-    public float HP { get { return  hp; } } 
+    public float HP { get { return  hp; } }
+    [SerializeField]
     private float maxHp;
     public float MAXHP { get { return maxHp; } set { maxHp += value; if (hp > maxHp) hp = maxHp; } }    
     //체력 자연 회복량
@@ -22,12 +24,13 @@ public class Stat : MonoBehaviour
     public float DEFENCE { get { return defence; } }
     private float resistance;
     public float RESISTANCE { get { return resistance; } }
+    [SerializeField]
     private float ad;
-    public float AD { get { return ad; } }
+    public float AD { get { return ad; } set { ad += value; } }
     private float ap;
     public float AP { get { return ap; } }
     private float speed;
-    public float SPEED { get { return speed; } }
+    public float SPEED { get { return speed; } set { speed = value; } }
     //
     public float originalHP;
     public float originalNaturalHP;
