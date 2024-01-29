@@ -732,6 +732,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68f0af56ea72212428c08b2d8fa05b05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  godTimer: 0
   anim: {fileID: 0}
   attsp: 0.5
   trsArea: {fileID: 0}
@@ -802,6 +803,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2f8409e6226b6c46807ca083d53efbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hp: 0
+  maxHp: 0
+  ad: 0
   originalHP: 100
   originalNaturalHP: 0
   originalMP: 0
