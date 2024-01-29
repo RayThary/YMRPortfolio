@@ -39,6 +39,7 @@ public class TestGun : Weapon
         {
             Bullet b = GetBullet();
             b.transform.position = muzzle.position;
+            b.damage = player.STAT.AD;
             //활은 보고 있는 방향의 문제로 따로 각도를 90도 더했기에 여기선 빼줘야 정확한 각도임
             b.transform.eulerAngles = new Vector3(0, angle, 0);
             b.unit = parent;
@@ -59,7 +60,7 @@ public class ShotGun : Card
             "공격속도가 0.5초 느려진다";
     }
 
-    public override void Activation(Launcher launcher, Unit unit)
+    public override void Activation(Weapon launcher, Player unit)
     {
         base.Activation(launcher, unit);
         launcher.FireRate += 0.5f;
@@ -104,7 +105,7 @@ public class PoisonBullet : Card
         exp = "공격시 상대방에게 대미지 3, 5회 발동하는 독데미지를 부여한다";
     }
 
-    public override void Activation(Launcher launcher, Unit unit)
+    public override void Activation(Weapon launcher, Player unit)
     {
         base.Activation(launcher, unit);
         user.STAT.AddAttack(Poison);
@@ -133,7 +134,7 @@ public class Bloodsucking : Card
         figure = 1;
         exp = "공격 적중시마다 체력을 1 회복한다";
     }
-    public override void Activation(Launcher launcher, Unit unit)
+    public override void Activation(Weapon launcher, Player unit)
     {
         base.Activation(launcher, unit);
 

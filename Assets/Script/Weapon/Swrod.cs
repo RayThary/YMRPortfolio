@@ -45,7 +45,7 @@ public class Swrod : Weapon
                     }
                     else
                     {
-                        colliders[i].GetComponent<Unit>().Hit(parent, 1);
+                        colliders[i].GetComponent<Unit>().Hit(player, player.STAT.AD);
                     }
                 }
             }
@@ -62,7 +62,7 @@ public  class Health : Card
         exp = "최대 체력이 " + figure + " 만큼 증가합니다";
     }
 
-    public override void Activation(Launcher launcher, Unit unit)
+    public override void Activation(Weapon launcher, Player unit)
     {
         base.Activation(launcher, unit);
         user.STAT.MAXHP = figure;
@@ -89,7 +89,7 @@ public class Sense : Card
         exp = "총알을 하나 베어낼때마다 다음 공격에 1의 대미지가 추가됩니다";
     }
 
-    public override void Activation(Launcher launcher, Unit unit)
+    public override void Activation(Weapon launcher, Player unit)
     {
         base.Activation(launcher, unit);
         this.figure = 0;
@@ -121,7 +121,7 @@ public class Run : Card
         exp = "이동속도가 빨리집니다.";
     }
 
-    public override void Activation(Launcher launcher, Unit unit)
+    public override void Activation(Weapon launcher, Player unit)
     {
         base.Activation(launcher, unit);
         GameManager.instance.GetPlayer.moveSpeed += 1;

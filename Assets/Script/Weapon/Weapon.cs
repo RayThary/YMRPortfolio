@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Weapon : Launcher
 {
-    protected Player player;
+    public Player player;
     public MonoBehaviour monoBehaviour;
     //스프라이트 렌더러
     public SpriteRenderer spriteRenderer;

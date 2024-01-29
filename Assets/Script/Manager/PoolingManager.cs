@@ -16,6 +16,9 @@ public class PoolingManager : MonoBehaviour
         BigBullet,
         Type2Patten3,
         GuidedBullet,
+        Shield,
+        EnemySword,
+        JyBossBigBullet,
 
     }
 

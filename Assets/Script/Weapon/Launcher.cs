@@ -17,6 +17,7 @@ public class Launcher
     public float angle;
     //발사시 오차 범위
     protected float mistake = 0;
+    public float Mistake { get { return mistake; } set { mistake = value; } }
     //다음 발사까지 걸리는 시간
     protected float firerate;
     public float FireRate { get { return firerate; } set { firerate = value; } }
@@ -79,7 +80,7 @@ public class Launcher
         Bullet b = GetBullet();
         b.unit = parent;
         b.transform.position = muzzle.position;
-        b.transform.eulerAngles = new Vector3(0, angle, 0);
+        b.transform.eulerAngles = new Vector3(0, UnityEngine.Random.Range(-mistake, mistake + 1) + angle, 0);
         b.Straight();
     }
 
@@ -96,7 +97,9 @@ public class Launcher
         {
             if (fireCallback != null)
                 fireCallback();
-            firerateCoroutine = parent.StartCoroutine(FirerateTimerC());
+
+            if(firerate > 0)
+                firerateCoroutine = parent.StartCoroutine(FirerateTimerC());
         }
     }
 

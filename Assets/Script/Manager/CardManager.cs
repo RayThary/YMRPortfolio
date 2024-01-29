@@ -17,6 +17,9 @@ public class CardManager : MonoBehaviour
         }
         publicCards.Add(new Armor_Of_Thorns());
         publicCards.Add(new Absorption());
+        publicCards.Add(new QuickAttack());
+        publicCards.Add(new Tank());
+        publicCards.Add(new Siege());
     }
 
     public void ViewCards()
@@ -46,7 +49,61 @@ public class CardManager : MonoBehaviour
     }
 }
 
+[System.Serializable]
+public class Siege : Card
+{
+    public Siege()
+    {
+        exp = "대쉬의 쿨타임이 2초 증가하는 대신 대미지가 2 증가하고 체력이 4 증가합니다";
+    }
 
+    public override void Activation(Weapon launcher, Player player)
+    {
+        base.Activation(launcher, player);
+        player.spaceCooltime += 2;
+        user.STAT.MAXHP = 4;
+        user.STAT.AD = 2;
+    }
+
+    public override void Deactivation()
+    {
+        user.STAT.MAXHP = -4;
+        user.STAT.AD = -2;
+    }
+
+    public override void Impact()
+    {
+
+    }
+}
+
+
+[System.Serializable]
+public class Tank : Card
+{
+    public Tank()
+    {
+        exp = "체력이 10증가하는 대신 대미지가 2 줄어듭니다";
+    }
+
+    public override void Activation(Weapon launcher, Player player)
+    {
+        base.Activation(launcher, player);
+        user.STAT.MAXHP = 10;
+        user.STAT.AD = -2;
+    }
+
+    public override void Deactivation()
+    {
+        user.STAT.MAXHP = -10;
+        user.STAT.AD = 2;
+    }
+
+    public override void Impact()
+    {
+
+    }
+}
 
 [System.Serializable]
 public class Armor_Of_Thorns : Card
@@ -56,7 +113,7 @@ public class Armor_Of_Thorns : Card
         figure = 1;
         exp = "피해를 받을때마다 피해를 준 유닛에게 " + figure + "만큼 피해를 준다";
     }
-    public override void Activation(Launcher launcher, Unit unit)
+    public override void Activation(Weapon launcher, Player unit)
     {
         base.Activation(launcher, unit);
 
@@ -86,7 +143,7 @@ public class Absorption : Card
         exp = "상대를 처치 할때마다 체력을 " + figure + " 회복한다";
     }
 
-    public override void Activation(Launcher launcher, Unit unit)
+    public override void Activation(Weapon launcher, Player unit)
     {
         base.Activation(launcher, unit);
         user.STAT.AddAttack(death);
@@ -120,7 +177,7 @@ public class QuickAttack : Card
         figure = -0.5f;
     }
 
-    public override void Activation(Launcher launcher, Unit unit)
+    public override void Activation(Weapon launcher, Player unit)
     {
         base.Activation(launcher, unit);
         launcher.FireRate += figure;

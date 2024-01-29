@@ -14,6 +14,9 @@ public abstract class Unit : MonoBehaviour
 {
     protected Stat stat;
     public Stat STAT {  get { return stat; } }
+    protected bool god = false;
+    [SerializeField]
+    protected float godTimer = 0;
 
     protected void Start()
     {
@@ -24,9 +27,13 @@ public abstract class Unit : MonoBehaviour
 
     public virtual void Hit(Unit unit, float figure)
     {
+        if(god)
+        {
+            return;
+        }
         stat.Be_Attacked_TRUE(figure, unit);
-        unit.stat.AttackInvocation(this, figure);
-
+        if(unit != null)
+            unit.stat.AttackInvocation(this, figure);
     }
     public void HitDot(_DOT dot, int duration, float figure, Unit perpetrator)
     {
@@ -45,6 +52,22 @@ public abstract class Unit : MonoBehaviour
                 stat.Be_Attacked_Bleeding(duration, figure, 0, 0, perpetrator);   
                 break;
         }
+    }
+
+    private Coroutine slow = null;
+    public void Slow(float timer, float power)
+    {
+        if (slow != null)
+            StopCoroutine(slow);
+        power = Mathf.Clamp(power, 0, 1);
+        StartCoroutine(SlowCoroutine(timer));
+        stat.SPEED = stat.SPEED * power;
+    }
+    
+    private IEnumerator SlowCoroutine(float timer)
+    {
+        yield return new WaitForSeconds(timer);
+        stat.SPEED = stat.originalSpeed;
     }
 }
 
