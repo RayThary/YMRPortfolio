@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class UpGround : MonoBehaviour
 {
@@ -12,6 +13,15 @@ public class UpGround : MonoBehaviour
     private float dangerZoneTime = 0;
 
     private Transform playerTrs;
+    private Player player;
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
+        {
+            player.Hit(null, 2);
+        }
+    }
     void Start()
     {
         //소환해줄위치를 소환자에서지정해줄것 y값만 -1.1로 해줘야함((-y*0.5)-0.1  값으로)
@@ -23,6 +33,7 @@ public class UpGround : MonoBehaviour
         dangerZoneTime += 0.3f;
 
         playerTrs = GameManager.instance.GetPlayerTransform;
+        player = playerTrs.GetComponent<Player>();
     }
 
 
@@ -78,12 +89,40 @@ public class UpGround : MonoBehaviour
         }
     }
 
-    private (bool isCloseX, bool right, bool up) playerHitDirection()
+    public Vector3 playerHitDirection()
     {
         Vector3 hitdirection = transform.position - playerTrs.position;
 
-        return (hitdirection.x > hitdirection.y
-        , playerTrs.position.x > transform.position.x
-        , playerTrs.position.y > transform.position.y);
+        bool right = playerTrs.position.x > transform.position.x;
+        bool up = playerTrs.position.z > transform.position.z;
+
+        
+        bool isCloseX = hitdirection.x > hitdirection.z;
+
+        if (isCloseX && right)
+        {
+            return new Vector3(1, 0, 0);
+        }
+        else if (isCloseX && right == false)
+        {
+            return new Vector3(-1, 0, 0);
+        }
+        else if (isCloseX == false && up)
+        {
+            return new Vector3(0, 0, 1);
+        }
+        else if(isCloseX==false&& up == false)
+        {
+            return new Vector3(0, 0, -1);
+        }
+        else
+        {
+            Debug.LogError("뭔가심상치않은데?");
+            return new Vector3(0, 0, 0);
+        }
+        
+
+
+
     }
 }
