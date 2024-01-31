@@ -29,21 +29,23 @@ public class Player : Unit
     private float spaceTimer;
     //플레이어가 움직일 수 있는지
     private bool canMove = true;
-    public bool CanMove { get { return canMove; }  set { canMove = value; } }
+    public bool CanMove { get { return canMove; } set { canMove = value; } }
 
     //맞고 나서 무적시간
     public float hit_invincibility;
     //무적시간을 재는 코루틴
     public Coroutine invincibility = null;
     private SpriteAlphaControl spriteAlpha;
-
+    private Animator animator;
+    //당기는 함수를 저장할 변수
     private Action pull = null;
 
     protected new void Start()
     {
         base.Start();
-        weapon = new Wand(this, r_weapon, r_weapon, 0, 1, objectParent);
+        weapon = new TestGun(this, r_weapon, r_weapon, 0, 1, objectParent);
         spriteAlpha = GetComponent<SpriteAlphaControl>();
+        animator = transform.GetChild(0).GetComponent<Animator>();
     }
 
 
@@ -57,8 +59,8 @@ public class Player : Unit
         //움직임
         Move();
 
-        Vector3 i = Camera.main.WorldToScreenPoint(transform.position);
-        UnitLook(Input.mousePosition - i);
+        Vector3 look = Camera.main.WorldToScreenPoint(transform.position);
+        UnitLook(Input.mousePosition - look);
 
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -66,7 +68,7 @@ public class Player : Unit
             Space();
         }
 
-        if(spaceTimer >= 0)
+        if (spaceTimer >= 0)
         {
             spaceTimer -= Time.deltaTime;
             spaceImage.fillAmount = spaceTimer / spaceCooltime;
@@ -116,6 +118,7 @@ public class Player : Unit
         Vector3 dir = (target - transform.position).normalized;
         moveVelocity += new Vector3(dir.x, dir.z, 0) * power;
     }
+
     private void Move()
     {
         // 이동을 적용합니다.
@@ -123,11 +126,11 @@ public class Player : Unit
             transform.Translate(moveVelocity * Time.deltaTime);
     }
 
-
-
     //플레이어는 맞을때 잠시 무적시간이 필요함
     public override void Hit(Unit unit, float figure)
     {
+        if (god)
+            return;
         base.Hit(unit, figure);
         //플레이어는 체력이 0이되면 게임이 끝난거임
         if (stat.HP <= 0)
@@ -139,10 +142,17 @@ public class Player : Unit
         else
         {
             //플레이어 무적시간
-            if(invincibility != null)
+            if (invincibility != null && godTimer < hit_invincibility)
+            {
                 StopCoroutine(invincibility);
-            invincibility = StartCoroutine(Invincibility(hit_invincibility));
+                invincibility = StartCoroutine(Invincibility(hit_invincibility));
+            }
+            else if (invincibility == null)
+            {
+                invincibility = StartCoroutine(Invincibility(hit_invincibility));
+            }
             spriteAlpha.isHit = true;
+            animator.SetTrigger("Hit");
         }
     }
 
@@ -164,20 +174,28 @@ public class Player : Unit
     //스페이스를 누르면 대쉬
     public void Space()
     {
-        if(moveVelocity != Vector3.zero && spaceTimer < 0)
+        if (moveVelocity != Vector3.zero && spaceTimer < 0)
         {
             StartCoroutine(SpaceCoroutine(travel, moveVelocity));
+            if (invincibility != null && godTimer < travel)
+            {
+                StopCoroutine(invincibility);
+                invincibility = StartCoroutine(Invincibility(travel));
+            }
+            else if (invincibility == null)
+            {
+                invincibility = StartCoroutine(Invincibility(travel));
+            }
             spaceTimer = spaceCooltime;
         }
     }
 
-    //대쉬 무적시간을 재는 코루틴
+    //대쉬 이동
     private IEnumerator SpaceCoroutine(float t, Vector3 velocity)
     {
         float timer = 0;
         canMove = false;
-        GetComponent<Collider>().enabled = false;
-        while(true)
+        while (true)
         {
             transform.Translate(velocity * spaceDis * Time.deltaTime);
 
@@ -187,13 +205,50 @@ public class Player : Unit
             yield return null;
         }
         canMove = true;
-        GetComponent<Collider>().enabled = true;
+    }
+
+    private IEnumerator UpGG(Vector3 velocity)
+    {
+        float timer = 0;
+        velocity = new Vector3(velocity.x, velocity.z, 0);
+        canMove = false;
+        while (true)
+        {
+            transform.Translate(velocity * 3 * Time.deltaTime);
+
+            timer += Time.deltaTime;
+
+            if (timer > 0.2f)
+                break;
+            yield return null;
+        }
+        canMove = true;
     }
 
     private IEnumerator Invincibility(float t)
     {
-        GetComponent<Collider>().enabled = false;
-        yield return new WaitForSeconds(t);
-        GetComponent<Collider>().enabled = true;
+        god = true;
+        godTimer = t;
+        gameObject.layer = 11;
+        while (godTimer > 0)
+        {
+            godTimer -= Time.deltaTime;
+            yield return null;
+        }
+        god = false;
+        gameObject.layer = 10;
+        invincibility = null;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag.Equals("UpGround"))
+        {
+            if (!god)
+            {
+                Vector3 dir = other.GetComponent<UpGround>().playerHitDirection();
+                StartCoroutine(UpGG(dir));
+            }
+        }
     }
 }
