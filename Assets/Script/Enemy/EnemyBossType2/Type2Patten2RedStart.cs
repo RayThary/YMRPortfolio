@@ -19,11 +19,6 @@ public class Type2Patten2RedStart : MonoBehaviour
         player = GameManager.instance.GetPlayer;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     public void setType2(EnemyBossType2 _type2)
     {
         type2 = _type2;

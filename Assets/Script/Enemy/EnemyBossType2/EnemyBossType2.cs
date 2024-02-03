@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 public class EnemyBossType2 : Unit
 {
+
     private Transform target;
     private Animator anim;
     [SerializeField] private float attsp = 0.5f;
@@ -21,12 +23,14 @@ public class EnemyBossType2 : Unit
     private float timer = 0.0f;
     private bool allSpawnCheck = false;
     //패턴2(근접주위빙글빙글도는 오브젝트) 
-    public GameObject objPatten2;//임시 플레이어근접시 구체4개소환
     private GameObject patten2ObjCheck = null;
 
     [SerializeField] private float patten2DurationTime = 4;//패턴2지속시간
     private float patten2Timer = 0.0f;//패턴2 타이머
-    private bool patten2SpawnCheck = false;
+    private bool patten2MotionCheck = false;
+
+    private bool patten2ObjSpawnCheck = false;
+
 
     //패턴3(반피부터 풍차모양으로 도는 레이저)
     public GameObject objPatten3;//임시 반피되면쓰는패턴 
@@ -40,6 +44,8 @@ public class EnemyBossType2 : Unit
 
     [SerializeField] private float basicAttackTime = 6;
     private float basicAttackTimer = 0.0f;
+
+    private bool noMeleeCheck = false;
 
     //이동용
     private NavMeshAgent nav;
@@ -78,22 +84,24 @@ public class EnemyBossType2 : Unit
 
         if (noMove)
         {
+            anim.SetFloat("RunState", 0);
             nav.enabled = false;
-            return;
-        }
-        float playerDistance = Vector3.Distance(transform.position, target.position);
-        if (playerDistance >= 4)
-        {
-            anim.SetFloat("RunState", 0.5f);
-            nav.enabled = true;
-            nav.SetDestination(target.position);
+
         }
         else
         {
-            nav.enabled = false;
-            if (patten2ObjCheck != null)
+
+            float playerDistance = Vector3.Distance(transform.position, target.position);
+            if (playerDistance >= 4)
             {
-                //  패턴 2시작 채워져있으면 소환중이니여기들어오면안됨
+                anim.SetFloat("RunState", 0.5f);
+                nav.enabled = true;
+                nav.SetDestination(target.position);
+            }
+            else
+            {
+                nav.enabled = false;
+                anim.SetFloat("RunState", 0);
             }
         }
     }
@@ -104,26 +112,21 @@ public class EnemyBossType2 : Unit
 
         if (basicAttackCheck)
         {
-            if (bigBulletCheck == false)
-            {
-                attackType = Random.Range(0, 2);
-            }
-            else
-            {
-                attackType = 0;
-            }
+
+            attackType = Random.Range(0, 2);
             if (attackType == 0)
             {
                 patten1Check = true;
                 meteorAttack();
                 basicAttackCheck = false;
-                basicAttackTime = 5;
+                basicAttackTime = 6;
             }
             else if (attackType == 1)
             {
+                bigBulletCheck = true;
                 bigBulletAttack();
                 basicAttackCheck = false;
-                basicAttackTime = 3;
+                basicAttackTime = 5;
             }
         }
         else
@@ -140,13 +143,10 @@ public class EnemyBossType2 : Unit
 
     private void meteorAttack()
     {
-        if (patten2Check)
-        {
-            return;
-        }
 
         if (patten1Check)
         {
+            noMeleeCheck = true;
             attsp = 0.5f;
             anim.SetTrigger("Attack");
             anim.SetFloat("AttackState", 0);
@@ -159,7 +159,7 @@ public class EnemyBossType2 : Unit
 
             StartCoroutine(patten1Spawn());
         }
-        
+
     }
 
     IEnumerator patten1Spawn()
@@ -191,7 +191,7 @@ public class EnemyBossType2 : Unit
         }
     }
 
-   
+
     private Vector3 GetRandomPosition()
     {
         Vector3 basicPos = GameManager.instance.enemyManager.GetStage.Map.transform.position;
@@ -230,16 +230,18 @@ public class EnemyBossType2 : Unit
 
     private void bigBulletAttack()
     {
+
         if (bigBulletCheck)
         {
-            attsp = 0.2f;
+            noMeleeCheck = true;
+            attsp = 0.3f;
             anim.SetTrigger("Attack");
             anim.SetFloat("AttackState", 1);
             anim.SetFloat("SkillState", 1);
             anim.SetFloat("AttackSpeed", attsp);
             bigBulletCheck = false;
         }
-       
+
     }
 
     IEnumerator bigBulletSpawn()
@@ -253,50 +255,58 @@ public class EnemyBossType2 : Unit
 
         bigBulletObj.transform.rotation = Quaternion.LookRotation(player);
         yield return new WaitForSeconds(10);
-        PoolingManager.Instance.RemovePoolingObject(bigBulletObj);
+        if (bigBulletObj != null)
+        {
+            PoolingManager.Instance.RemovePoolingObject(bigBulletObj);
+        }
     }
     private void enemyMeleeAttack()
     {
 
 
-        if (patten2Check)
-        {
-            anim.SetTrigger("Attack");
-            anim.SetFloat("AttackState", 0);
-            anim.SetFloat("NormalState", 0.5f);
-            anim.SetFloat("AttackSpeed", attsp);
-
-
-            Vector3 spawnPos = new Vector3(transform.position.x, 0, transform.position.z + 1);
-            patten2ObjCheck = PoolingManager.Instance.CreateObject("RotatingSphere", transform.parent);
-            patten2ObjCheck.transform.position = spawnPos;
-            patten2ObjCheck.GetComponentInChildren<Type2Patten2RedStart>().setType2(this);
-            patten2Check = false;
-        }
-        else
-        {
-            if (patten2SpawnCheck == false)
-            {
-                float dis = Vector3.Distance(transform.position, target.position);
-                if (dis < 3)
-                {
-                    patten2Check = true;
-                }
-            }
-        }
-
         if (patten2ObjCheck != null)
         {
-            patten2SpawnCheck = true;
             patten2Timer += Time.deltaTime;
             if (patten2Timer >= patten2DurationTime)
             {
-                Destroy(patten2ObjCheck);
-                patten2SpawnCheck = false;
+                PoolingManager.Instance.RemovePoolingObject(patten2ObjCheck);
                 patten2Timer = 0;
+                patten2MotionCheck = false;
             }
         }
+        else
+        {
+            float dis = Vector3.Distance(transform.position, target.position);
+            if (dis < 3)
+            {
+                patten2Check = true;
+            }
 
+            if (patten2Check)
+            {
+                if (patten2MotionCheck == false)
+                {
+                    attsp = 0.5f;
+
+                    anim.SetTrigger("Attack");
+                    anim.SetFloat("AttackState", 0);
+                    anim.SetFloat("NormalState", 0.5f);
+                    anim.SetFloat("AttackSpeed", attsp);
+                    patten2MotionCheck = true;
+                    patten2Check = false;
+                }
+            }
+
+
+            if (patten2ObjSpawnCheck)
+            {
+                Vector3 spawnPos = new Vector3(transform.position.x, 0.1f, transform.position.z + 1);
+                patten2ObjCheck = PoolingManager.Instance.CreateObject("RotatingSphere", transform.parent);
+                patten2ObjCheck.transform.position = spawnPos;
+                patten2ObjCheck.GetComponentInChildren<Type2Patten2RedStart>().setType2(this);
+                patten2ObjSpawnCheck = false;
+            }
+        }
     }
 
     private void enemyHalfHealthPatten()
@@ -312,12 +322,6 @@ public class EnemyBossType2 : Unit
             patten3Check = true;
         }
 
-        //큰총알 패턴 이건 나중에다른곳에서 써줄듯 일단보류
-        //patten3ObjCheck = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.BigBullet, transform.parent);
-        //patten3ObjCheck.transform.position = transform.position;
-        //patten3ObjCheck.transform.rotation = Quaternion.LookRotation(target.position - patten3ObjCheck.transform.position);
-        //patten3Check = false;
-
     }
 
     //애니메이션용
@@ -325,17 +329,21 @@ public class EnemyBossType2 : Unit
     private void enemyAttackMotionStart()
     {
         noMove = true;
-        Debug.Log("motionStart");
     }
     private void enemyAttackMotionEnd()
     {
         noMove = false;
+        noMeleeCheck = false;
     }
 
     private void bigBulletMotion()
     {
         patten4Check = true;
-        Debug.Log("1");
     }
 
+    private void meleeAttack()
+    {
+        patten2ObjSpawnCheck = true;
+
+    }
 }

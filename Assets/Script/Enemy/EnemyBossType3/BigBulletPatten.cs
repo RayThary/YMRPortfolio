@@ -23,6 +23,15 @@ public class BigBulletPatten : MonoBehaviour
     public Unit Boss { set => boss = value; }
 
     public float rate;
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Wall"))
+        {
+            PoolingManager.Instance.RemovePoolingObject(gameObject);
+        }
+    }
+
     void Start()
     {
         SpriteRenderer spr = GetComponentInChildren<SpriteRenderer>();

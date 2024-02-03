@@ -736,7 +736,6 @@ MonoBehaviour:
   attsp: 0.5
   trsArea: {fileID: 0}
   MeteorSapwnCount: 3
-  objPatten2: {fileID: 7747638319077484056, guid: 9cc527392caf10b488479d13a1ba49cd, type: 3}
   patten2DurationTime: 10
   objPatten3: {fileID: 362274270047863809, guid: 4e6f0c00ff4fab3458b02cdbc7535b7d, type: 3}
   basicAttackTime: 2
