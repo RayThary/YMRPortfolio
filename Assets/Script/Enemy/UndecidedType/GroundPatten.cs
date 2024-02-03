@@ -89,7 +89,15 @@ public class GroundPatten : MonoBehaviour
         {
             if (pattenName == PattenName.HrizontalAndVerticalPatten)
             {
-                StartCoroutine(hrizontalAndverticalPatten());
+                if (Hrizontal)
+                {
+                    horizontalPatten();
+                }
+                if (Vitical)
+                {
+                    verticalPatten();
+                }
+                    
                 pattenStart = false;
             }
 
@@ -115,12 +123,7 @@ public class GroundPatten : MonoBehaviour
     }
 
 
-    IEnumerator hrizontalAndverticalPatten()
-    {
-        verticalPatten();
-        yield return new WaitForSeconds(5);
-        horizontalPatten();
-    }
+   
     private void verticalPatten()
     {
         mapUnderTrs.Clear();

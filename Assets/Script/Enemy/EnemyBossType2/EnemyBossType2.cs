@@ -163,6 +163,8 @@ public class EnemyBossType2 : Unit
 
     private void enemyMeleeAttack()
     {
+      
+
         if (patten2Check)
         {
             anim.SetTrigger("Attack");
@@ -174,7 +176,7 @@ public class EnemyBossType2 : Unit
             Vector3 spawnPos = new Vector3(transform.position.x, 0, transform.position.z + 1);
             patten2ObjCheck = PoolingManager.Instance.CreateObject("RotatingSphere", transform.parent);
             patten2ObjCheck.transform.position = spawnPos;
-
+            patten2ObjCheck.GetComponentInChildren<Type2Patten2RedStart>().setType2(this);
             patten2Check = false;
         }
         else
@@ -209,8 +211,8 @@ public class EnemyBossType2 : Unit
         {
             //if (stat.HP <= stat.MAXHP / 2)
             //{
-                patten3ObjCheck = PoolingManager.Instance.CreateObject("WindMillPatten", transform.parent.parent);
-                patten3Check = false;
+            patten3ObjCheck = PoolingManager.Instance.CreateObject("WindMillPatten", transform.parent.parent);
+            patten3Check = false;
             //}
 
             //큰총알 패턴 이건 나중에다른곳에서 써줄듯 일단보류

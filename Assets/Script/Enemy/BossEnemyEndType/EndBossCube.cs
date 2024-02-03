@@ -14,6 +14,8 @@ public class EndBossCube : Unit
 
     [SerializeField] private float UpGroundRange = 2;//¹ÝÁö¸§
 
+    [SerializeField] private float upGroundTime = 1;
+
     [SerializeField]private SpriteRenderer spr;
     private bool upGroundPattening = false;
 
@@ -89,6 +91,8 @@ public class EndBossCube : Unit
                     randomSpawnVec.x += rangeX;
                     randomSpawnVec.z += rnageZ;
                     attackObj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundObj, GameManager.instance.GetEnemyAttackObjectPatten);
+                    DangerZone danger =  attackObj.GetComponentInChildren<DangerZone>();
+                    danger.SetTime(upGroundTime);
                     attackObj.transform.position = randomSpawnVec;
                 }
                 
