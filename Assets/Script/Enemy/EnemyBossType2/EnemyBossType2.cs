@@ -6,11 +6,10 @@ using UnityEngine.AI;
 public class EnemyBossType2 : Unit
 {
     private Transform target;
-    [SerializeField]
     private Animator anim;
     [SerializeField] private float attsp = 0.5f;
 
-    //패턴1
+    //메테오공격(패턴1)
     private GameObject patten1ObjCheck = null;
 
     [SerializeField] private Transform trsArea;//스테이지위치를저장해줄필요가있음
@@ -21,7 +20,7 @@ public class EnemyBossType2 : Unit
 
     private float timer = 0.0f;
     private bool allSpawnCheck = false;
-    //패턴2 
+    //패턴2(근접주위빙글빙글도는 오브젝트) 
     public GameObject objPatten2;//임시 플레이어근접시 구체4개소환
     private GameObject patten2ObjCheck = null;
 
@@ -29,23 +28,36 @@ public class EnemyBossType2 : Unit
     private float patten2Timer = 0.0f;//패턴2 타이머
     private bool patten2SpawnCheck = false;
 
-    //패턴3
+    //패턴3(반피부터 풍차모양으로 도는 레이저)
     public GameObject objPatten3;//임시 반피되면쓰는패턴 
 
     private GameObject patten3ObjCheck = null;
 
+    //패턴4 (큰총알소환 4방향으로 총알날라감)
+    private bool basicAttackCheck = true;
+    private int attackType;
+    private bool bigBulletCheck = false;
+
+    [SerializeField] private float basicAttackTime = 6;
+    private float basicAttackTimer = 0.0f;
 
     //이동용
     private NavMeshAgent nav;
-    //테스트용
-    public bool patten1Check = false;//메테오 패턴1써보는곳
-    public bool patten2Check = false;//근접패턴 적이오면 주위구체3개소환하는곳
-    public bool patten3Check = true;//반피패턴 x자로 레이저가빙빙돌게된다
+    private bool noMove = false;
 
+
+    private Transform playerTrs;
+
+    //테스트용
+    private bool patten1Check = false;//메테오 패턴1써보는곳
+    private bool patten2Check = false;//근접패턴 적이오면 주위구체3개소환하는곳
+    private bool patten3Check = true;//반피패턴 x자로 레이저가빙빙돌게된다
+    private bool patten4Check = false;//큰총알패턴
     protected new void Start()
     {
         base.Start();
         nav = transform.parent.GetComponent<NavMeshAgent>();
+        playerTrs = GameManager.instance.GetPlayerTransform;
         target = GameManager.instance.GetPlayerTransform;
         anim = GetComponent<Animator>();
         meteorBoxSize = GameManager.instance.enemyManager.GetStage.BoxCollider.size;
@@ -55,16 +67,24 @@ public class EnemyBossType2 : Unit
     void Update()
     {
         enemyMove();
-        enemyAttack();
+        enemyAttack();//기본공격
+        bigBullet();
         enemyMeleeAttack();
         enemyHalfHealthPatten();
     }
 
     private void enemyMove()
     {
+
+        if (noMove)
+        {
+            nav.enabled = false;
+            return;
+        }
         float playerDistance = Vector3.Distance(transform.position, target.position);
         if (playerDistance >= 4)
         {
+            anim.SetFloat("RunState", 0.5f);
             nav.enabled = true;
             nav.SetDestination(target.position);
         }
@@ -79,8 +99,46 @@ public class EnemyBossType2 : Unit
     }
 
 
-
     private void enemyAttack()
+    {
+
+        if (basicAttackCheck)
+        {
+            if (bigBulletCheck == false)
+            {
+                attackType = Random.Range(0, 2);
+            }
+            else
+            {
+                attackType = 0;
+            }
+            if (attackType == 0)
+            {
+                patten1Check = true;
+                meteorAttack();
+                basicAttackCheck = false;
+                basicAttackTime = 5;
+            }
+            else if (attackType == 1)
+            {
+                bigBulletAttack();
+                basicAttackCheck = false;
+                basicAttackTime = 3;
+            }
+        }
+        else
+        {
+            basicAttackTimer += Time.deltaTime;
+            if (basicAttackTimer >= basicAttackTime)
+            {
+                basicAttackTimer = 0;
+                basicAttackCheck = true;
+            }
+        }
+
+    }
+
+    private void meteorAttack()
     {
         if (patten2Check)
         {
@@ -89,6 +147,7 @@ public class EnemyBossType2 : Unit
 
         if (patten1Check)
         {
+            attsp = 0.5f;
             anim.SetTrigger("Attack");
             anim.SetFloat("AttackState", 0);
             anim.SetFloat("NormalState", 1);
@@ -96,21 +155,19 @@ public class EnemyBossType2 : Unit
 
 
             allSpawnCheck = false;
-            StartCoroutine(patten1());
             patten1Check = false;
-        }
-        else
-        {
-            if (allSpawnCheck)
-            {
-                timer += Time.deltaTime / 3;
-                if (timer > 1.0f)
-                {
-                    timer = 0.0f;
-                    patten1Check = true;
-                }
-            }
 
+            StartCoroutine(patten1Spawn());
+        }
+        
+    }
+
+    IEnumerator patten1Spawn()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            StartCoroutine(patten1());
+            yield return new WaitForSeconds(1);
         }
     }
 
@@ -133,6 +190,8 @@ public class EnemyBossType2 : Unit
             }
         }
     }
+
+   
     private Vector3 GetRandomPosition()
     {
         Vector3 basicPos = GameManager.instance.enemyManager.GetStage.Map.transform.position;
@@ -160,10 +219,45 @@ public class EnemyBossType2 : Unit
         return spawnVec;
     }
 
+    private void bigBullet()
+    {
+        if (patten4Check)
+        {
+            StartCoroutine(bigBulletSpawn());
+            patten4Check = false;
+        }
+    }
 
+    private void bigBulletAttack()
+    {
+        if (bigBulletCheck)
+        {
+            attsp = 0.2f;
+            anim.SetTrigger("Attack");
+            anim.SetFloat("AttackState", 1);
+            anim.SetFloat("SkillState", 1);
+            anim.SetFloat("AttackSpeed", attsp);
+            bigBulletCheck = false;
+        }
+       
+    }
+
+    IEnumerator bigBulletSpawn()
+    {
+        GameObject bigBulletObj;
+        bigBulletObj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.BigBullet, GameManager.instance.GetEnemyAttackObjectPatten);
+        bigBulletObj.GetComponent<BigBulletPatten>().Boss = this;
+
+        bigBulletObj.transform.position = transform.position;
+        Vector3 player = playerTrs.transform.position - transform.position;
+
+        bigBulletObj.transform.rotation = Quaternion.LookRotation(player);
+        yield return new WaitForSeconds(10);
+        PoolingManager.Instance.RemovePoolingObject(bigBulletObj);
+    }
     private void enemyMeleeAttack()
     {
-      
+
 
         if (patten2Check)
         {
@@ -207,20 +301,41 @@ public class EnemyBossType2 : Unit
 
     private void enemyHalfHealthPatten()
     {
+
         if (patten3Check)
         {
-            //if (stat.HP <= stat.MAXHP / 2)
-            //{
-            patten3ObjCheck = PoolingManager.Instance.CreateObject("WindMillPatten", transform.parent.parent);
-            patten3Check = false;
-            //}
-
-            //큰총알 패턴 이건 나중에다른곳에서 써줄듯 일단보류
-            //patten3ObjCheck = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.BigBullet, transform.parent);
-            //patten3ObjCheck.transform.position = transform.position;
-            //patten3ObjCheck.transform.rotation = Quaternion.LookRotation(target.position - patten3ObjCheck.transform.position);
-            //patten3Check = false;
+            return;
         }
+        if (stat.HP <= stat.MAXHP / 2)
+        {
+            patten3ObjCheck = PoolingManager.Instance.CreateObject("WindMillPatten", transform.parent.parent);
+            patten3Check = true;
+        }
+
+        //큰총알 패턴 이건 나중에다른곳에서 써줄듯 일단보류
+        //patten3ObjCheck = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.BigBullet, transform.parent);
+        //patten3ObjCheck.transform.position = transform.position;
+        //patten3ObjCheck.transform.rotation = Quaternion.LookRotation(target.position - patten3ObjCheck.transform.position);
+        //patten3Check = false;
+
+    }
+
+    //애니메이션용
+
+    private void enemyAttackMotionStart()
+    {
+        noMove = true;
+        Debug.Log("motionStart");
+    }
+    private void enemyAttackMotionEnd()
+    {
+        noMove = false;
+    }
+
+    private void bigBulletMotion()
+    {
+        patten4Check = true;
+        Debug.Log("1");
     }
 
 }

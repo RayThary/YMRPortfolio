@@ -19,12 +19,12 @@ public class PoolingManager : MonoBehaviour
         HaxagonLaser,
         BossEndAttackRange,
         EnemyBulletType2,
-        UpGround,
         UpGroundObj,
         CheckedLaserPatten,
         LaserPatten,
         RedButterfly,
         RedButterflyBomb,
+        Type2RedBullet,
     }
 
     [System.Serializable]

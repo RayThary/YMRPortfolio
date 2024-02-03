@@ -217,7 +217,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -237,6 +237,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50f196715940b464da6fa46a83405e1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type2: {fileID: 0}
 --- !u!1 &7747638319077484056
 GameObject:
   m_ObjectHideFlags: 0
@@ -269,7 +270,7 @@ Transform:
   - {fileID: 613374224913528960}
   - {fileID: 4677440846648294945}
   m_Father: {fileID: 0}
-  m_RootOrder: 28
+  m_RootOrder: 29
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4261469226671879926
 MonoBehaviour:
@@ -333,7 +334,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -353,3 +354,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50f196715940b464da6fa46a83405e1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type2: {fileID: 0}

@@ -24,6 +24,10 @@ public class Launcher
     protected Coroutine firerateCoroutine;
     //총을 발사할 때마다 호출하는 콜백함수 (그냥 총알을 발사하는 액션임)
     protected Action fireCallback = null;
+    protected PoolingManager.ePoolingObject bulletObject;
+    public PoolingManager.ePoolingObject BulletPool { get { return bulletObject; } set { bulletObject = value; } }
+    protected float bulletSpeed = 8;
+    public float BulletSpeed { get { return bulletSpeed; } set { bulletSpeed = value; } }
 
     public Launcher(Unit unit, Transform launcher, Transform muzzle, float mistake, float firerate, Transform objectParent)
     {
@@ -33,6 +37,7 @@ public class Launcher
         this.mistake = mistake;
         this.firerate = firerate;
         this.objectParent = objectParent;
+        bulletObject = PoolingManager.ePoolingObject.TestBullet;
         FireCallbackAdd(BulletControl);
     }
 
@@ -108,7 +113,9 @@ public class Launcher
 
     public virtual Bullet GetBullet()
     {
-        return PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.TestBullet, objectParent).transform.GetComponent<Bullet>();
+        Bullet bullet = PoolingManager.Instance.CreateObject(BulletPool, objectParent).transform.GetComponent<Bullet>();
+        bullet.speed = bulletSpeed;
+        return bullet;
     }
 
     public void FireCallbackAdd(Action action)

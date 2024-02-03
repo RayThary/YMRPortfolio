@@ -33,7 +33,7 @@ Transform:
   m_Children:
   - {fileID: 8875431286724313770}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 27
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5647797709011778417
 MonoBehaviour:
@@ -47,9 +47,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73bc5f2a19b9d9b4a8bab684bdd61494, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1
+  moveSpeed: 2
   rotateSpeed: 120
-  bulletSpawnCount: 10
   bulletParent: {fileID: 0}
   muzzles:
   - {fileID: 4817976662766529105}

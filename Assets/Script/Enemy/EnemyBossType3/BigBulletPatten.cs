@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyBossType3Patten1 : MonoBehaviour
+public class BigBulletPatten : MonoBehaviour
 {
     /// <summary> 큰총알을발사하는패턴 돌면서 4방향으로 총알을발사하는패턴
     ///
@@ -11,7 +11,7 @@ public class EnemyBossType3Patten1 : MonoBehaviour
 
     [SerializeField] private float moveSpeed;
     [SerializeField] private float rotateSpeed;
-    [SerializeField] private int bulletSpawnCount = 10;
+
     private int bulletCount = 0;
     private Launcher[] launcher;
     private Coroutine operationCoroutine = null;
@@ -20,6 +20,8 @@ public class EnemyBossType3Patten1 : MonoBehaviour
     [SerializeField] private Transform[] muzzles;
     private Transform sprTrs;
     [SerializeField] private Unit boss;
+    public Unit Boss { set => boss = value; }
+
     public float rate;
     void Start()
     {
@@ -31,6 +33,8 @@ public class EnemyBossType3Patten1 : MonoBehaviour
         for (int i = 0; i < muzzles.Length; i++)
         {
             launcher[i] = new Launcher(boss, sprTrs, muzzles[i], 0, rate, bulletParent);
+            launcher[i].BulletPool = PoolingManager.ePoolingObject.Type2RedBullet;
+
         }
 
         Operation();
@@ -66,8 +70,9 @@ public class EnemyBossType3Patten1 : MonoBehaviour
             {
                 launcher[i].angle = muzzles[i].eulerAngles.y;
                 launcher[i].Fire();
+                
             }
-            yield return null;
+            yield return new WaitForSeconds(0.5f);
         }
     }
 }

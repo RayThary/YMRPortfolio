@@ -72,7 +72,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5994284415806073089}
   m_Layer: 0
-  m_Name: Type2Patten3
+  m_Name: WindMillPatten
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -93,7 +93,7 @@ Transform:
   - {fileID: 5450898656287504595}
   - {fileID: 5245088294425775754}
   m_Father: {fileID: 0}
-  m_RootOrder: 24
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5691185677431272057
 GameObject:
