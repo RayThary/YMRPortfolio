@@ -14,8 +14,7 @@ public class EnemyBossType2 : Unit
     //메테오공격(패턴1)
     private GameObject patten1ObjCheck = null;
 
-    [SerializeField] private Transform trsArea;//스테이지위치를저장해줄필요가있음
-    [SerializeField] private int MeteorSapwnCount = 3;//메테오 소환개수
+    private Transform trsArea;//스테이지위치를저장해줄필요가있음
 
     private Vector3 meteorBoxSize;
     private Vector3 spawnPos;
@@ -23,7 +22,7 @@ public class EnemyBossType2 : Unit
     private float timer = 0.0f;
     private bool allSpawnCheck = false;
     //패턴2(근접주위빙글빙글도는 오브젝트) 
-    private GameObject patten2ObjCheck = null;
+    [SerializeField] private GameObject patten2ObjCheck = null;
 
     [SerializeField] private float patten2DurationTime = 4;//패턴2지속시간
     private float patten2Timer = 0.0f;//패턴2 타이머
@@ -45,7 +44,7 @@ public class EnemyBossType2 : Unit
     [SerializeField] private float basicAttackTime = 6;
     private float basicAttackTimer = 0.0f;
 
-    private bool noMeleeCheck = false;
+    [SerializeField] private bool noMeleeCheck = false;
 
     //이동용
     private NavMeshAgent nav;
@@ -57,7 +56,7 @@ public class EnemyBossType2 : Unit
     //테스트용
     private bool patten1Check = false;//메테오 패턴1써보는곳
     private bool patten2Check = false;//근접패턴 적이오면 주위구체3개소환하는곳
-    private bool patten3Check = true;//반피패턴 x자로 레이저가빙빙돌게된다
+    private bool patten3Check = false;//반피패턴 x자로 레이저가빙빙돌게된다
     private bool patten4Check = false;//큰총알패턴
     protected new void Start()
     {
@@ -110,8 +109,16 @@ public class EnemyBossType2 : Unit
     private void enemyAttack()
     {
 
+        float dis = Vector3.Distance(transform.position, target.position);
         if (basicAttackCheck)
         {
+            if (dis < 3 && patten2ObjCheck == null)
+            {
+                patten2Check = true;
+                basicAttackCheck = false;
+                basicAttackTime = 2;
+            }
+
 
             attackType = Random.Range(0, 2);
             if (attackType == 0)
@@ -120,6 +127,10 @@ public class EnemyBossType2 : Unit
                 meteorAttack();
                 basicAttackCheck = false;
                 basicAttackTime = 6;
+                if (patten3Check)
+                {
+                    basicAttackTime = 4;
+                }
             }
             else if (attackType == 1)
             {
@@ -127,11 +138,24 @@ public class EnemyBossType2 : Unit
                 bigBulletAttack();
                 basicAttackCheck = false;
                 basicAttackTime = 5;
+                if (patten3Check)
+                {
+                    basicAttackTime = 3;
+                }
             }
+
+
         }
         else
         {
-            basicAttackTimer += Time.deltaTime;
+            if (dis < 3 )
+            {
+                basicAttackTimer += Time.deltaTime * 4;
+            }
+            else
+            {
+                basicAttackTimer += Time.deltaTime;
+            }
             if (basicAttackTimer >= basicAttackTime)
             {
                 basicAttackTimer = 0;
@@ -176,8 +200,9 @@ public class EnemyBossType2 : Unit
         for (int i = 0; i < 9; i++)
         {
             spawnPos = GetRandomPosition();
-            patten1ObjCheck = PoolingManager.Instance.CreateObject("Meteor", transform.parent.parent);
+            patten1ObjCheck = PoolingManager.Instance.CreateObject("Meteor", GameManager.instance.GetEnemyAttackObjectPatten);
             patten1ObjCheck.transform.position = spawnPos;
+            patten1ObjCheck.GetComponent<Meteor>().Boss = this;
 
             if (i % 2 == 0)
             {
@@ -270,17 +295,13 @@ public class EnemyBossType2 : Unit
             if (patten2Timer >= patten2DurationTime)
             {
                 PoolingManager.Instance.RemovePoolingObject(patten2ObjCheck);
+                patten2ObjCheck = null;
                 patten2Timer = 0;
                 patten2MotionCheck = false;
             }
         }
         else
         {
-            float dis = Vector3.Distance(transform.position, target.position);
-            if (dis < 3)
-            {
-                patten2Check = true;
-            }
 
             if (patten2Check)
             {

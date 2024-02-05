@@ -21,10 +21,11 @@ public class EndBossCube : Unit
 
     //외부참조
     private Transform playerTrs;
-    
 
-    void Start()
+
+    new void Start()
     {
+        base.Start();
         spr = GetComponentInChildren<SpriteRenderer>();
         playerTrs = GameManager.instance.GetPlayerTransform;
     }

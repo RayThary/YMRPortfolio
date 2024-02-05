@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -21514,6 +21514,10 @@ PrefabInstance:
       propertyPath: basicAttackTime
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 1670343586394167873, guid: fd4fe3a66a53b4444b47e3dcec795164, type: 3}
+      propertyPath: patten2DurationTime
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 3348157787418399879, guid: fd4fe3a66a53b4444b47e3dcec795164, type: 3}
       propertyPath: m_RootOrder
       value: 26
@@ -21576,7 +21580,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6476762748271128446, guid: fd4fe3a66a53b4444b47e3dcec795164, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -37772,7 +37776,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &707367995
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110998,6 +111002,67 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1001 &2102529589
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3301765601838135123, guid: a708515fbeda533419072f0bb6a430fd, type: 3}
+      propertyPath: m_Name
+      value: MeteorObj
+      objectReference: {fileID: 0}
+    - target: {fileID: 8159575964190263761, guid: a708515fbeda533419072f0bb6a430fd, type: 3}
+      propertyPath: m_RootOrder
+      value: 29
+      objectReference: {fileID: 0}
+    - target: {fileID: 8159575964190263761, guid: a708515fbeda533419072f0bb6a430fd, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 13.2274885
+      objectReference: {fileID: 0}
+    - target: {fileID: 8159575964190263761, guid: a708515fbeda533419072f0bb6a430fd, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.6000004
+      objectReference: {fileID: 0}
+    - target: {fileID: 8159575964190263761, guid: a708515fbeda533419072f0bb6a430fd, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 9.907756
+      objectReference: {fileID: 0}
+    - target: {fileID: 8159575964190263761, guid: a708515fbeda533419072f0bb6a430fd, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8159575964190263761, guid: a708515fbeda533419072f0bb6a430fd, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8159575964190263761, guid: a708515fbeda533419072f0bb6a430fd, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8159575964190263761, guid: a708515fbeda533419072f0bb6a430fd, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8159575964190263761, guid: a708515fbeda533419072f0bb6a430fd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8159575964190263761, guid: a708515fbeda533419072f0bb6a430fd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8159575964190263761, guid: a708515fbeda533419072f0bb6a430fd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a708515fbeda533419072f0bb6a430fd, type: 3}
 --- !u!1 &2102912862
 GameObject:
   m_ObjectHideFlags: 0
