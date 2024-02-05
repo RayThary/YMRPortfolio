@@ -74,7 +74,7 @@ public class Armor_Of_Thorns : Card
 
     public void Thorns(Unit unit, float f)
     {
-        user.STAT.Be_Attacked_TRUE(figure, GameManager.instance.GetPlayer);
+        unit.STAT.Be_Attacked_TRUE(figure, user);
     }
 }
 
