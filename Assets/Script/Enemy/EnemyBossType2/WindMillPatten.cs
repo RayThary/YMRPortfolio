@@ -22,6 +22,9 @@ public class WindMillPatten : MonoBehaviour
     //이오브젝트가 세로 시작이면 true 가로 시작이면 false
     [SerializeField] private bool Lenght;
 
+    [SerializeField] private Unit boss;
+    public Unit Boss { set => boss = value; }
+
     void Start()
     {
         box = GameManager.instance.enemyManager.GetStage.BoxCollider;
@@ -45,6 +48,12 @@ public class WindMillPatten : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        laserMove();
+        laserHit();
+    }
+
+    private void laserMove()
+    {
         startPoint.RotateAround(midPoint, Vector3.up, speed * Time.deltaTime);
         endPoint.RotateAround(midPoint, Vector3.up, speed * Time.deltaTime);
 
@@ -63,5 +72,14 @@ public class WindMillPatten : MonoBehaviour
 
         lineRen.SetPosition(0, startVec);
         lineRen.SetPosition(2, endVec);
+    }
+
+    private void laserHit()
+    {
+        if (Physics.Linecast(startVec, endVec, LayerMask.GetMask("Player")))
+        {
+            Player player = GameManager.instance.GetPlayer;
+            player.Hit(boss, 1);
+        }
     }
 }

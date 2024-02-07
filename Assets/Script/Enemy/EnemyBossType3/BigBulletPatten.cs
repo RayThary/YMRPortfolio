@@ -15,7 +15,6 @@ public class BigBulletPatten : MonoBehaviour
     private int bulletCount = 0;
     private Launcher[] launcher;
     private Coroutine operationCoroutine = null;
-    [SerializeField] private Transform bulletParent;
 
     [SerializeField] private Transform[] muzzles;
     private Transform sprTrs;
@@ -38,10 +37,9 @@ public class BigBulletPatten : MonoBehaviour
         sprTrs = spr.GetComponent<Transform>();
 
         launcher = new Launcher[muzzles.Length];
-        bulletParent = FindObjectOfType<GameManager>().transform;
         for (int i = 0; i < muzzles.Length; i++)
         {
-            launcher[i] = new Launcher(boss, sprTrs, muzzles[i], 0, rate, bulletParent);
+            launcher[i] = new Launcher(boss, sprTrs, muzzles[i], 0, rate, GameManager.instance.GetEnemyAttackObjectPatten);
             launcher[i].BulletPool = PoolingManager.ePoolingObject.Type2RedBullet;
 
         }

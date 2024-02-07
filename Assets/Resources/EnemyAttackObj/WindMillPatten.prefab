@@ -71,13 +71,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5994284415806073089}
+  - component: {fileID: 1998541403118579934}
   m_Layer: 0
   m_Name: WindMillPatten
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5994284415806073089
 Transform:
   m_ObjectHideFlags: 0
@@ -93,8 +94,21 @@ Transform:
   - {fileID: 5450898656287504595}
   - {fileID: 5245088294425775754}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 28
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1998541403118579934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3565470019859723336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13bb1f1448aa7514fbf8e82bc51ca677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boss: {fileID: 0}
 --- !u!1 &5691185677431272057
 GameObject:
   m_ObjectHideFlags: 0
@@ -209,6 +223,7 @@ MonoBehaviour:
   endPoint: {fileID: 5535331963073644747}
   speed: 30
   Lenght: 0
+  boss: {fileID: 0}
 --- !u!120 &6940199765863013401
 LineRenderer:
   serializedVersion: 2
@@ -366,6 +381,7 @@ MonoBehaviour:
   endPoint: {fileID: 1427379748923344905}
   speed: 30
   Lenght: 1
+  boss: {fileID: 0}
 --- !u!120 &8385053389795946176
 LineRenderer:
   serializedVersion: 2

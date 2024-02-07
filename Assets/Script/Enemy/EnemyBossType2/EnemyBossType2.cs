@@ -9,7 +9,7 @@ public class EnemyBossType2 : Unit
 
     private Transform target;
     private Animator anim;
-    [SerializeField] private float attsp = 0.5f;
+    private float attsp = 0.5f;//공격속도
 
     //메테오공격(패턴1)
     private GameObject patten1ObjCheck = null;
@@ -150,7 +150,7 @@ public class EnemyBossType2 : Unit
         {
             if (dis < 3 )
             {
-                basicAttackTimer += Time.deltaTime * 4;
+                basicAttackTime = 2;
             }
             else
             {
@@ -339,8 +339,9 @@ public class EnemyBossType2 : Unit
         }
         if (stat.HP <= stat.MAXHP / 2)
         {
-            patten3ObjCheck = PoolingManager.Instance.CreateObject("WindMillPatten", transform.parent.parent);
+            patten3ObjCheck = PoolingManager.Instance.CreateObject("WindMillPatten", GameManager.instance.GetEnemyAttackObjectPatten);
             patten3Check = true;
+            patten3ObjCheck.GetComponent<WindMillPattenUnit>().Boss=this;
         }
 
     }
