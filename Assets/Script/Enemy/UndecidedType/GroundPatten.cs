@@ -58,10 +58,7 @@ public class GroundPatten : MonoBehaviour
     {
         nowMapCheck();
         groundPatten();
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            pattenStart = true;
-        }
+       
     }
 
     private void nowMapCheck()
@@ -145,7 +142,7 @@ public class GroundPatten : MonoBehaviour
         for (int i = 0; i < mapUnderTrs.Count; i++)
         {
             GameObject obj;
-            obj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundObj, GameManager.instance.GetEnemyAttackObjectPatten);
+            obj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundPushObj, GameManager.instance.GetEnemyAttackObjectPatten);
             obj.transform.position = mapUnderTrs[i].transform.position;
             DangerZone danger = obj.GetComponentInChildren<DangerZone>();
             danger.SetTime(ViticalSetUpGroundTime);
@@ -175,7 +172,7 @@ public class GroundPatten : MonoBehaviour
         {
             GameObject obj;
             
-            obj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundObj, GameManager.instance.GetEnemyAttackObjectPatten);
+            obj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundPushObj, GameManager.instance.GetEnemyAttackObjectPatten);
             obj.transform.position = mapUnderTrs[i].transform.position;
             DangerZone danger = obj.GetComponentInChildren<DangerZone>();
             danger.SetTime(HrizontalSetUpGroundTime);
@@ -195,7 +192,7 @@ public class GroundPatten : MonoBehaviour
             objTrs = mapUnder.FindAll((x) => x.name.Contains($"{{{i},") == true);
             for (int j = 0; j < objTrs.Count; j++)
             {
-                obj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundObj, GameManager.instance.GetEnemyAttackObjectPatten);
+                obj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundPushObj, GameManager.instance.GetEnemyAttackObjectPatten);
                 obj.transform.position = objTrs[j].transform.position;
                 DangerZone danger = obj.GetComponentInChildren<DangerZone>();
                 danger.SetTime(RightSetUpGroundTime);
@@ -212,7 +209,7 @@ public class GroundPatten : MonoBehaviour
             objTrs = mapUnder.FindAll((x) => x.name.Contains($"{{{i},") == true);
             for (int j = 0; j < objTrs.Count; j++)
             {
-                obj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundObj, GameManager.instance.GetEnemyAttackObjectPatten);
+                obj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundPushObj, GameManager.instance.GetEnemyAttackObjectPatten);
                 obj.transform.position = objTrs[j].transform.position;
                 DangerZone danger = obj.GetComponentInChildren<DangerZone>();
                 danger.SetTime(RightSetUpGroundTime);//오른쪽에서 시작했다 왼쪽으로갈때 같은시간을쓰는중 나중에 분리해줄필요있을지도?
@@ -234,7 +231,7 @@ public class GroundPatten : MonoBehaviour
             objTrs = mapUnder.FindAll((x) => x.name.Contains($",{i}}}") == true);
             for (int j = 0; j < objTrs.Count; j++)
             {
-                obj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundObj, GameManager.instance.GetEnemyAttackObjectPatten);
+                obj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundPushObj, GameManager.instance.GetEnemyAttackObjectPatten);
                 obj.transform.position = objTrs[j].transform.position;
                 DangerZone danger = obj.GetComponentInChildren<DangerZone>();
                 danger.SetTime(UpSetUpGroundTime);
@@ -251,7 +248,7 @@ public class GroundPatten : MonoBehaviour
             objTrs = mapUnder.FindAll((x) => x.name.Contains($",{i}}}") == true);
             for (int j = 0; j < objTrs.Count; j++)
             {
-                obj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundObj, GameManager.instance.GetEnemyAttackObjectPatten);
+                obj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundPushObj, GameManager.instance.GetEnemyAttackObjectPatten);
                 obj.transform.position = objTrs[j].transform.position;
                 DangerZone danger = obj.GetComponentInChildren<DangerZone>();
                 danger.SetTime(UpSetUpGroundTime);
@@ -365,7 +362,7 @@ public class GroundPatten : MonoBehaviour
 
         for (int i = 0; i < spawnTrs.Count; i++)
         {
-            GameObject obj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundObj, GameManager.instance.GetEnemyAttackObjectPatten);
+            GameObject obj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundPushObj, GameManager.instance.GetEnemyAttackObjectPatten);
             obj.transform.position = spawnTrs[i];
             DangerZone danger = obj.GetComponentInChildren<DangerZone>();
             danger.SetTime(CloseWallSetUpGroundTime);

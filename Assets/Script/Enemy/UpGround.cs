@@ -11,15 +11,21 @@ public class UpGround : MonoBehaviour
     [SerializeField] private float upSpeed = 1;
     private SpriteRenderer spr;
     private float dangerZoneTime = 0;
+    private bool hitCheck = false;
 
     private Transform playerTrs;
     private Player player;
 
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
+        if (hitCheck)
         {
-            player.Hit(null, 2);
+            if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
+            {
+                player.Hit(null, 2);
+            }
+
         }
     }
     void Start()
@@ -64,10 +70,12 @@ public class UpGround : MonoBehaviour
         if (upTimeCheck)
         {
             transform.position += new Vector3(0, upSpeed * Time.deltaTime, 0);
+            hitCheck = true;
         }
 
         if (transform.position.y >= 0.5f)
         {
+            hitCheck = false;
             upTimeCheck = false;
             downTimeCheck = true;
         }
@@ -96,7 +104,7 @@ public class UpGround : MonoBehaviour
         bool right = playerTrs.position.x > transform.position.x;
         bool up = playerTrs.position.z > transform.position.z;
 
-        
+
         bool isCloseX = hitdirection.x > hitdirection.z;
 
         if (isCloseX && right)
@@ -111,7 +119,7 @@ public class UpGround : MonoBehaviour
         {
             return new Vector3(0, 0, 1);
         }
-        else if(isCloseX==false&& up == false)
+        else if (isCloseX == false && up == false)
         {
             return new Vector3(0, 0, -1);
         }
@@ -120,7 +128,7 @@ public class UpGround : MonoBehaviour
             Debug.LogError("뭔가심상치않은데?");
             return new Vector3(0, 0, 0);
         }
-        
+
 
 
 

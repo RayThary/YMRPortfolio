@@ -51,6 +51,9 @@ public class BossEnemyEndType : Unit
     //반피이하 추가패턴
 
     [SerializeField] private float moveSpeed = 3.5f;
+
+    private Player player;
+
     public bool test = false;
     protected new void Start()
     {
@@ -58,7 +61,7 @@ public class BossEnemyEndType : Unit
         nav = GetComponentInParent<NavMeshAgent>();
         anim = GetComponent<Animator>();
         target = GameManager.instance.GetPlayerTransform;
-
+        player = GameManager.instance.GetPlayer;
 
         anim.SetFloat("RunState", 0.5f);
         nav.speed = moveSpeed;
@@ -200,7 +203,7 @@ public class BossEnemyEndType : Unit
             anim.SetFloat("AttackState", 1);
             anim.SetFloat("SkillState", 0.5f);
             anim.SetTrigger("Attack");
-
+            player.Pull(transform.parent.position, 1f, 4);
 
             vicinityCheck = true;
             vicinityPattenCheck = false;

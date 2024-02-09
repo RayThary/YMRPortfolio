@@ -71,7 +71,6 @@ public class LaserPatten : MonoBehaviour
     {
         if (Physics.Linecast(parentTrs.position, transform.position, LayerMask.GetMask("Player")))
         {
-            Debug.Log("hit");
             Player player = GameManager.instance.GetPlayer;
             player.Hit(null, 1);
         }

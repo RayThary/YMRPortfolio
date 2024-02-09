@@ -43,8 +43,8 @@ public class EndBossCube : Unit
         basicAttackTimer += Time.deltaTime;
         if (basicAttackTimer >= basicAttackTime - 0.5f && colorChange == false)
         {
-            pattenNum = Random.Range(0, 3);
-
+            //pattenNum = Random.Range(0, 3);
+            pattenNum = 0;
             if (pattenNum == 0)
             {
                 spr.color = Color.black;

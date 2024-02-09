@@ -733,7 +733,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   godTimer: 0
-  attsp: 0.5
   patten2ObjCheck: {fileID: 0}
   patten2DurationTime: 10
   objPatten3: {fileID: 362274270047863809, guid: 4e6f0c00ff4fab3458b02cdbc7535b7d, type: 3}

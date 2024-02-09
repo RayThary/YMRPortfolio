@@ -75,7 +75,7 @@ public class Player : Unit
         }
 
         weapon.Direction_Calculation_Screen(Input.mousePosition);
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
             weapon.Fire();
         }
@@ -229,20 +229,18 @@ public class Player : Unit
     {
         god = true;
         godTimer = t;
-        gameObject.layer = 11;
         while (godTimer > 0)
         {
             godTimer -= Time.deltaTime;
             yield return null;
         }
         god = false;
-        gameObject.layer = 10;
         invincibility = null;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag.Equals("UpGround"))
+        if (other.tag.Equals("UpGroundPush"))
         {
             if (!god)
             {

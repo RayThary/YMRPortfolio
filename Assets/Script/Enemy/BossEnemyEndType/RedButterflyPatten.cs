@@ -8,30 +8,40 @@ public class RedButterflyPatten : MonoBehaviour
     //터지는시간
     [SerializeField] private float bombTime = 5;
     private float timer = 0;
-    private bool bombCheck = false;
+    [SerializeField]private bool bombCheck = false;
 
     private float bombtimer = 0;
 
     private Transform parentTrs;
     private DangerZone dangerzone;
     private Transform target;
+    private SpriteRenderer spr;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
+        if(other.CompareTag("Player"))
         {
             bombCheck = true;
             timer = 0;
             StartCoroutine(crateButterfly());
             dangerzone.enabled = false;
+            spr.enabled = false;
         }
+        //if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
+        //{
+        //    bombCheck = true;
+        //    timer = 0;
+        //    StartCoroutine(crateButterfly());
+        //    dangerzone.enabled = false;
+        //    spr.enabled = false;
+        //}
     }
 
     void Start()
     {
         parentTrs = transform.parent.GetComponent<Transform>();
         target = GameManager.instance.GetPlayerTransform;
-
+        spr = GetComponent<SpriteRenderer>();
         dangerzone = GetComponent<DangerZone>();
         dangerzone.enabled = false;
     }
@@ -87,6 +97,7 @@ public class RedButterflyPatten : MonoBehaviour
                 bombCheck = true;
                 timer = 0;
                 StartCoroutine(crateButterfly());
+                spr.enabled = false;
                 dangerzone.enabled = false;
             }
         }
@@ -110,8 +121,9 @@ public class RedButterflyPatten : MonoBehaviour
             butterfly.transform.position = nowPos;
 
         }
-
+        bombCheck = false;
         PoolingManager.Instance.RemovePoolingObject(transform.parent.gameObject);
+        spr.enabled = true;
         
     }
 

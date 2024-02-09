@@ -20,6 +20,7 @@ public class PoolingManager : MonoBehaviour
         BossEndAttackRange,
         EnemyBulletType2,
         UpGroundObj,
+        UpGroundPushObj,
         CheckedLaserPatten,
         LaserPatten,
         RedButterfly,

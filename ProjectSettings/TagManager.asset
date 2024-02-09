@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Tile
   - Unit
+  - UpGround
+  - UpGroundPush
   layers:
   - Default
   - TransparentFX

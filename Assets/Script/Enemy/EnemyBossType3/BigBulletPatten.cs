@@ -16,6 +16,9 @@ public class BigBulletPatten : MonoBehaviour
     private Launcher[] launcher;
     private Coroutine operationCoroutine = null;
 
+    private bool spawnCheck = false;
+
+
     [SerializeField] private Transform[] muzzles;
     private Transform sprTrs;
     [SerializeField] private Unit boss;
@@ -33,18 +36,8 @@ public class BigBulletPatten : MonoBehaviour
 
     void Start()
     {
-        SpriteRenderer spr = GetComponentInChildren<SpriteRenderer>();
-        sprTrs = spr.GetComponent<Transform>();
+       
 
-        launcher = new Launcher[muzzles.Length];
-        for (int i = 0; i < muzzles.Length; i++)
-        {
-            launcher[i] = new Launcher(boss, sprTrs, muzzles[i], 0, rate, GameManager.instance.GetEnemyAttackObjectPatten);
-            launcher[i].BulletPool = PoolingManager.ePoolingObject.Type2RedBullet;
-
-        }
-
-        Operation();
     }
 
     // Update is called once per frame
@@ -60,14 +53,26 @@ public class BigBulletPatten : MonoBehaviour
 
     public void Operation()
     {
+        SpriteRenderer spr = GetComponentInChildren<SpriteRenderer>();
+        sprTrs = spr.GetComponent<Transform>();
+
+        launcher = new Launcher[muzzles.Length];
+        for (int i = 0; i < muzzles.Length; i++)
+        {
+            launcher[i] = new Launcher(boss, sprTrs, muzzles[i], 0, rate, GameManager.instance.GetEnemyAttackObjectPatten);
+            launcher[i].BulletPool = PoolingManager.ePoolingObject.Type2RedBullet;
+
+        }
         operationCoroutine = StartCoroutine(OperationCoroutine());
     }
+
     //작동 중지
     public void OperationStop()
     {
         if (operationCoroutine != null)
             StopCoroutine(operationCoroutine);
     }
+
     //자동 발사
     private IEnumerator OperationCoroutine()
     {
