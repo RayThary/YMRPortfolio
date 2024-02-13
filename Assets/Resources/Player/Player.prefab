@@ -3794,6 +3794,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   godTimer: 0
   moveSpeed: 5
+  moveAnimatorSpeed: 0
   r_weapon: {fileID: 5518516731655308601}
   objectParent: {fileID: 0}
   spaceImage: {fileID: 0}

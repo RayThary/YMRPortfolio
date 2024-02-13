@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Player : Unit
 {
     public float moveSpeed = 5.0f; // 이동 속도 조절용 변수
+    public float moveAnimatorSpeed;
     float horizontalInput = 0;
     float verticalInput = 0;
     Vector3 moveVelocity;
@@ -123,7 +124,11 @@ public class Player : Unit
     {
         // 이동을 적용합니다.
         if (canMove)
+        {
+            animator.SetFloat("MoveSpeed", moveAnimatorSpeed);
+            animator.SetFloat("RunState", 0.5f);
             transform.Translate(moveVelocity * Time.deltaTime);
+        }
     }
 
     //플레이어는 맞을때 잠시 무적시간이 필요함
@@ -152,7 +157,6 @@ public class Player : Unit
                 invincibility = StartCoroutine(Invincibility(hit_invincibility));
             }
             spriteAlpha.isHit = true;
-            animator.SetTrigger("Hit");
         }
     }
 
