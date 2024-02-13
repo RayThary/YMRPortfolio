@@ -1,20 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Net;
 using UnityEngine;
 
-public class HaxagonPatten : MonoBehaviour
+public class RhombusPatten : MonoBehaviour
 {
-
     private LineRenderer lineRen;
-    private List<Transform> startTrs= new List<Transform>(); //각각 선들의 꼭지점들
+    private List<Transform> startTrs = new List<Transform>(); //각각 선들의 꼭지점들
 
     [SerializeField] private float speed = 4;
-    
     void Start()
     {
         lineRen = GetComponent<LineRenderer>();
-        float startY = Random.Range(0, 7);
+        float startY = Random.Range(0, 5);
 
         float angleY = 0;
 
@@ -22,25 +19,17 @@ public class HaxagonPatten : MonoBehaviour
         {
             angleY = 0;
         }
-        else if(startY == 1) 
+        else if (startY == 1)
         {
-            angleY = 60;
+            angleY = 90;
         }
         else if (startY == 2)
         {
-            angleY = 120;
+            angleY = 180;
         }
         else if (startY == 3)
         {
-            angleY = 180;
-        }
-        else if (startY == 4)
-        {
-            angleY = 240;
-        }
-        else if (startY == 5)
-        {
-            angleY = 300;
+            angleY = 270;
         }
         else
         {
@@ -49,17 +38,14 @@ public class HaxagonPatten : MonoBehaviour
 
 
 
-        
-        for (int i = 0; i < 6; i++)
+
+        for (int i = 0; i < 4; i++)
         {
             startTrs.Add(transform.GetChild(i));
             startTrs[i].transform.rotation = Quaternion.Euler(0, angleY, 0);
-            angleY += 60;
+            angleY += 90;
 
         }
-
-        Invoke("removeObj", 15);
-
 
     }
 
@@ -72,10 +58,10 @@ public class HaxagonPatten : MonoBehaviour
 
     private void lineMove()
     {
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < 4; i++)
         {
             startTrs[i].position += startTrs[i].forward * Time.deltaTime * speed;
-           
+
             lineRen.SetPosition(i, startTrs[i].position);
         }
     }
@@ -95,19 +81,6 @@ public class HaxagonPatten : MonoBehaviour
         {
             player.Hit(null, 1);
         }
-        if (Physics.Linecast(startTrs[3].position, startTrs[4].position, LayerMask.GetMask("Player")))
-        {
-            player.Hit(null, 1);
-        }
-        if (Physics.Linecast(startTrs[4].position, startTrs[5].position, LayerMask.GetMask("Player")))
-        {
-            player.Hit(null, 1);
-        }
-        
-    }
-
-    private void removeObj()
-    {
-        PoolingManager.Instance.RemovePoolingObject(gameObject);
+       
     }
 }

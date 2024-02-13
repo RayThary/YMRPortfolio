@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     private Transform enemyAttackObj;
     public Transform GetEnemyAttackObjectPatten { get { return enemyAttackObj; } }
 
-    public bool b = false;
+    public bool CardTest = false;
 
     public Transform GetenemyObjectBox { get { return transform.GetChild(0); } }
     private void Awake()
@@ -42,9 +42,9 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if(b)
+        if(CardTest)
         {
-            b = false;
+            CardTest = false;
             cardManager.ViewCards();
         }
         //if(enemyManager.EnemyClear())

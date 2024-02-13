@@ -11,22 +11,21 @@ public class UpGround : MonoBehaviour
     [SerializeField] private float upSpeed = 1;
     private SpriteRenderer spr;
     private float dangerZoneTime = 0;
-    private bool hitCheck = false;
+
+    private BoxCollider box;
 
     private Transform playerTrs;
     private Player player;
 
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
-        if (hitCheck)
-        {
-            if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
-            {
-                player.Hit(null, 2);
-            }
 
+        if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
+        {
+            player.Hit(null, 2);
         }
+
     }
     void Start()
     {
@@ -34,6 +33,8 @@ public class UpGround : MonoBehaviour
         transform.position = new Vector3(transform.position.x, -1.1f, transform.position.z);
 
         spr = GetComponentInChildren<SpriteRenderer>();
+        box = GetComponent<BoxCollider>();
+        box.enabled = false;
 
         dangerZoneTime = gameObject.GetComponentInChildren<DangerZone>().getTime();
         dangerZoneTime += 0.3f;
@@ -70,13 +71,13 @@ public class UpGround : MonoBehaviour
         if (upTimeCheck)
         {
             transform.position += new Vector3(0, upSpeed * Time.deltaTime, 0);
-            hitCheck = true;
+            box.enabled = true;
         }
 
         if (transform.position.y >= 0.5f)
         {
-            hitCheck = false;
             upTimeCheck = false;
+            box.enabled = false;
             downTimeCheck = true;
         }
 
@@ -125,7 +126,7 @@ public class UpGround : MonoBehaviour
         }
         else
         {
-            Debug.LogError("뭔가심상치않은데?");
+            Debug.LogError("VectorError");//불값이이상하게들어감
             return new Vector3(0, 0, 0);
         }
 
