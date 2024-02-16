@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EndBossCube : Unit
+public class EndBossCube : MonoBehaviour
 {
     //테스트
     [SerializeField] private bool halfPattenCheck;
@@ -16,16 +16,17 @@ public class EndBossCube : Unit
 
     [SerializeField] private float upGroundTime = 1;
 
-    [SerializeField]private SpriteRenderer spr;
+    [SerializeField] private SpriteRenderer spr;
     private bool upGroundPattening = false;
 
     //외부참조
     private Transform playerTrs;
+    private Unit boss;
+    public Unit Boss { set => boss = value; }
 
-
-    new void Start()
+    void Start()
     {
-        base.Start();
+
         spr = GetComponentInChildren<SpriteRenderer>();
         playerTrs = GameManager.instance.GetPlayerTransform;
     }
@@ -38,27 +39,55 @@ public class EndBossCube : Unit
         HaxagonPatten();
     }
 
+
     private void attackPatten()
     {
+
+
+
+
         basicAttackTimer += Time.deltaTime;
         if (basicAttackTimer >= basicAttackTime - 0.5f && colorChange == false)
         {
-            pattenNum = Random.Range(0, 3);
-            // 블록 레이저 나비 순서
-            if (pattenNum == 0)
+            float attack = Random.Range(0, 10);
+            if (attack > 7)
             {
-                spr.color = Color.black;
+                pattenNum = 4;
                 colorChange = true;
             }
-            else if (pattenNum == 1)
+            else
             {
-                spr.color = Color.red;
-                colorChange = true;
-            }
-            else if (pattenNum == 2)
-            {
-                spr.color = Color.cyan;
-                colorChange = true;
+                float nowHp = boss.STAT.HP;
+                if (nowHp < boss.STAT.MAXHP * 0.3f)
+                {
+                    pattenNum = Random.Range(0, 3);
+                }
+                else if (nowHp < boss.STAT.MAXHP * 0.7f)
+                {
+                    pattenNum = Random.Range(0, 2);
+                }
+                else
+                {
+                    pattenNum = 0;
+                }
+
+                //레이저 블록 나비 순서
+                if (pattenNum == 0)
+                {
+                    spr.color = Color.black;
+                    colorChange = true;
+                }
+                else if (pattenNum == 1)
+                {
+                    spr.color = Color.red;
+                    colorChange = true;
+                }
+                else if (pattenNum == 2)
+                {
+                    spr.color = Color.cyan;
+                    colorChange = true;
+                }
+
             }
 
         }
@@ -72,15 +101,8 @@ public class EndBossCube : Unit
                 basicAttackTimer = 0;
                 colorChange = false;
             }
+
             else if (pattenNum == 1)
-            {
-                GameObject attackObj;
-                attackObj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.RedButterfly, GameManager.instance.GetEnemyAttackObjectPatten);
-                attackObj.transform.position = transform.position;
-                basicAttackTimer = 0;
-                colorChange = false;
-            }
-            else if (pattenNum == 2)
             {
                 for (int i = 0; i < 8; i++)
                 {
@@ -92,13 +114,26 @@ public class EndBossCube : Unit
                     randomSpawnVec.x += rangeX;
                     randomSpawnVec.z += rnageZ;
                     attackObj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundObj, GameManager.instance.GetEnemyAttackObjectPatten);
-                    DangerZone danger =  attackObj.GetComponentInChildren<DangerZone>();
+                    DangerZone danger = attackObj.GetComponentInChildren<DangerZone>();
                     danger.SetTime(upGroundTime);
                     attackObj.transform.position = randomSpawnVec;
                 }
-                
+
                 basicAttackTimer = 0;
-                colorChange = false; 
+                colorChange = false;
+            }
+            else if (pattenNum == 2)
+            {
+                GameObject attackObj;
+                attackObj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.RedButterfly, GameManager.instance.GetEnemyAttackObjectPatten);
+                attackObj.transform.position = transform.position;
+                basicAttackTimer = 0;
+                colorChange = false;
+            }
+            else
+            {
+                basicAttackTimer = 0;
+                colorChange = false;
             }
         }
     }
@@ -108,7 +143,7 @@ public class EndBossCube : Unit
     private void HaxagonPatten()
     {
         if (halfPattenCheck == false)
-        {   
+        {
             StartCoroutine(HaxagonLaser());
             halfPattenCheck = true;
         }

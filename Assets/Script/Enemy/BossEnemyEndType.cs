@@ -48,13 +48,16 @@ public class BossEnemyEndType : Unit
 
     //반피이하 패턴
     private bool halfPattenCheck = false;
-    //반피이하 추가패턴
+    
+    [SerializeField]private List<EndBossCube> cube = new List<EndBossCube>();
+
 
     [SerializeField] private float moveSpeed = 3.5f;
 
     private Player player;
 
-    public bool test = false;
+
+
     protected new void Start()
     {
         base.Start();
@@ -66,6 +69,7 @@ public class BossEnemyEndType : Unit
         anim.SetFloat("RunState", 0.5f);
         nav.speed = moveSpeed;
 
+        cube.FindAll(x => x.Boss = this);
     }
 
 
