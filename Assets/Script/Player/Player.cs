@@ -41,12 +41,15 @@ public class Player : Unit
     //당기는 함수를 저장할 변수
     private Action pull = null;
 
+    private Rigidbody rigid;
+
     protected new void Start()
     {
         base.Start();
         weapon = new TestGun(this, r_weapon, r_weapon, 0, 1, objectParent);
         spriteAlpha = GetComponent<SpriteAlphaControl>();
         animator = transform.GetChild(0).GetComponent<Animator>();
+        rigid = GetComponent<Rigidbody>();
     }
 
 
@@ -127,7 +130,9 @@ public class Player : Unit
         {
             animator.SetFloat("MoveSpeed", moveAnimatorSpeed);
             animator.SetFloat("RunState", 0.5f);
-            transform.Translate(moveVelocity * Time.deltaTime);
+            //transform.Translate(moveVelocity * Time.deltaTime);
+
+            rigid.velocity = new Vector3(moveVelocity.x, 0, moveVelocity.y);
         }
     }
 

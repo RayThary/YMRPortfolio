@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8152107716118145609}
   - component: {fileID: 1233393061960138960}
   m_Layer: 9
-  m_Name: EnemyBulletType2
+  m_Name: BlueBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -169,8 +169,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 683684587125322814, guid: 38e5fdbb5e3ac0c4b9e9f60cc92147ad, type: 3}
-  m_Color: {r: 0, g: 0.084233284, b: 1, a: 1}
+  m_Sprite: {fileID: -1750052709, guid: e9a3776a54076f440bd55ffe7010c633, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

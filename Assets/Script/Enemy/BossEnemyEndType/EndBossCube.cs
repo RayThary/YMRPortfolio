@@ -34,9 +34,11 @@ public class EndBossCube : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        attackPatten();
-        HaxagonPatten();
+        if (boss.STAT.HP < boss.STAT.MAXHP * 0.9f)
+        {
+            attackPatten();
+        }
+        //HaxagonPatten();
     }
 
 

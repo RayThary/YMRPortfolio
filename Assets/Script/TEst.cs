@@ -8,13 +8,15 @@ public class TEst : MonoBehaviour
     private Player player;
     void Start()
     {
-        player = GameManager.instance.GetPlayer;
-        player.Pull(transform.position, 1000, 2);
+       
     }
 
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.RhombusLaser, transform);
+        } 
     }
 
 }

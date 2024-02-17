@@ -61,7 +61,6 @@ public class RhombusPatten : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
             startTrs[i].position += startTrs[i].forward * Time.deltaTime * speed;
-
             lineRen.SetPosition(i, startTrs[i].position);
         }
     }

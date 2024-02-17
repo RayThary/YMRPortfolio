@@ -183,7 +183,7 @@ public class BossEnemyEndType : Unit
 
         for (int i = 0; i < 12; i++)
         {
-            bullet.Add(PoolingManager.Instance.CreateObject("EnemyBulletType2", transform.parent.parent));
+            bullet.Add(PoolingManager.Instance.CreateObject("BlueBullet", GameManager.instance.GetEnemyAttackObjectPatten));
             bullet[i].transform.position = transform.parent.position;
             bullet[i].transform.rotation = Quaternion.Euler(new Vector3(0, y, 0));
             y += 30;
@@ -235,7 +235,7 @@ public class BossEnemyEndType : Unit
     {
         if (halfPattenCheck == false)
         {
-            if (stat.HP == stat.MAXHP / 2)
+            if (stat.HP <= stat.MAXHP / 2)
             {
                 StartCoroutine(HaxagonLaser());
                 halfPattenCheck = true;

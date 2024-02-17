@@ -4780,7 +4780,7 @@ TextureImporter:
         width: 32
         height: 29
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -4788,6 +4788,27 @@ TextureImporter:
       bones: []
       spriteID: bf65e15903341f447a49f0dac56522b7
       internalID: 434536136
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blueObj
+      rect:
+        serializedVersion: 2
+        x: 106
+        y: 480
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3472acaa25f9351468d1a1550d10bfcd
+      internalID: -1750052709
       vertices: []
       indices: 
       edges: []
@@ -4807,6 +4828,7 @@ TextureImporter:
       RedButterflyBomb: -1796082034
       RedLaser: 2104244175
       RedStart: 434536136
+      blueObj: -1750052709
       test_0: 1891172804
       test_1: 1935509206
       test_10: 1810878203
