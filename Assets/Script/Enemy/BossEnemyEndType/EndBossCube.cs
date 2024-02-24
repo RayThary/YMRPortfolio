@@ -51,8 +51,8 @@ public class EndBossCube : MonoBehaviour
         basicAttackTimer += Time.deltaTime;
         if (basicAttackTimer >= basicAttackTime - 0.5f && colorChange == false)
         {
-            float attack = Random.Range(0, 10);
-            if (attack > 7)
+            int attack = Random.Range(0, 10);
+            if (attack < 7)
             {
                 pattenNum = 4;
                 colorChange = true;
