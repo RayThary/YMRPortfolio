@@ -191,7 +191,7 @@ public class Player : Unit
                 StopCoroutine(invincibility);
                 invincibility = StartCoroutine(Invincibility(travel));
             }
-            else if (invincibility == null)
+            else if (invincibility == null)//ÀÌ°Å¹ºÁö¼³¸í½á³ö¶ó
             {
                 invincibility = StartCoroutine(Invincibility(travel));
             }
@@ -219,11 +219,13 @@ public class Player : Unit
     private IEnumerator UpGG(Vector3 velocity)
     {
         float timer = 0;
-        velocity = new Vector3(velocity.x, velocity.z, 0);
+        //velocity = new Vector3(velocity.x, velocity.z, 0);
+        velocity = new Vector3(velocity.x, 0f, velocity.z);
         canMove = false;
+        rigid.velocity = velocity * 3;
         while (true)
         {
-            transform.Translate(velocity * 3 * Time.deltaTime);
+            //transform.Translate(velocity * 3 * Time.deltaTime);
 
             timer += Time.deltaTime;
 
@@ -249,13 +251,11 @@ public class Player : Unit
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag.Equals("UpGroundPush"))
+        if (god == false && other.tag.Equals("UpGroundPush"))
         {
-            if (!god)
-            {
-                Vector3 dir = other.GetComponent<UpGround>().playerHitDirection();
-                StartCoroutine(UpGG(dir));
-            }
+            god = true;
+            Vector3 dir = other.GetComponent<UpGround>().playerHitDirection();
+            StartCoroutine(UpGG(dir));
         }
     }
 }

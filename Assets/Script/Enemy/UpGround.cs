@@ -12,6 +12,10 @@ public class UpGround : MonoBehaviour
     private SpriteRenderer spr;
     private float dangerZoneTime = 0;
 
+    private bool stopWall = false;
+    private float stopTime = 1.0f;
+    private float stopTimer = 0.0f;
+
     private BoxCollider box;
 
     private Transform playerTrs;
@@ -77,15 +81,33 @@ public class UpGround : MonoBehaviour
         if (transform.position.y >= 0.5f)
         {
             upTimeCheck = false;
-            box.enabled = false;
             downTimeCheck = true;
         }
 
         if (downTimeCheck)
         {
-            transform.position += new Vector3(0, -upSpeed * Time.deltaTime, 0);
+            if (stopWall)
+            {
+                stopTimer += Time.deltaTime;
+                if (stopTimer >= stopTime)
+                {
+                    transform.position += new Vector3(0, -upSpeed * Time.deltaTime, 0);
+                    if (transform.position.y <= 0)
+                    {
+                        box.enabled = false;
+                    }
+                }
+            }
+            else
+            {
+                transform.position += new Vector3(0, -upSpeed * Time.deltaTime, 0);
+                if (transform.position.y <= 0)
+                {
+                    box.enabled = false;
+                }
+            }
         }
-
+        
         //리무브
         if (transform.position.y <= -1.3f)
         {
@@ -93,9 +115,17 @@ public class UpGround : MonoBehaviour
             downTimeCheck = false;
             upTimeCheck = false;
             timer = 0;
+            stopTimer = 0;
+            stopWall = false;
             transform.position = new Vector3(transform.position.x, -1.1f, transform.position.z);
             PoolingManager.Instance.RemovePoolingObject(gameObject);
         }
+    }
+
+    public void SetStopTime(bool _stopWall, float _stopTime)
+    {
+        stopWall = _stopWall;
+        stopTime = _stopTime;
     }
 
     public Vector3 playerHitDirection()
@@ -110,18 +140,22 @@ public class UpGround : MonoBehaviour
 
         if (isCloseX && right)
         {
+            Debug.Log("오른쪽 방향");
             return new Vector3(1, 0, 0);
         }
         else if (isCloseX && right == false)
         {
+            Debug.Log("왼쪽 방향");
             return new Vector3(-1, 0, 0);
         }
         else if (isCloseX == false && up)
         {
+            Debug.Log("위 방향");
             return new Vector3(0, 0, 1);
         }
         else if (isCloseX == false && up == false)
         {
+            Debug.Log("아래 방향");
             return new Vector3(0, 0, -1);
         }
         else

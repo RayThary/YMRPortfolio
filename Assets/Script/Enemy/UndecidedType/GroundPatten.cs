@@ -236,7 +236,7 @@ public class GroundPatten : MonoBehaviour
                 DangerZone danger = obj.GetComponentInChildren<DangerZone>();
                 danger.SetTime(UpSetUpGroundTime);
             }
-            yield return new WaitForSeconds(1.8f);
+            yield return new WaitForSeconds(1f);
         }
 
         for (int i = 25; i > 0; i--)
@@ -253,7 +253,7 @@ public class GroundPatten : MonoBehaviour
                 DangerZone danger = obj.GetComponentInChildren<DangerZone>();
                 danger.SetTime(UpSetUpGroundTime);
             }
-            yield return new WaitForSeconds(1.8f);
+            yield return new WaitForSeconds(1f);
         }
     }
 
@@ -364,6 +364,8 @@ public class GroundPatten : MonoBehaviour
         {
             GameObject obj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundPushObj, GameManager.instance.GetEnemyAttackObjectPatten);
             obj.transform.position = spawnTrs[i];
+            UpGround upGround = obj.GetComponent<UpGround>();
+            upGround.SetStopTime(true, 3);
             DangerZone danger = obj.GetComponentInChildren<DangerZone>();
             danger.SetTime(CloseWallSetUpGroundTime);
         }
