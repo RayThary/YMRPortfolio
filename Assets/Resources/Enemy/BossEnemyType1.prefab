@@ -1868,6 +1868,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5104956404dc7aa41ad881fdfbc1c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  godTimer: 0
   patternType: 0
 --- !u!114 &3602884674448093643
 MonoBehaviour:
@@ -1881,6 +1882,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2f8409e6226b6c46807ca083d53efbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hp: 0
+  maxHp: 0
+  ad: 0
   originalHP: 10
   originalNaturalHP: 0
   originalMP: 0

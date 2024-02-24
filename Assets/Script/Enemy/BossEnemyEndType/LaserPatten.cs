@@ -36,6 +36,9 @@ public class LaserPatten : MonoBehaviour
         box = GetComponent<BoxCollider>();
 
         playerTrs = GameManager.instance.GetPlayerTransform;
+        Vector3 spawnPos = parentTrs.position;
+        spawnPos.y = 0f;
+        linRen.SetPosition(0, spawnPos);
     }
 
     // Update is called once per frame
@@ -60,9 +63,6 @@ public class LaserPatten : MonoBehaviour
     }
     private void laserMove()
     {
-        Vector3 spawnPos = parentTrs.position;
-        spawnPos.y = 0f;
-        linRen.SetPosition(0, spawnPos);
         linRen.SetPosition(1, transform.position);
     }
 

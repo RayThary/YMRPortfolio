@@ -253,7 +253,6 @@ public class Player : Unit
     {
         if (god == false && other.tag.Equals("UpGroundPush"))
         {
-            god = true;
             Vector3 dir = other.GetComponent<UpGround>().playerHitDirection();
             StartCoroutine(UpGG(dir));
         }

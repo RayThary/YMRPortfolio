@@ -29,6 +29,15 @@ public class GroundPatten : MonoBehaviour
     private List<GameObject> mapUnder = new List<GameObject>();
     private List<GameObject> mapUnderTrs = new List<GameObject>();
 
+    private List<(int, int)> listUpground = new List<(int, int)>();
+    private void addUpground((int, int) point)
+    {
+        listUpground.Add(point);
+    }
+    private void removeUpground((int, int) point)
+    {
+        listUpground.Remove(point);
+    }
 
     public enum PattenName
     {
@@ -144,6 +153,8 @@ public class GroundPatten : MonoBehaviour
             GameObject obj;
             obj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundPushObj, GameManager.instance.GetEnemyAttackObjectPatten);
             obj.transform.position = mapUnderTrs[i].transform.position;
+            UpGround upGround = obj.GetComponent<UpGround>();
+            upGround.Horizontal = true;
             DangerZone danger = obj.GetComponentInChildren<DangerZone>();
             danger.SetTime(ViticalSetUpGroundTime);
         }
@@ -174,6 +185,10 @@ public class GroundPatten : MonoBehaviour
             
             obj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundPushObj, GameManager.instance.GetEnemyAttackObjectPatten);
             obj.transform.position = mapUnderTrs[i].transform.position;
+
+            UpGround upGround = obj.GetComponentInChildren<UpGround>();
+            upGround.Horizontal = true;
+
             DangerZone danger = obj.GetComponentInChildren<DangerZone>();
             danger.SetTime(HrizontalSetUpGroundTime);
         }
@@ -183,7 +198,7 @@ public class GroundPatten : MonoBehaviour
     IEnumerator wavePattenRightOrLeft()
     {
         mapUnderTrs.Clear();
-        for (int i = 1; i < 25; i++)
+        for (int i = 1; i < 28; i++)
         {
             GameObject obj;
             List<GameObject> objTrs = new List<GameObject>();
@@ -194,13 +209,17 @@ public class GroundPatten : MonoBehaviour
             {
                 obj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundPushObj, GameManager.instance.GetEnemyAttackObjectPatten);
                 obj.transform.position = objTrs[j].transform.position;
+
+                UpGround upGround = obj.GetComponent<UpGround>();
+                upGround.Vertical = true;
+
                 DangerZone danger = obj.GetComponentInChildren<DangerZone>();
                 danger.SetTime(RightSetUpGroundTime);
             }
             yield return new WaitForSeconds(1.8f);
         }
 
-        for (int i = 25; i > 0; i--)
+        for (int i = 28; i > 0; i--)
         {
             GameObject obj;
             List<GameObject> objTrs = new List<GameObject>();
@@ -211,6 +230,10 @@ public class GroundPatten : MonoBehaviour
             {
                 obj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundPushObj, GameManager.instance.GetEnemyAttackObjectPatten);
                 obj.transform.position = objTrs[j].transform.position;
+
+                UpGround upGround = obj.GetComponent<UpGround>();
+                upGround.Vertical = true;
+
                 DangerZone danger = obj.GetComponentInChildren<DangerZone>();
                 danger.SetTime(RightSetUpGroundTime);//오른쪽에서 시작했다 왼쪽으로갈때 같은시간을쓰는중 나중에 분리해줄필요있을지도?
             }
@@ -233,6 +256,10 @@ public class GroundPatten : MonoBehaviour
             {
                 obj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundPushObj, GameManager.instance.GetEnemyAttackObjectPatten);
                 obj.transform.position = objTrs[j].transform.position;
+
+                UpGround upGround = obj.GetComponent<UpGround>();
+                upGround.Horizontal = true;
+
                 DangerZone danger = obj.GetComponentInChildren<DangerZone>();
                 danger.SetTime(UpSetUpGroundTime);
             }
@@ -250,6 +277,10 @@ public class GroundPatten : MonoBehaviour
             {
                 obj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundPushObj, GameManager.instance.GetEnemyAttackObjectPatten);
                 obj.transform.position = objTrs[j].transform.position;
+
+                UpGround upGround = obj.GetComponent<UpGround>();
+                upGround.Horizontal = true;
+
                 DangerZone danger = obj.GetComponentInChildren<DangerZone>();
                 danger.SetTime(UpSetUpGroundTime);
             }
@@ -366,6 +397,23 @@ public class GroundPatten : MonoBehaviour
             obj.transform.position = spawnTrs[i];
             UpGround upGround = obj.GetComponent<UpGround>();
             upGround.SetStopTime(true, 3);
+
+            upGround.CubeWall = true;
+
+            Vector3 upPos = obj.transform.position + new Vector3(0, 0, 1);
+            Vector3 downPos = obj.transform.position + new Vector3(0, 0, -1);
+            Vector3 rightPos = obj.transform.position + new Vector3(1, 0, 0);
+            Vector3 leftPos = obj.transform.position + new Vector3(-1, 0, 0);
+
+            if (spawnTrs.Exists((x) => x == upPos || x == downPos))
+            {
+                upGround.Vertical = true;
+            }
+            if (spawnTrs.Exists((x) => x == rightPos || x == leftPos))
+            {
+                upGround.Horizontal = true;
+            }
+
             DangerZone danger = obj.GetComponentInChildren<DangerZone>();
             danger.SetTime(CloseWallSetUpGroundTime);
         }
