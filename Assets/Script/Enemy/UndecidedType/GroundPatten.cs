@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using static GroundPatten;
 
 public class GroundPatten : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class GroundPatten : MonoBehaviour
     private List<GameObject> maps = new List<GameObject>();
 
     [SerializeField] private float HrizontalSetUpGroundTime = 1;
-    [SerializeField] private bool Hrizontal;
+    [SerializeField] private bool Horizontal;
 
     [SerializeField] private float ViticalSetUpGroundTime = 1;
     [SerializeField] private bool Vitical;
@@ -41,7 +42,7 @@ public class GroundPatten : MonoBehaviour
 
     public enum PattenName
     {
-        HrizontalAndVerticalPatten,
+        HorizontalAndVerticalPatten,
         WavePatten,
         OpenWallGroundPatten
     }
@@ -67,7 +68,7 @@ public class GroundPatten : MonoBehaviour
     {
         nowMapCheck();
         groundPatten();
-       
+
     }
 
     private void nowMapCheck()
@@ -93,9 +94,10 @@ public class GroundPatten : MonoBehaviour
     {
         if (pattenStart)
         {
-            if (pattenName == PattenName.HrizontalAndVerticalPatten)
+            Debug.Log("패턴");
+            if (pattenName == PattenName.HorizontalAndVerticalPatten)
             {
-                if (Hrizontal)
+                if (Horizontal)
                 {
                     horizontalPatten();
                 }
@@ -103,7 +105,7 @@ public class GroundPatten : MonoBehaviour
                 {
                     verticalPatten();
                 }
-                    
+
                 pattenStart = false;
             }
 
@@ -129,7 +131,7 @@ public class GroundPatten : MonoBehaviour
     }
 
 
-   
+
     private void verticalPatten()
     {
         mapUnderTrs.Clear();
@@ -182,7 +184,7 @@ public class GroundPatten : MonoBehaviour
         for (int i = 0; i < mapUnderTrs.Count; i++)
         {
             GameObject obj;
-            
+
             obj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundPushObj, GameManager.instance.GetEnemyAttackObjectPatten);
             obj.transform.position = mapUnderTrs[i].transform.position;
 
@@ -380,7 +382,7 @@ public class GroundPatten : MonoBehaviour
         }
 
 
-        if ( x > 28 - _value)
+        if (x > 28 - _value)
         {
             spawnTrs = spawnTrs.FindAll((x) => x.x < leftX == false);
         }
@@ -420,4 +422,61 @@ public class GroundPatten : MonoBehaviour
 
     }
 
+
+    /// <summary>
+    /// type 설명
+    /// </summary>
+    /// <param name="_value">사용할패턴</param>
+    /// <param name="_type">_type 가 true 일땐 Horizontal , Up 이 True가된다.</param>
+    public void GroundPattenStart(PattenName _value, bool _type)
+    {
+        if (_value == PattenName.HorizontalAndVerticalPatten)
+        {
+            pattenName = PattenName.HorizontalAndVerticalPatten;
+            if (_type)
+            {
+                Horizontal = true;
+                Vitical = false;
+                pattenStart = true;
+            }
+            else
+            {
+                Horizontal = false;
+                Vitical = true;
+                pattenStart = true;
+            }
+        }
+        else if (_value == PattenName.WavePatten)
+        {
+            pattenName = PattenName.WavePatten;
+            if (_type)
+            {
+                Up = true;
+                Right = false;
+                pattenStart = true;
+            }
+            else
+            {
+                Up = false;
+                Right = true;
+                pattenStart = true;
+            }
+        }
+        else if (_value == PattenName.OpenWallGroundPatten)
+        {
+            pattenName = PattenName.OpenWallGroundPatten;
+            if (_type)
+            {
+                pattenStart = true;
+            }
+            else
+            {
+                pattenStart = false;
+            }
+        }
+        else
+        {
+            Debug.LogError("이상하게넣어줌");
+        }
+    }
 }

@@ -178,6 +178,7 @@ public class UpGround : MonoBehaviour
 
     public Vector3 playerHitDirection()
     {
+        //cubeWall 수정필요 넣는부분을 그때그때 들어올떄 보내주는걸로바꾸는게좋을듯 생각필요
         if (cubeWall)
         {
             if (horizontal == false)
@@ -195,9 +196,11 @@ public class UpGround : MonoBehaviour
             }
             else if (vertical == false)
             {
-                if (transform.position.y > playerTrs.position.y)
+                if (transform.position.z > playerTrs.position.z)
                 {
                     Debug.Log("아래쪽");
+                    Debug.Log(transform.position.z);
+                    Debug.Log(playerTrs.position.z);
                     return new Vector3(0, 0, -1);
                 }
                 else
@@ -229,7 +232,7 @@ public class UpGround : MonoBehaviour
             }
             else if (vertical == false)
             {
-                if (transform.position.y > playerTrs.position.y)
+                if (transform.position.z > playerTrs.position.z)
                 {
                     Debug.Log("위쪽");
                     return new Vector3(0, 0, 1);

@@ -219,8 +219,7 @@ public class Player : Unit
     private IEnumerator UpGG(Vector3 velocity)
     {
         float timer = 0;
-        //velocity = new Vector3(velocity.x, velocity.z, 0);
-        velocity = new Vector3(velocity.x, 0f, velocity.z);
+        //velocity = new Vector3(velocity.x, 0f, velocity.z);
         canMove = false;
         rigid.velocity = velocity * 3;
         while (true)
