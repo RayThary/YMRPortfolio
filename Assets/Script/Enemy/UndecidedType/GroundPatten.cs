@@ -24,7 +24,7 @@ public class GroundPatten : MonoBehaviour
 
 
     [SerializeField] private float CloseWallSetUpGroundTime = 1;
-
+    [SerializeField] private int CloseWallRadius = 4;
 
 
     private List<GameObject> mapUnder = new List<GameObject>();
@@ -43,7 +43,8 @@ public class GroundPatten : MonoBehaviour
     public enum PattenName
     {
         HorizontalAndVerticalPatten,
-        WavePatten,
+        WavePattenHrizontal,
+        WavePattenVitical,
         OpenWallGroundPatten
     }
 
@@ -94,7 +95,6 @@ public class GroundPatten : MonoBehaviour
     {
         if (pattenStart)
         {
-            Debug.Log("패턴");
             if (pattenName == PattenName.HorizontalAndVerticalPatten)
             {
                 if (Horizontal)
@@ -109,22 +109,36 @@ public class GroundPatten : MonoBehaviour
                 pattenStart = false;
             }
 
-            if (pattenName == PattenName.WavePatten)
+            if (pattenName == PattenName.WavePattenHrizontal)
             {
                 if (Right)
                 {
-                    StartCoroutine(wavePattenRightOrLeft());
+                    StartCoroutine(wavePattenRightStart());
                 }
+                else
+                {
+                    StartCoroutine(wavePattenLeftStart());
+                }
+
+                pattenStart = false;
+            }
+
+            if (pattenName == PattenName.WavePattenVitical)
+            {
                 if (Up)
                 {
-                    StartCoroutine(wavePattenUpOrDown());
+                    StartCoroutine(wavePattenUpStart());
+                }
+                else
+                {
+                    StartCoroutine(wavePattenDownStart());
                 }
                 pattenStart = false;
             }
 
             if (pattenName == PattenName.OpenWallGroundPatten)
             {
-                closeWallGroundPatten(3);//반지름의크기 ex) 4 = 8*8 로만들어진벽
+                closeWallGroundPatten(CloseWallRadius);//반지름의크기 ex) 4 = 8*8 로만들어진벽
                 pattenStart = false;
             }
         }
@@ -197,7 +211,7 @@ public class GroundPatten : MonoBehaviour
 
     }
 
-    IEnumerator wavePattenRightOrLeft()
+    IEnumerator wavePattenRightStart()
     {
         mapUnderTrs.Clear();
         for (int i = 1; i < 28; i++)
@@ -220,7 +234,10 @@ public class GroundPatten : MonoBehaviour
             }
             yield return new WaitForSeconds(1.8f);
         }
+    }
 
+    IEnumerator wavePattenLeftStart()
+    {
         for (int i = 28; i > 0; i--)
         {
             GameObject obj;
@@ -241,10 +258,9 @@ public class GroundPatten : MonoBehaviour
             }
             yield return new WaitForSeconds(1.8f);
         }
-
     }
 
-    IEnumerator wavePattenUpOrDown()
+    IEnumerator wavePattenDownStart()
     {
         mapUnderTrs.Clear();
         for (int i = 1; i < 25; i++)
@@ -268,6 +284,11 @@ public class GroundPatten : MonoBehaviour
             yield return new WaitForSeconds(1f);
         }
 
+      
+    }
+
+    IEnumerator wavePattenUpStart()
+    {
         for (int i = 25; i > 0; i--)
         {
             GameObject obj;
@@ -446,33 +467,39 @@ public class GroundPatten : MonoBehaviour
                 pattenStart = true;
             }
         }
-        else if (_value == PattenName.WavePatten)
+        else if (_value == PattenName.WavePattenHrizontal)
         {
-            pattenName = PattenName.WavePatten;
+            pattenName = PattenName.WavePattenHrizontal;
+            if (_type)
+            {
+                Right = true;
+                pattenStart = true;
+            }
+            else
+            {
+                Right = false;
+                pattenStart = true;
+            }
+        }
+        else if (_value == PattenName.WavePattenVitical)
+        {
+            pattenName = PattenName.WavePattenVitical;
             if (_type)
             {
                 Up = true;
-                Right = false;
                 pattenStart = true;
             }
             else
             {
                 Up = false;
-                Right = true;
                 pattenStart = true;
             }
         }
         else if (_value == PattenName.OpenWallGroundPatten)
         {
             pattenName = PattenName.OpenWallGroundPatten;
-            if (_type)
-            {
-                pattenStart = true;
-            }
-            else
-            {
-                pattenStart = false;
-            }
+            pattenStart = true;
+
         }
         else
         {
