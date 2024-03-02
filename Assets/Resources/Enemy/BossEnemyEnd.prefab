@@ -1428,9 +1428,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   godTimer: 0
   vicinityCoolTime: 1
-  vicinityAttackRangeCheck: 0
+  box: {fileID: 0}
   farTime: 1.5
-  noVicinityAttackTimer: 0
   cube: []
   moveSpeed: 3
 --- !u!65 &4641494923304107701

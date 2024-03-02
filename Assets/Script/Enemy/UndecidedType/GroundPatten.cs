@@ -495,11 +495,18 @@ public class GroundPatten : MonoBehaviour
                 pattenStart = true;
             }
         }
-        else if (_value == PattenName.OpenWallGroundPatten)
+        else
+        {
+            Debug.LogError("이상하게넣어줌");
+        }
+    }
+
+    public void GroundPattenStart(PattenName _value)
+    {
+        if (_value == PattenName.OpenWallGroundPatten)
         {
             pattenName = PattenName.OpenWallGroundPatten;
             pattenStart = true;
-
         }
         else
         {

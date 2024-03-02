@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EndBossCube : MonoBehaviour
+public class EndBossSeal : MonoBehaviour
 {
     //테스트
     [SerializeField] private bool halfPattenCheck;
     //기본스킬들 재사용 시간
     [SerializeField] private float basicAttackTime = 2.5f;
     private float basicAttackTimer = 3;
-    private int pattenNum = 0;
+    [SerializeField] private int pattenNum = 4;
     private bool colorChange = false;
 
     [SerializeField] private float UpGroundRange = 2;//반지름
@@ -18,6 +18,8 @@ public class EndBossCube : MonoBehaviour
 
     [SerializeField] private SpriteRenderer spr;
     private bool upGroundPattening = false;
+
+    [SerializeField] private float rotationSpeed = 120;
 
     //외부참조
     private Transform playerTrs;
@@ -34,20 +36,18 @@ public class EndBossCube : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (boss.STAT.HP < boss.STAT.MAXHP * 0.9f)
-        {
-            attackPatten();
-        }
-        //HaxagonPatten();
+        attackPatten();
+        sealRotation();
+
     }
 
 
     private void attackPatten()
     {
-
-
-
-
+        if (boss.STAT.HP > boss.STAT.MAXHP * 0.9f)
+        {
+            return;
+        }
         basicAttackTimer += Time.deltaTime;
         if (basicAttackTimer >= basicAttackTime - 0.5f && colorChange == false)
         {
@@ -140,25 +140,13 @@ public class EndBossCube : MonoBehaviour
         }
     }
 
-
-
-    private void HaxagonPatten()
+    private void sealRotation()
     {
-        if (halfPattenCheck == false)
+        if (pattenNum == 4)
         {
-            StartCoroutine(HaxagonLaser());
-            halfPattenCheck = true;
+            transform.Rotate(new Vector3(0,0,1) * rotationSpeed * Time.deltaTime);
         }
     }
+    
 
-    IEnumerator HaxagonLaser()
-    {
-        for (int i = 0; i < 8; i++)
-        {
-            PoolingManager.Instance.CreateObject("HaxagonLaser", transform);
-            yield return new WaitForSeconds(4);
-
-        }
-
-    }
 }

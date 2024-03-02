@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class BossType3 : MonoBehaviour
+public class BossType3 : Unit
 {
     [SerializeField] private float AttackSpeed = 1;
 
@@ -23,16 +24,39 @@ public class BossType3 : MonoBehaviour
 
     private int pattenNum = 0;
 
+    private bool halfPattenCheck = false;
+    private bool shieldPattenCheck = false;
+
+    [SerializeField] private float shieldChangeTime = 10;
+    private float shieldChangeTimer = 0;
+    private float beforeShieldChangeTime;
+
+    [SerializeField] private GameObject objShield;
+
     private Animator anim;
     private Transform playerTrs;
-    [SerializeField] private GroundPatten groundpatten;
+    private GroundPatten groundpatten;
+    private ParticleSystem particle;
 
-    void Start()
+
+    protected new void Start()
     {
+        base.Start();
+        AttackSpeed = 1;
         beforeAttackPattenTime = attackPattenTime;
         playerTrs = GameManager.instance.GetPlayerTransform;
         anim = GetComponent<Animator>();
         groundpatten = GetComponent<GroundPatten>();
+        particle = GetComponent<ParticleSystem>();
+        particle.Stop();
+        objShield.SetActive(false);
+
+
+        beforeShieldChangeTime = shieldChangeTime;
+
+        basicAttackTimer = basicAttackTime - 1;
+        attackPattenTimer = attackPattenTime - 2;
+        shieldChangeTimer = shieldChangeTime;
     }
 
     void Update()
@@ -40,8 +64,8 @@ public class BossType3 : MonoBehaviour
         basicAttackPatten();
         attackPatten();
         pattenAnimator();
-
-
+        halfHpAddPatten();
+        //shieldPatten();
     }
 
 
@@ -67,73 +91,80 @@ public class BossType3 : MonoBehaviour
             {
                 attackPattenStart = true;
 
-                //중복제거방법 질문
-                if (pattenNum == 0)
+                int randomNum = Random.Range(0, 4);
+                while (randomNum == pattenNum)
                 {
-                    pattenNum = Random.Range(0, 3);
-                    if (pattenNum == 0)
-                    {
-                        pattenNum = 1;
-                    }
-                    else if(pattenNum == 1)
-                    {
-                        pattenNum = 2;
-                    }
-                    else
-                    {
-                        pattenNum = 3;
-                    }
+                    randomNum = Random.Range(0, 4);
                 }
-                else if (pattenNum == 1)
-                {
-                    pattenNum = Random.Range(0, 3);
-                    if (pattenNum == 0)
-                    {
-                        pattenNum = 0;
-                    }
-                    else if (pattenNum == 1)
-                    {
-                        pattenNum = 2;
-                    }
-                    else
-                    {
-                        pattenNum = 3;
-                    }
-                }
-                else if(pattenNum == 2)
-                {
-                    pattenNum = Random.Range(0, 3);
-                    if (pattenNum == 0)
-                    {
-                        pattenNum = 0;
-                    }
-                    else if (pattenNum == 1)
-                    {
-                        pattenNum = 1;
-                    }
-                    else
-                    {
-                        pattenNum = 3;
-                    }
-                }
-                else if (pattenNum == 3)
-                {
-                    pattenNum = Random.Range(0, 3);
-                    pattenNum = Random.Range(0, 3);
-                    if (pattenNum == 0)
-                    {
-                        pattenNum = 0;
-                    }
-                    else if (pattenNum == 1)
-                    {
-                        pattenNum = 1;
-                    }
-                    else
-                    {
-                        pattenNum = 2;
-                    }
+                pattenNum = randomNum;
+                #region
+                //if (pattenNum == 0)
+                //{
+                //    pattenNum = Random.Range(0, 3);
+                //    if (pattenNum == 0)
+                //    {
+                //        pattenNum = 1;
+                //    }
+                //    else if(pattenNum == 1)
+                //    {
+                //        pattenNum = 2;
+                //    }
+                //    else
+                //    {
+                //        pattenNum = 3;
+                //    }
+                //}
+                //else if (pattenNum == 1)
+                //{
+                //    pattenNum = Random.Range(0, 3);
+                //    if (pattenNum == 0)
+                //    {
+                //        pattenNum = 0;
+                //    }
+                //    else if (pattenNum == 1)
+                //    {
+                //        pattenNum = 2;
+                //    }
+                //    else
+                //    {
+                //        pattenNum = 3;
+                //    }
+                //}
+                //else if(pattenNum == 2)
+                //{
+                //    pattenNum = Random.Range(0, 3);
+                //    if (pattenNum == 0)
+                //    {
+                //        pattenNum = 0;
+                //    }
+                //    else if (pattenNum == 1)
+                //    {
+                //        pattenNum = 1;
+                //    }
+                //    else
+                //    {
+                //        pattenNum = 3;
+                //    }
+                //}
+                //else if (pattenNum == 3)
+                //{
+                //    pattenNum = Random.Range(0, 3);
+                //    pattenNum = Random.Range(0, 3);
+                //    if (pattenNum == 0)
+                //    {
+                //        pattenNum = 0;
+                //    }
+                //    else if (pattenNum == 1)
+                //    {
+                //        pattenNum = 1;
+                //    }
+                //    else
+                //    {
+                //        pattenNum = 2;
+                //    }
 
-                }
+                //}
+                #endregion
 
                 int groundPattenBool = Random.Range(0, 2);
 
@@ -161,7 +192,7 @@ public class BossType3 : MonoBehaviour
                     {
                         groundpatten.GroundPattenStart(GroundPatten.PattenName.WavePattenHrizontal, false);
                     }
-                    attackPattenTime = attackPattenTime * 2;
+                    //attackPattenTime = attackPattenTime * 2;
                     patten1Anim = true;
                 }
                 else if (pattenNum == 2)
@@ -174,16 +205,17 @@ public class BossType3 : MonoBehaviour
                     {
                         groundpatten.GroundPattenStart(GroundPatten.PattenName.WavePattenVitical, false);
                     }
-                    attackPattenTime = attackPattenTime * 2;
-                    patten1Anim = true;
+                    //attackPattenTime = attackPattenTime * 2;
+                    patten2Anim = true;
 
                 }
                 else if (pattenNum == 3)
                 {
-                    groundpatten.GroundPattenStart(GroundPatten.PattenName.OpenWallGroundPatten, true);
+                    groundpatten.GroundPattenStart(GroundPatten.PattenName.OpenWallGroundPatten);
                     patten2Anim = true;
                     attackPattenTime = beforeAttackPattenTime;
                 }
+
                 attackPattenTimer = 0;
             }
         }
@@ -198,20 +230,12 @@ public class BossType3 : MonoBehaviour
             anim.SetFloat("NormalState", 1);
             patten0Anim = false;
         }
-        else if (patten1Anim)
+        else if (patten1Anim || patten2Anim)
         {
             anim.SetTrigger("Attack");
             anim.SetFloat("AttackState", 0);
             anim.SetFloat("NormalState", 0);
-            AttackSpeed = 0.5f;
             patten1Anim = false;
-        }
-        else if (patten2Anim)
-        {
-            anim.SetTrigger("Attack");
-            anim.SetFloat("AttackState", 0);
-            anim.SetFloat("NormalState", 0);
-            AttackSpeed = 0.5f;
             patten2Anim = false;
         }
         else if (patten3Anim)
@@ -223,6 +247,55 @@ public class BossType3 : MonoBehaviour
         }
     }
 
+    private void halfHpAddPatten()
+    {
+        if (stat.HP > stat.MAXHP / 2)
+        {
+            return;
+        }
+        else
+        {
+            halfPattenCheck = true;
+        }
+        int shieldNum;
+        ParticleSystem.MainModule main = particle.main;
+
+        shieldChangeTimer += Time.deltaTime;
+        if (shieldChangeTimer >= shieldChangeTime)
+        {
+            shieldNum = Random.Range(0, 10);
+            if (shieldNum > 5)
+            {
+                main.startColor = Color.black;
+                shieldPattenCheck = true;
+                objShield.SetActive(true);
+                shieldChangeTime = 5;
+            }
+            else
+            {
+                main.startColor = Color.white;
+                shieldPattenCheck = false;
+                objShield.SetActive(false);
+                shieldChangeTime = beforeShieldChangeTime;
+                basicAttackTime = basicAttackTime * 0.5f;
+            }
+            particle.Play();
+            shieldChangeTimer = 0;
+        }
+    }
+
+    private void shieldPatten()
+    {
+        if (halfPattenCheck && shieldPattenCheck)
+        {
+            objShield.SetActive(true);
+        }
+        else if (halfPattenCheck && !shieldPattenCheck)
+        {
+            basicAttackTime = basicAttackTime * 0.5f;
+        }
+    }
+
     //애니메이션용
     private void EnventEnd()
     {
@@ -231,7 +304,7 @@ public class BossType3 : MonoBehaviour
 
     private void PattenWaveEnvent()
     {
-        anim.SetFloat("AttackSpeed", 0.2f);
+        anim.SetFloat("AttackSpeed", 0.1f);
     }
     private void PattenWaveEnventReturen()
     {

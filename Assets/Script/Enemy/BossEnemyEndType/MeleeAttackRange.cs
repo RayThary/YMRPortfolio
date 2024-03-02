@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MeleeAttackRange : MonoBehaviour
 {
+    //endBoss스크립트
     private BossEnemyEndType endType;
     private SphereCollider sphere;
 
@@ -11,7 +12,10 @@ public class MeleeAttackRange : MonoBehaviour
     private bool attackStartCheck = false;//애니메이션의 시작시간
 
     [SerializeField]private bool attackAnimCheck = false;
-
+    //반격없게할듯?
+    private Player player;
+    private Unit boss;
+    public Unit Boss { set { boss = value; } }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -19,7 +23,7 @@ public class MeleeAttackRange : MonoBehaviour
         {
             if (vicinityAttackCheck)
             {
-                Debug.Log("피격");
+                player.Hit(boss, 1);
             }
         }
     }
@@ -27,6 +31,7 @@ public class MeleeAttackRange : MonoBehaviour
 
     void Start()
     {
+        player = GameManager.instance.GetPlayer;
         endType = GetComponentInParent<BossEnemyEndType>();
         sphere = GetComponent<SphereCollider>();
         sphere.enabled = false;

@@ -614,7 +614,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: test_24
+      name: type3Shield
       rect:
         serializedVersion: 2
         x: 398
@@ -1706,7 +1706,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: test_76
+      name: EndSeaal2
       rect:
         serializedVersion: 2
         x: 366
@@ -1727,7 +1727,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: test_77
+      name: EndSeal
       rect:
         serializedVersion: 2
         x: 397
@@ -4801,7 +4801,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -4824,6 +4824,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      EndSeaal2: -406034120
+      EndSeal: -388383194
       RedButterfly: -1195068078
       RedButterflyBomb: -1796082034
       RedLaser: 2104244175
@@ -4979,7 +4981,6 @@ TextureImporter:
       test_231: -803374949
       test_232: -1894669998
       test_233: -1980761926
-      test_24: -2141625848
       test_25: 203196023
       test_26: -2054549189
       test_27: -1779196231
@@ -5036,8 +5037,6 @@ TextureImporter:
       test_73: -1312501752
       test_74: 388366018
       test_75: 1189770752
-      test_76: -406034120
-      test_77: -388383194
       test_78: -1918888093
       test_79: 1402779021
       test_8: -419306383
@@ -5061,6 +5060,7 @@ TextureImporter:
       test_97: 756145880
       test_98: 1922050608
       test_99: -2110634808
+      type3Shield: -2141625848
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

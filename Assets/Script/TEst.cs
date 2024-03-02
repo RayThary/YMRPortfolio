@@ -4,19 +4,24 @@ using UnityEngine;
 
 public class TEst : MonoBehaviour
 {
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("1");
+    }
 
-    private Player player;
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("2");
+    }
+
     void Start()
     {
-       
+
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.RhombusLaser, transform);
-        } 
+
     }
 
 }

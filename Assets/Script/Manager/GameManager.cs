@@ -33,6 +33,13 @@ public class GameManager : MonoBehaviour
         enemyManager.Init();
         enemyManager.GetStage = enemyManager.Stages[0];
         enemyManager.GetStage.spawnEnemy();
+
+        //프레임 설정 / 화면비
+        RefreshRate rate = new RefreshRate();
+        rate.numerator = 120;
+        Screen.SetResolution(1920, 1080, FullScreenMode.MaximizedWindow, rate);
+        //프레임 제한 최대 60
+        Application.targetFrameRate = 60;//59 
     }
 
     void Start()

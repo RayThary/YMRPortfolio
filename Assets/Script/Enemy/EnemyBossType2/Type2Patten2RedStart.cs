@@ -12,6 +12,7 @@ public class Type2Patten2RedStart : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             player.Hit(type2, 2);
+            Debug.Log("1");
         }
     }
     void Start()

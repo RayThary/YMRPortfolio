@@ -13,7 +13,7 @@ public class UpGroundLaser : MonoBehaviour
     private Transform p1;
     private Transform playerTrs;
 
-    
+    //¾È¾¸
 
     void Start()
     {

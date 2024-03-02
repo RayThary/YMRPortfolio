@@ -5,6 +5,8 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
+using static SpirteOrder;
 
 public class BossEnemyEndType : Unit
 {
@@ -26,7 +28,7 @@ public class BossEnemyEndType : Unit
     private float vicinityTimer = 0;
 
     private bool vicinityAttack = false;
-    [SerializeField] private bool vicinityAttackRangeCheck = false;
+    private bool vicinityAttackRangeCheck = false;
 
     //돌진 패턴
     private bool farPattenCheck = false;
@@ -39,33 +41,43 @@ public class BossEnemyEndType : Unit
     private Vector3 targetVec;
     private List<GameObject> bullet = new List<GameObject>();
 
+    [SerializeField]private BoxCollider box;//돌진시 피격판정용
+
     //몇초동안 멸리있었는지체크해주기위해 만듬
     [SerializeField] private float farTime = 5;
     private float farTimer = 0;
 
 
-    [SerializeField]private float noVicinityAttackTimer = 0;
+    private float noVicinityAttackTimer = 0;
 
     //반피이하 패턴
     private bool halfPattenCheck = false;
     
-    [SerializeField]private List<EndBossCube> cube = new List<EndBossCube>();
+    [SerializeField]private List<EndBossSeal> cube = new List<EndBossSeal>();
 
 
     [SerializeField] private float moveSpeed = 3.5f;
 
     private Player player;
 
-
-
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
+        {
+            //Debug.Log("히트!");
+        }
+    }
+    
     protected new void Start()
     {
         base.Start();
         nav = GetComponentInParent<NavMeshAgent>();
+        box = transform.parent.GetComponent<BoxCollider>();
+        box.enabled = false;
+
         anim = GetComponent<Animator>();
         target = GameManager.instance.GetPlayerTransform;
         player = GameManager.instance.GetPlayer;
-
         anim.SetFloat("RunState", 0.5f);
         nav.speed = moveSpeed;
 
@@ -148,10 +160,11 @@ public class BossEnemyEndType : Unit
             if (farAttackStopTimer >= 0.5f)
             {
                 anim.speed = 1;
-
+                box.enabled = true;
                 transform.parent.position += targetVec.normalized * 20 * Time.deltaTime;
                 if (farAttackStopTimer >= 0.8f)
                 {
+                    box.enabled = false;
                     bullet.Clear();
                     StartCoroutine(farPattenEndPosPatten());
                     farAttackStop = false;
@@ -183,8 +196,10 @@ public class BossEnemyEndType : Unit
 
         for (int i = 0; i < 12; i++)
         {
+
             bullet.Add(PoolingManager.Instance.CreateObject("BlueBullet", GameManager.instance.GetEnemyAttackObjectPatten));
             bullet[i].transform.position = transform.parent.position;
+            bullet[i].GetComponent<BulletMove>().Boss = this;
             bullet[i].transform.rotation = Quaternion.Euler(new Vector3(0, y, 0));
             y += 30;
         }
@@ -203,6 +218,7 @@ public class BossEnemyEndType : Unit
             GameObject attackRange = null;
             attackRange = PoolingManager.Instance.CreateObject("BossEndAttackRange", transform);
             attackRange.transform.position = transform.parent.position;
+            attackRange.GetComponent<MeleeAttackRange>().Boss = this;
             anim.SetFloat("AttackSpeed", 0.4f);
             anim.SetFloat("AttackState", 1);
             anim.SetFloat("SkillState", 0.5f);
