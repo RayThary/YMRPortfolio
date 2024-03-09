@@ -192,7 +192,7 @@ public class BossType3 : Unit
                     {
                         groundpatten.GroundPattenStart(GroundPatten.PattenName.WavePattenHrizontal, false);
                     }
-                    //attackPattenTime = attackPattenTime * 2;
+                    attackPattenTime = attackPattenTime * 2;
                     patten1Anim = true;
                 }
                 else if (pattenNum == 2)
@@ -205,7 +205,7 @@ public class BossType3 : Unit
                     {
                         groundpatten.GroundPattenStart(GroundPatten.PattenName.WavePattenVitical, false);
                     }
-                    //attackPattenTime = attackPattenTime * 2;
+                    attackPattenTime = attackPattenTime * 2;
                     patten2Anim = true;
 
                 }
@@ -284,17 +284,7 @@ public class BossType3 : Unit
         }
     }
 
-    private void shieldPatten()
-    {
-        if (halfPattenCheck && shieldPattenCheck)
-        {
-            objShield.SetActive(true);
-        }
-        else if (halfPattenCheck && !shieldPattenCheck)
-        {
-            basicAttackTime = basicAttackTime * 0.5f;
-        }
-    }
+   
 
     //애니메이션용
     private void EnventEnd()

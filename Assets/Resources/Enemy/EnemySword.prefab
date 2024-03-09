@@ -752,6 +752,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9f7a1ae8c6cfad438bd7e488720a33c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  godTimer: 0
   attackCheck: 0
   AttackDelayTime: 2
   attackPlayerCheck: 0
@@ -789,6 +790,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2f8409e6226b6c46807ca083d53efbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hp: 0
+  maxHp: 0
+  ad: 0
   originalHP: 10
   originalNaturalHP: 0
   originalMP: 0
