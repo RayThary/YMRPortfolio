@@ -1181,7 +1181,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: test_51
+      name: BlueBoom1
       rect:
         serializedVersion: 2
         x: 272
@@ -1202,13 +1202,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: test_52
+      name: BlueBoom4
       rect:
         serializedVersion: 2
-        x: 300
-        y: 288
-        width: 64
-        height: 77
+        x: 368
+        y: 337
+        width: 27
+        height: 30
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1223,13 +1223,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: test_53
+      name: BlueBoom3
       rect:
         serializedVersion: 2
-        x: 337
-        y: 320
-        width: 58
-        height: 47
+        x: 336
+        y: 337
+        width: 27
+        height: 30
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -4813,6 +4813,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: BlueBoom2
+      rect:
+        serializedVersion: 2
+        x: 304
+        y: 337
+        width: 27
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de57d80817104764baed91d1503de0d0
+      internalID: -854117102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -4824,6 +4845,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      BlueBoom1: -2121336891
+      BlueBoom2: -854117102
+      BlueBoom3: -141052055
+      BlueBoom4: 2054029358
       EndSeaal2: -406034120
       EndSeal: -388383194
       RedButterfly: -1195068078
@@ -5010,9 +5035,6 @@ TextureImporter:
       test_49: -490005884
       test_5: 1442840862
       test_50: 1437409921
-      test_51: -2121336891
-      test_52: 2054029358
-      test_53: -141052055
       test_54: 699253852
       test_55: 1135115126
       test_56: 291306169

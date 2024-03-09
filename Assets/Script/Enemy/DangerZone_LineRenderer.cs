@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DangerZone : MonoBehaviour
+public class DangerZone_LineRenderer : MonoBehaviour
 {
-
+    private LineRenderer line;
+    Gradient gr = new Gradient();
+    private GradientAlphaKey[] rKey = new GradientAlphaKey[2];
+    private GradientColorKey[] cKey = new GradientColorKey[2];
     [SerializeField] private float time = 2;
 
-    private SpriteRenderer spr;
-    private Color color;
     private bool alphaCheck;
 
     [SerializeField] private float maxAlpha = 0.8f;
@@ -18,24 +19,21 @@ public class DangerZone : MonoBehaviour
 
     void Start()
     {
+        line = GetComponent<LineRenderer>();
 
-
-
-        spr = GetComponent<SpriteRenderer>();
-        color = spr.color;
-
-
+        cKey[0] = new GradientColorKey(Color.red, 0);
+        cKey[1] = new GradientColorKey(Color.red, 1);
     }
 
-
-    protected virtual void Update()
+   void Update()
     {
         alphaControl();
         objCheck();
     }
-
     private void alphaControl()
     {
+        rKey[0] = new GradientAlphaKey(alpha, 0);
+        rKey[1] = new GradientAlphaKey(alpha, 1);
         if (alpha <= minAlpha)
         {
             alphaCheck = true;
@@ -54,13 +52,14 @@ public class DangerZone : MonoBehaviour
             alpha -= Time.deltaTime * 0.5f;
         }
 
-        color.a = alpha;
-        spr.color = color;
+        gr.SetKeys(cKey, rKey);
+
+        line.colorGradient = gr;
     }
 
     private void objCheck()
     {
-        if (spr.enabled == true)
+        if (line.enabled == true)
         {
             StartCoroutine(offObj());
         }
@@ -68,7 +67,7 @@ public class DangerZone : MonoBehaviour
     IEnumerator offObj()
     {
         yield return new WaitForSeconds(time);
-        spr.enabled = false;
+        line.enabled = false;
     }
 
     public float getTime()
@@ -79,5 +78,4 @@ public class DangerZone : MonoBehaviour
     {
         time = _value;
     }
-
 }
