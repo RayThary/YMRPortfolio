@@ -55,7 +55,7 @@ MonoBehaviour:
   - {fileID: 2506738095732970649}
   - {fileID: 5507273173595767674}
   boss: {fileID: 0}
-  rate: 0
+  rate: 0.1
 --- !u!54 &3069367345564637629
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -25,7 +25,7 @@ public class MeteorMove : MonoBehaviour
         player = GameManager.instance.GetPlayer;
     }
 
-    
+
     void Update()
     {
         transform.Translate(Vector3.down * fallSpeed * Time.deltaTime);
@@ -33,8 +33,16 @@ public class MeteorMove : MonoBehaviour
 
         if (posY <= 0.1f)
         {
-            PoolingManager.Instance.RemovePoolingObject(gameObject);
+            for (int i = 0; i < 4; i++)
+            {
+                GameObject obj = null;
+                obj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.EnemyBullet, GameManager.instance.GetEnemyAttackObjectPatten);
+                obj.transform.position = new Vector3(transform.position.x, 0.1f, transform.position.z);
+                obj.transform.rotation = Quaternion.Euler(new Vector3(0, i * 90, 0));
+                obj.GetComponent<Bullet>().Straight();
 
+            }
+            PoolingManager.Instance.RemovePoolingObject(gameObject);
         }
     }
 }

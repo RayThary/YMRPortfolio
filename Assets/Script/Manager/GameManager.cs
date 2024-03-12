@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
         enemyAttackObj = transform.GetChild(0);
         enemyManager.Init();
         enemyManager.GetStage = enemyManager.Stages[0];
-        enemyManager.GetStage.spawnEnemy();
+        //enemyManager.GetStage.spawnEnemy();
 
         //프레임 설정 / 화면비
         RefreshRate rate = new RefreshRate();
