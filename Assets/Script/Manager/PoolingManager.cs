@@ -29,6 +29,7 @@ public class PoolingManager : MonoBehaviour
         RhombusLaser,
         UpGroundLaserObj,
         BlueBombing,
+        BombingObj,
     }
 
     [System.Serializable]

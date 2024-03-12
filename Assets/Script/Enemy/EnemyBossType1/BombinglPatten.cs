@@ -12,10 +12,10 @@ public class BombingPatten : MonoBehaviour
         RightDiagonal,//오른쪽위부터 왼쪽아래로 그어지는대각선
     }
     [SerializeField] private BombingType bType;
-    [SerializeField] private float bombingTime = 1;
-    private float bombingTimer = 0.0f;
-    [SerializeField] private float bombingIntervalTimer = 0.2f;
-    [SerializeField] private bool bombingStartCheck = false;//field삭제예정 시작지점
+    [SerializeField] private bool bombingStartCheck = false;//field삭제예정 시작할지물어보는곳
+
+    [SerializeField] private float bombingTime = 1;//폭발시작까지의시간
+    [SerializeField] private float bombingIntervalTimer = 0.2f;//폭발간의시간간격
 
     private Transform centerTrs;
 
@@ -26,21 +26,16 @@ public class BombingPatten : MonoBehaviour
     private Vector3 endPosVec;
 
     private Vector3 targetPos;//목표지점
-    private List<Vector3> targetVec = new List<Vector3>();
 
-    LineRenderer line;
 
     private bool bombingStart = false;
 
-    private DangerZone_LineRenderer lineDangerZone;
+
 
     void Start()
     {
-        line = GetComponent<LineRenderer>();
-        lineDangerZone = GetComponent<DangerZone_LineRenderer>();
-        lineDangerZone.SetTime(bombingTime);
 
-        lineDangerZone.enabled = false;
+
 
         centerTrs = GameManager.instance.GetPlayerTransform;
     }
@@ -49,7 +44,6 @@ public class BombingPatten : MonoBehaviour
     void Update()
     {
         centerPostion();
-        bombingSpawn();
     }
 
     private void centerPostion()
@@ -65,8 +59,7 @@ public class BombingPatten : MonoBehaviour
             {
                 startPosVec = new Vector3(centerPosVec.x - 4.5f, centerPosVec.y, centerPosVec.z);
                 endPosVec = new Vector3(centerPosVec.x + 4.5f, centerPosVec.y, centerPosVec.z);
-                line.SetPosition(0, startPosVec);
-                line.SetPosition(1, endPosVec);
+
                 if (startLeft)
                 {
                     targetPos = startPosVec;
@@ -82,8 +75,7 @@ public class BombingPatten : MonoBehaviour
             {
                 startPosVec = new Vector3(centerPosVec.x, centerPosVec.y, centerPosVec.z + 4.5f);
                 endPosVec = new Vector3(centerPosVec.x, centerPosVec.y, centerPosVec.z - 4.5f);
-                line.SetPosition(0, startPosVec);
-                line.SetPosition(1, endPosVec);
+
 
                 if (startLeft)
                 {
@@ -102,8 +94,7 @@ public class BombingPatten : MonoBehaviour
             {
                 startPosVec = new Vector3(centerPosVec.x - 4.5f, centerPosVec.y, centerPosVec.z + 4.5f);
                 endPosVec = new Vector3(centerPosVec.x + 4.5f, centerPosVec.y, centerPosVec.z - 4.5f);
-                line.SetPosition(0, startPosVec);
-                line.SetPosition(1, endPosVec);
+
                 if (startLeft)
                 {
                     targetPos = startPosVec;
@@ -121,8 +112,7 @@ public class BombingPatten : MonoBehaviour
             {
                 startPosVec = new Vector3(centerPosVec.x + 4.5f, centerPosVec.y, centerPosVec.z + 4.5f);
                 endPosVec = new Vector3(centerPosVec.x - 4.5f, centerPosVec.y, centerPosVec.z - 4.5f);
-                line.SetPosition(0, startPosVec);
-                line.SetPosition(1, endPosVec);
+
 
                 if (startLeft)
                 {
@@ -137,29 +127,19 @@ public class BombingPatten : MonoBehaviour
                     targetPos.z -= 0.5f;
                 }
             }
-
-            lineDangerZone.enabled = true;
+            GameObject obj = null;
+            obj = PoolingManager.Instance.CreateObject("BombingObj", transform);
+            BombingObject bomObj = obj.GetComponent<BombingObject>();
+            bomObj.SetObject((int)bType, startPosVec, endPosVec, bombingTime, targetPos, startLeft, bombingIntervalTimer);
             bombingStartCheck = false;
-            bombingStart = true;
         }
 
     }
 
-    private void bombingSpawn()
-    {
-
-        if (bombingStart && line.enabled == false)
-        {
-            targetVec.Clear();
-
-            
-
-            StartCoroutine(bombing());
-            bombingStart = false;
-        }
-    }
-
-    //private void 
+ 
+    //폭발 위치와 소환되는코드
+    #region
+    /*
     IEnumerator bombing()
     {
         if (bType == BombingType.Horizontal)
@@ -167,7 +147,6 @@ public class BombingPatten : MonoBehaviour
             for (int i = 0; i < 9; i++)
             {
                 GameObject obj = null;
-                targetVec.Add(targetPos);
                 if (startLeft)
                 {
                     targetPos += Vector3.right;
@@ -186,7 +165,6 @@ public class BombingPatten : MonoBehaviour
             for (int i = 0; i < 9; i++)
             {
                 GameObject obj = null;
-                targetVec.Add(targetPos);
                 if (startLeft)
                 {
                     targetPos += Vector3.back;
@@ -196,7 +174,7 @@ public class BombingPatten : MonoBehaviour
                     targetPos += Vector3.forward;
                 }
                 obj = PoolingManager.Instance.CreateObject("BlueBombing", GameManager.instance.GetEnemyAttackObjectPatten);
-                obj.transform.position = targetVec[i];
+                obj.transform.position = targetPos;
                 yield return new WaitForSeconds(bombingIntervalTimer);
             }
         }
@@ -205,7 +183,6 @@ public class BombingPatten : MonoBehaviour
             for (int i = 0; i < 9; i++)
             {
                 GameObject obj = null;
-                targetVec.Add(targetPos);
                 if (startLeft)
                 {
                     targetPos += new Vector3(+1, 0, -1);
@@ -215,7 +192,7 @@ public class BombingPatten : MonoBehaviour
                     targetPos += new Vector3(-1, 0, +1);
                 }
                 obj = PoolingManager.Instance.CreateObject("BlueBombing", GameManager.instance.GetEnemyAttackObjectPatten);
-                obj.transform.position = targetVec[i];
+                obj.transform.position = targetPos;
                 yield return new WaitForSeconds(bombingIntervalTimer);
             }
         }
@@ -224,7 +201,6 @@ public class BombingPatten : MonoBehaviour
             for (int i = 0; i < 9; i++)
             {
                 GameObject obj = null;
-                targetVec.Add(targetPos);
                 if (startLeft)
                 {
                     targetPos += new Vector3(+1, 0, +1);
@@ -234,13 +210,14 @@ public class BombingPatten : MonoBehaviour
                     targetPos += new Vector3(-1, 0, -1);
                 }
                 obj = PoolingManager.Instance.CreateObject("BlueBombing", GameManager.instance.GetEnemyAttackObjectPatten);
-                obj.transform.position = targetVec[i];
+                obj.transform.position = targetPos;
                 yield return new WaitForSeconds(bombingIntervalTimer);
             }
         }
 
-    }
 
+    }*/
+    #endregion
 
 
 }

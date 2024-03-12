@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5208373034076467772}
   - component: {fileID: 6846001788992189736}
   - component: {fileID: 6793513596868818105}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: BossEndAttackRange
   m_TagString: Untagged
   m_Icon: {fileID: 0}

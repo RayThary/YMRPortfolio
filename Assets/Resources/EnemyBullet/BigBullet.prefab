@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5647797709011778417}
   - component: {fileID: 3069367345564637629}
   - component: {fileID: 46197914966201272}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: BigBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49,7 +49,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 2
   rotateSpeed: 120
-  bulletParent: {fileID: 0}
   muzzles:
   - {fileID: 4817976662766529105}
   - {fileID: 4798111855101180581}

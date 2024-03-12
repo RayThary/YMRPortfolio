@@ -261,7 +261,7 @@ public class BossEnemyEndType : Unit
 
     IEnumerator HaxagonLaser()
     {
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < 99; i++)
         {
             PoolingManager.Instance.CreateObject("HaxagonLaser", transform.parent.parent);
             yield return new WaitForSeconds(5);
