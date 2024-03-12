@@ -1,32 +1,52 @@
-
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CardManager : MonoBehaviour
 {
     public CardVeiw[] view;
-    public List<Card> publicCards = new List<Card>();
+    public List<Card> publicCards = new();
+    public List<Card> selectCards = new();
+    private Player player;
 
     private void Start()
     {
-        for(int i = 0; i < view.Length; i++)
+        player = GameManager.instance.GetPlayer;
+        for (int i = 0; i < view.Length; i++)
         {
             view[i].Init(this);
         }
-        publicCards.Add(new Armor_Of_Thorns());
-        publicCards.Add(new Absorption());
+
+        publicCards.Add(new QuickAttackCard(player));
+        publicCards.Add(new PenetrationCard(player));
+        publicCards.Add(new MineCard(player));
+        publicCards.Add(new DrainCard(player));
+        publicCards.Add(new ExplosionCard(player));
+        publicCards.Add(new GuidedCard(player));
+        publicCards.Add(new PoisonCard(player));
+        publicCards.Add(new FastCard(player));
+        publicCards.Add(new HealthCard(player));
+        publicCards.Add(new MoveCard(player));
+        publicCards.Add(new CutCard(player));
+        publicCards.Add(new ThornCard(player));
+        publicCards.Add(new NaturalCard(player));
+        publicCards.Add(new DashCard(player));
+        publicCards.Add(new EnhanceCard(player));
+        publicCards.Add(new MineMachineCard(player));
+        publicCards.Add(new GunMachineCard(player));
+        publicCards.Add(new FlameMachineCard(player));
+        publicCards.Add(new DefenceMachineCard(player));
+        publicCards.Add(new ShotgunCard(player));
+        publicCards.Add(new Evolution(player));
     }
 
     public void ViewCards()
     {
-        List<Card> list = new List<Card> ();
-        list.AddRange(publicCards);
-        Debug.Log(GameManager.instance.GetPlayer.weapon);
-        list.AddRange(GameManager.instance.GetPlayer.weapon.cards);
-        Card[] cards = a.GetRandomCards(list, view.Length);
-        if (cards == null )
+        List<Card> list = publicCards.Except(selectCards).ToList();
+        Card[] cards = AngleCalculator.GetRandomCards(list, view.Length);
+        if (cards == null)
             return;
         for (int i = 0; i < view.Length; i++)
         {
@@ -36,9 +56,11 @@ public class CardManager : MonoBehaviour
         }
     }
 
-    public void Selected()
+    public void Selected(Card card)
     {
-        for(int i = 0; i < view.Length; i++)
+        selectCards.Add(card);
+        card.Activation();
+        for (int i = 0; i < view.Length; i++)
         {
             view[i].gameObject.SetActive(false);
             view[i].card = null;
@@ -47,224 +69,451 @@ public class CardManager : MonoBehaviour
 }
 
 
-
 [System.Serializable]
-public class Armor_Of_Thorns : Card
+public class QuickAttackCard : Card
 {
-    public Armor_Of_Thorns()
+    public QuickAttackCard(Player player) : base(player)
     {
-        figure = 1;
-        exp = "피해를 받을때마다 피해를 준 유닛에게 " + figure + "만큼 피해를 준다";
-    }
-    public override void Activation(Launcher launcher, Unit unit)
-    {
-        base.Activation(launcher, unit);
-
-        user.STAT.AddHit(Thorns);
-    }
-    public override void Deactivation()
-    {
-        user.STAT.RemoveHit(Thorns);
+        exp = "공격속도가 빨라집니다";
     }
 
-    public override void Impact()
+    public override void Activation()
     {
-
-    }
-
-    public void Thorns(Unit unit, float f)
-    {
-        unit.STAT.Be_Attacked_TRUE(figure, user);
-    }
-}
-
-public class Absorption : Card
-{
-    public Absorption()
-    {
-        figure = 1;
-        exp = "상대를 처치 할때마다 체력을 " + figure + " 회복한다";
-    }
-
-    public override void Activation(Launcher launcher, Unit unit)
-    {
-        base.Activation(launcher, unit);
-        user.STAT.AddAttack(death);
-    }
-
-    public override void Deactivation()
-    {
-        user.STAT.RemoveAttack(death);
-    }
-
-    public override void Impact()
-    {
-
-    }
-
-    public void death(Unit unit, float figure)
-    {
-        if (unit.STAT.HP <= 0)
+        for (int i = 0; i < user.GetComponent<WeaponDepot>().Launcher.AttackTypes.Count; i++)
         {
-            user.STAT.RecoveryHP(this.figure, GameManager.instance.GetPlayer);
+            user.GetComponent<WeaponDepot>().Launcher.AttackTypes[i].Rate = -0.1f;
+        }
+    }
+
+    public override void Deactivation()
+    {
+        for (int i = 0; i < user.GetComponent<WeaponDepot>().Launcher.AttackTypes.Count; i++)
+        {
+            user.GetComponent<WeaponDepot>().Launcher.AttackTypes[i].Rate = 0.1f;
         }
     }
 }
 
 [System.Serializable]
-public class QuickAttack : Card
+public class PenetrationCard : Card
 {
-    public QuickAttack()
+    public PenetrationCard(Player player) : base(player)
     {
-        exp = "공격속도가 빨라집니다";
-        figure = -0.5f;
+        exp = "공격이 대상에게 명중했을때 더이상 사라지지 않습니다.";
     }
-
-    public override void Activation(Launcher launcher, Unit unit)
+    public override void Activation()
     {
-        base.Activation(launcher, unit);
-        launcher.FireRate += figure;
+        user.componentController.AddComponent(new ComponentPenetrationCreator());
+    }
+    public override void Deactivation()
+    {
+        user.componentController.RemoveComponent(new ComponentPenetrationCreator());
+    }
+}
+
+[System.Serializable]
+public class MineCard : Card
+{
+    public MineCard(Player player) : base(player)
+    {
+        exp = "대상에게 공격명중 3번째마다 지뢰를 소환합니다.";
+    }
+    public override void Activation()
+    {
+        user.componentController.AddComponent(new ComponentMineCreator());
     }
 
     public override void Deactivation()
     {
-        launcher.FireRate -= figure;
-    }
-
-    public override void Impact()
-    {
-
+        user.componentController.RemoveComponent(new ComponentMineCreator());
     }
 }
 
-// 발사할때마다 호출해줬으면 한다
-// Impact에 원하는 내용 작성후 Activation에 
-// launcher.FireCallbackAdd(Impact); 작성
-// Deactivation에 
-// launcher.FireCallbackRemove(Impact); 작성
+[System.Serializable]
+public class DrainCard : Card
+{
+    public DrainCard(Player player) : base(player)
+    {
+        exp = "공격이 명중할 때마다 체력을 1 회복합니다.";
+    }
 
-// 총알이 상대에게 명중했을때 호출 했으면 한다
-// 매개변수가 Unit unit, float figure인 함수를 하나 만들고
-// 이때 unit은 내가 누굴 공격했는지 figure는 그 수치는 얼마인지에 대한 정보
-// 원하는 내용 작성후 Activation에
-// player.stat.AddAttack(만든함수이름); 작성
-// Deactivation에
-// player.stat.RemoveAttack(만든함수이름); 작성
+    public override void Activation()
+    {
+        user.componentController.AddComponent(new ComponentDrainCreator());
+    }
 
-// 내가 누군가에게 대미지를 입었을때 호출 했으면 한다
-// 매개변수가 Unit unit, float figure인 함수를 하나 만들고
-// 이때 unit은 내가 누구에게 공격받았는지 figure는 그 수치는 얼마인지에 대한 정보
-// 원하는 내용 작성후 Activation에
-// player.stat.AddHit(만든함수이름); 작성
-// Deactivation에
-// player.stat.RemoveHit(만든함수이름); 작성
+    public override void Deactivation()
+    {
+        user.componentController.RemoveComponent(new ComponentDrainCreator());
+    }
+}
 
-//예시
-//public class ThreeStrokeAttack : Card
-//{
-//    public override void Activation(Launcher launcher)
-//    {
-//        base.Activation(launcher);
-//        figure = 0;
-//        launcher.FireCallbackAdd(Impact);
-//    }
+[System.Serializable]
+public class ExplosionCard : Card
+{
+    public ExplosionCard(Player player) : base(player)
+    {
+        exp = "매 공격이 폭발을 일으킵니다.";
+    }
 
-//    public override void Deactivation()
-//    {
-//        launcher.FireCallbackRemove(Impact);
-//    }
+    public override void Activation()
+    {
+        user.componentController.AddComponent(new ComponentExplosionCreator());
+    }
 
-//    public override void Impact()
-//    {
-//        figure++;
-//        if (figure >= 3)
-//        {
-//            SpecialFire(30);
-//            SpecialFire(-30);
-//            figure = 0;
-//        }
-//    }
+    public override void Deactivation()
+    {
+        user.componentController.RemoveComponent(new ComponentExplosionCreator());
+    }
+}
 
-//    public void SpecialFire(float angle)
-//    {
-//        Bullet b = launcher.GetBullet();
-//        b.gameObject.SetActive(true);
-//        b.transform.position = launcher.muzzle.position;
-//        b.transform.localEulerAngles = new Vector3(0, launcher.launcher.eulerAngles.y - 90 - 90 + angle, 0);
-//        b.Straight();
-//    }
-//}
+[System.Serializable]
+public class GuidedCard : Card
+{
+    public GuidedCard(Player player) : base(player)
+    {
+        exp = "공격이 상대를 향해 회전합니다.";
+    }
 
-//public class PoisonBullet : Card
-//{
-//    public override void Activation(Launcher launcher)
-//    {
-//        base.Activation(launcher);
-//        figure = 3;
-//        GameManager.instance.GetPlayer.stat.AddAttack(Poison);
-//    }
-//    public override void Deactivation()
-//    {
-//        GameManager.instance.GetPlayer.stat.RemoveAttack(Poison);
-//    }
+    public override void Activation()
+    {
+        user.componentController.AddComponent(new ComponentGuidedCreator());
+    }
 
-//    public override void Impact()
-//    {
+    public override void Deactivation()
+    {
+        user.componentController.RemoveComponent(new ComponentGuidedCreator());
+    }
+}
 
-//    }
+[System.Serializable]
+public class PoisonCard : Card
+{
+    public PoisonCard(Player player) : base(player)
+    {
+        exp = "공격이 명중할 때마다 대상에게 독상태를 부여합니다.";
+    }
 
-//    public void Poison(Unit unit, float figure)
-//    {
-//        unit.stat.Be_Attacked_Poison(5, this.figure, GameManager.instance.GetPlayer);
-//    }
-//}
+    public override void Activation()
+    {
+        user.componentController.AddComponent(new ComponentPoisonCreator());
+    }
+    public override void Deactivation()
+    {
+        user.componentController.RemoveComponent(new ComponentPoisonCreator());
+    }
+}
 
-//public class Bloodsucking : Card
-//{
-//    public override void Activation(Launcher launcher)
-//    {
-//        base.Activation(launcher);
-//        figure = 1;
-//        GameManager.instance.GetPlayer.stat.AddAttack(Blood);
-//    }
-//    public override void Deactivation()
-//    {
-//        GameManager.instance.GetPlayer.stat.RemoveAttack(Blood);
-//    }
+[System.Serializable]
+public class FastCard : Card
+{
+    public FastCard(Player player) : base(player)
+    {
+        exp = "이동속도가 상승합니다.";
+    }
 
-//    public override void Impact()
-//    {
+    public override void Activation()
+    {
+        user.componentController.AddComponent(new ComponentFastCreator());
+    }
+    public override void Deactivation()
+    {
+        user.componentController.RemoveComponent(new ComponentFastCreator());
+    }
+}
 
-//    }
+[System.Serializable]
+public class HealthCard : Card
+{
+    public HealthCard(Player player) : base(player)
+    {
+        exp = "최대 체력이 상승합니다.";
+    }
+    public override void Activation()
+    {
+        user.STAT.MAXHP = 10;
+    }
+    public override void Deactivation()
+    {
+        user.STAT.MAXHP = -10;
+    }
+}
 
-//    public void Blood(Unit unit, float f)
-//    {
-//        GameManager.instance.GetPlayer.stat.RecoveryHP(figure, GameManager.instance.GetPlayer);
-//    }
-//}
+[System.Serializable]
+public class MoveCard : Card
+{
+    public MoveCard(Player player) : base(player)
+    {
+        exp = "공격이 상대를 향해 이동합니다.";
+    }
 
-//public class Armor_Of_Thorns : Card
-//{
-//    public override void Activation(Launcher launcher)
-//    {
-//        base.Activation(launcher);
-//        figure = 1;
-//        GameManager.instance.GetPlayer.stat.AddHit(Thorns);
-//    }
-//    public override void Deactivation()
-//    {
-//        GameManager.instance.GetPlayer.stat.RemoveHit(Thorns);
-//    }
+    public override void Activation()
+    {
+        user.componentController.AddComponent(new ComponentMoveCreator());
+    }
+    public override void Deactivation()
+    {
+        user.componentController.RemoveComponent(new ComponentMoveCreator());
+    }
+}
 
-//    public override void Impact()
-//    {
+[System.Serializable]
+public class CutCard : Card
+{
+    public CutCard(Player player) : base(player)
+    {
+        exp = "공격이 상대방의 공격을 없앱니다.";
+    }
 
-//    }
+    public override void Activation()
+    {
+        user.componentController.AddComponent(new ComponentCutCreator());
+    }
+    public override void Deactivation()
+    {
+        user.componentController.RemoveComponent(new ComponentCutCreator());
+    }
+}
 
-//    public void Thorns(Unit unit, float f)
-//    {
-//        unit.stat.Be_Attacked_TRUE(figure, GameManager.instance.GetPlayer);
-//    }
-//}
+[System.Serializable]
+public class ThornCard : Card
+{
+    public ThornCard(Player player) : base(player)
+    {
+        exp = "공격을 받을 때 상대에게 대미지를 1 줍니다.";
+    }
+
+    public override void Activation()
+    {
+        user.componentController.AddComponent(new ComponentThornCreator());
+    }
+    public override void Deactivation()
+    {
+        user.componentController.RemoveComponent(new ComponentThornCreator());
+    }
+}
 
 
+[System.Serializable]
+public class NaturalCard : Card
+{
+    public NaturalCard(Player player) : base(player)
+    {
+        exp = "자연회복을 시작합니다.";
+    }
+
+    public override void Activation()
+    {
+        user.componentController.AddComponent(new ComponentNaturalCreator());
+    }
+    public override void Deactivation()
+    {
+        user.componentController.RemoveComponent(new ComponentNaturalCreator());
+    }
+}
+
+[System.Serializable]
+public class DashCard : Card
+{
+    public DashCard(Player player) : base(player)
+    {
+        exp = "공격 시 공격 방향으로 대쉬합니다.";
+    }
+
+    public override void Activation()
+    {
+        user.componentController.AddComponent(new ComponentDashCreator());
+    }
+    public override void Deactivation()
+    {
+        user.componentController.RemoveComponent(new ComponentDashCreator());
+    }
+}
+
+[System.Serializable]
+public class EnhanceCard : Card
+{
+    public EnhanceCard(Player player) : base(player)
+    {
+        exp = "대쉬 후 공격이 1회 강회됩니다.";
+    }
+
+    public override void Activation()
+    {
+        user.componentController.AddComponent(new ComponentEnhanceCreator());
+    }
+    public override void Deactivation()
+    {
+        user.componentController.RemoveComponent(new ComponentEnhanceCreator());
+    }
+}
+
+[System.Serializable]
+public class MineMachineCard : Card
+{
+    MineMachine machine;
+    public MineMachineCard(Player player) : base(player)
+    {
+        exp = "플레이어를 따라다니며 지뢰를 설치합니다.";
+    }
+
+    public override void Activation()
+    {
+        machine = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.MineMachinePet, null).GetComponent<MineMachine>();
+        if (machine != null)
+        {
+            machine.Master = user;
+            machine.transform.position = user.transform.position;
+        }
+    }
+    public override void Deactivation()
+    {
+        if (machine != null)
+        {
+            machine.Master = null;
+            PoolingManager.Instance.RemovePoolingObject(machine.gameObject);
+        }
+    }
+}
+
+[System.Serializable]
+public class GunMachineCard : Card
+{
+    GunMachine machine;
+    public GunMachineCard(Player player) : base(player)
+    {
+        exp = "플레이어를 따라다니며 적에게 총을 발사합니다.";
+    }
+
+    public override void Activation()
+    {
+        machine = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.GunMachinePet, null).GetComponent<GunMachine>();
+        if (machine != null)
+        {
+            machine.Master = user;
+            machine.transform.position = user.transform.position;
+        }
+    }
+    public override void Deactivation()
+    {
+        if (machine != null)
+        {
+            machine.Master = null;
+            PoolingManager.Instance.RemovePoolingObject(machine.gameObject);
+        }
+    }
+}
+
+[System.Serializable]
+public class FlameMachineCard : Card
+{
+    FlameMachine machine;
+    public FlameMachineCard(Player player) : base(player)
+    {
+        exp = "적에게 다가가 공격합니다.";
+    }
+
+    public override void Activation()
+    {
+        machine = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.FlameMachinePet, null).GetComponent<FlameMachine>();
+        if (machine != null)
+        {
+            machine.Master = user;
+            machine.transform.position = user.transform.position;
+        }
+    }
+    public override void Deactivation()
+    {
+        if (machine != null)
+        {
+            machine.Master = null;
+            PoolingManager.Instance.RemovePoolingObject(machine.gameObject);
+        }
+    }
+}
+
+[System.Serializable]
+public class DefenceMachineCard : Card
+{
+    DefenceMachine machine;
+    public DefenceMachineCard(Player player) : base(player)
+    {
+        exp = "일정시간마다 플레이어에게 보호막을 걸어줍니다.";
+    }
+
+    public override void Activation()
+    {
+        machine = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.DefenceMachinePet, null).GetComponent<DefenceMachine>();
+        if (machine != null)
+        {
+            machine.Master = user;
+            machine.transform.position = user.transform.position;
+        }
+    }
+    public override void Deactivation()
+    {
+        if (machine != null)
+        {
+            machine.Master = null;
+            PoolingManager.Instance.RemovePoolingObject(machine.gameObject);
+        }
+    }
+}
+
+
+//
+
+[System.Serializable]
+public class ShotgunCard : Card
+{
+    WeaponDepot weaponDepot;
+    PoolingManager.ePoolingObject ePoolingObject;
+
+    Shot[] shots;
+    float angle;
+    float rate;
+    float timer;
+    public ShotgunCard(Player player) : base(player)
+    {
+        weaponDepot = player.GetComponent<WeaponDepot>();
+        ePoolingObject = PoolingManager.ePoolingObject.ComponuntBulle;
+        shots = new Shot[2];
+        angle = 30;
+        rate = 1;
+        timer = 5;
+        exp = "사거리가 짧고 공격속도가 느린 공격이 2발 추가됩니다.";
+    }
+
+    public override void Activation()
+    {
+        shots[0] = weaponDepot.AddShot(ePoolingObject, angle, rate, timer);
+        shots[1] = weaponDepot.AddShot(ePoolingObject, -angle, rate, timer);
+    }
+
+    public override void Deactivation()
+    {
+        weaponDepot.RemoveShot(shots[0]);
+        weaponDepot.RemoveShot(shots[1]);
+    }
+}
+
+[System.Serializable]
+public class Evolution : Card
+{
+    public Evolution(Player player) : base(player)
+    {
+        exp = "체력 10증가 공격력 2증가.";
+    }
+
+    public override void Activation()
+    {
+        user.STAT.MAXHP = 10;
+        user.STAT.AD = 2;
+    }
+
+    public override void Deactivation()
+    {
+        user.STAT.MAXHP = -10;
+        user.STAT.AD = -2;
+    }
+}

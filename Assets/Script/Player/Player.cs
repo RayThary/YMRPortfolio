@@ -5,18 +5,20 @@ using UnityEngine.UI;
 
 public class Player : Unit
 {
-    public float moveSpeed = 5.0f; // 이동 속도 조절용 변수
-    public float moveAnimatorSpeed;
+    [SerializeField]
+    private float moveSpeed = 5.0f; // 이동 속도 조절용 변수
+    public float MoveSpeed 
+    { 
+        get { return moveSpeed; }
+        set 
+        {
+            moveSpeed = value;
+            animator.SetFloat("MoveSpeed", moveSpeed * 0.2f);
+        } 
+    }
     float horizontalInput = 0;
     float verticalInput = 0;
     Vector3 moveVelocity;
-
-    public Weapon weapon;
-    public Transform r_weapon;
-    public Transform objectParent;
-
-    Ray ray;
-    RaycastHit hit;
 
     //대쉬의 쿨타임을 알려줄 이미지
     public Image spaceImage;
@@ -28,6 +30,7 @@ public class Player : Unit
     public float travel = 0.1f;
     //시간을 잴 변수
     private float spaceTimer;
+    public float SpaceTimer { get { return spaceTimer; } set { spaceTimer = value; } }
     //플레이어가 움직일 수 있는지
     private bool canMove = true;
     public bool CanMove { get { return canMove; } set { canMove = value; } }
@@ -41,27 +44,33 @@ public class Player : Unit
     //당기는 함수를 저장할 변수
     private Action pull = null;
 
-    private Rigidbody rigid;
+    private Rigidbody _rigidbody;
+    public ComponentController componentController;
 
     protected new void Start()
     {
         base.Start();
-        weapon = new TestGun(this, r_weapon, r_weapon, 0, 1, objectParent);
+        _rigidbody = GetComponent<Rigidbody>();
         spriteAlpha = GetComponent<SpriteAlphaControl>();
         animator = transform.GetChild(0).GetComponent<Animator>();
-        rigid = GetComponent<Rigidbody>();
+        MoveSpeed = moveSpeed;
+        componentController = new ComponentController(this);
     }
 
 
     private void Update()
     {
+        moveVelocity = Vector3.zero;
+
         //움직임을 계산
         MoveCalculate();
         //움직임에 당기는 힘을 계산
-        if (pull != null)
-            pull();
+        
+        pull?.Invoke();
+        
         //움직임
         Move();
+        MoveAnimation();
 
         Vector3 look = Camera.main.WorldToScreenPoint(transform.position);
         UnitLook(Input.mousePosition - look);
@@ -69,7 +78,7 @@ public class Player : Unit
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Space();
+            Space(moveVelocity);
         }
 
         if (spaceTimer >= 0)
@@ -78,11 +87,6 @@ public class Player : Unit
             spaceImage.fillAmount = spaceTimer / spaceCooltime;
         }
 
-        weapon.Direction_Calculation_Screen(Input.mousePosition);
-        if (Input.GetMouseButton(0))
-        {
-            weapon.Fire();
-        }
     }
 
     private void MoveCalculate()
@@ -92,7 +96,7 @@ public class Player : Unit
         verticalInput = Input.GetAxisRaw("Vertical");
 
         // 입력에 따라 이동 벡터를 만듭니다.
-        Vector3 moveDirection = new Vector3(horizontalInput, verticalInput, 0.0f);
+        Vector3 moveDirection = new (horizontalInput, 0, verticalInput);
 
         // 이동 벡터의 길이를 1로 정규화하고 속도를 곱합니다.
         moveDirection.Normalize();
@@ -120,7 +124,7 @@ public class Player : Unit
             pull -= PullAction;
         }
         Vector3 dir = (target - transform.position).normalized;
-        moveVelocity += new Vector3(dir.x, dir.z, 0) * power;
+        moveVelocity += dir * power;
     }
 
     private void Move()
@@ -128,11 +132,19 @@ public class Player : Unit
         // 이동을 적용합니다.
         if (canMove)
         {
-            animator.SetFloat("MoveSpeed", moveAnimatorSpeed);
-            animator.SetFloat("RunState", 0.5f);
-            //transform.Translate(moveVelocity * Time.deltaTime);
+            _rigidbody.velocity = (moveVelocity );
+        }
+    }
 
-            rigid.velocity = new Vector3(moveVelocity.x, 0, moveVelocity.y);
+    private void MoveAnimation()
+    {
+        if (moveVelocity == Vector3.zero)
+        {
+            animator.SetFloat("RunState", 0);
+        }
+        else if(canMove && moveVelocity != Vector3.zero)
+        {
+            animator.SetFloat("RunState", 0.5f);
         }
     }
 
@@ -141,27 +153,34 @@ public class Player : Unit
     {
         if (god)
             return;
-        base.Hit(unit, figure);
-        //플레이어는 체력이 0이되면 게임이 끝난거임
-        if (stat.HP <= 0)
+        componentController.CallHit(unit, ref figure);
+
+        //대미지가 0보다 크다면
+        if(figure > 0)
         {
-            Time.timeScale = 0;
-            //게임 다시시작
-            return;
-        }
-        else
-        {
-            //플레이어 무적시간
-            if (invincibility != null && godTimer < hit_invincibility)
+            base.Hit(unit, figure);
+            //플레이어는 체력이 0이되면 게임이 끝난거임
+            if (stat.HP <= 0)
             {
-                StopCoroutine(invincibility);
-                invincibility = StartCoroutine(Invincibility(hit_invincibility));
+                Time.timeScale = 0;
+                //게임 다시시작
+                GameManager.instance.PlayerDead();
+                return;
             }
-            else if (invincibility == null)
+            else
             {
-                invincibility = StartCoroutine(Invincibility(hit_invincibility));
+                //플레이어 무적시간
+                if (invincibility != null && godTimer < hit_invincibility)
+                {
+                    StopCoroutine(invincibility);
+                    invincibility = StartCoroutine(Invincibility(hit_invincibility));
+                }
+                else if (invincibility == null)
+                {
+                    invincibility = StartCoroutine(Invincibility(hit_invincibility));
+                }
+                spriteAlpha.isHit = true;
             }
-            spriteAlpha.isHit = true;
         }
     }
 
@@ -171,30 +190,37 @@ public class Player : Unit
         if (dir.x < 0)
         {
             transform.localScale = new Vector3(1, 1, 1);
-            r_weapon.localScale = new Vector3(1, 1, 1);
         }
         else
         {
             transform.localScale = new Vector3(-1, 1, 1);
-            r_weapon.localScale = new Vector3(-1, 1, 1);
         }
     }
 
     //스페이스를 누르면 대쉬
-    public void Space()
+    public void Space(Vector3 velocity)
     {
-        if (moveVelocity != Vector3.zero && spaceTimer < 0)
+        if (velocity != Vector3.zero && spaceTimer <= 0)
         {
-            StartCoroutine(SpaceCoroutine(travel, moveVelocity));
+            //이동에 관한 코루틴
+            StartCoroutine(SpaceCoroutine(travel, velocity));
+
+            //무적에 관한 코루틴
+            //invincibility 가 null인지 아닌지로 무적시간이 작동중인지 판단
+
+            //이미 무적 상태일때
+            //새로 들어갈 무적시간보다 현재 무적시간이 길다면 무적시간을 새로 할 필요가 없다고 생각해서 && godTimer < travel 했는데 그냥 없애도 상관없음
             if (invincibility != null && godTimer < travel)
             {
                 StopCoroutine(invincibility);
                 invincibility = StartCoroutine(Invincibility(travel));
             }
-            else if (invincibility == null)//이거뭔지설명써놔라
+            //무적상태가 아니였다면 그냥 시작
+            else if (invincibility == null)
             {
                 invincibility = StartCoroutine(Invincibility(travel));
             }
+            //쿨타임
             spaceTimer = spaceCooltime;
         }
     }
@@ -202,36 +228,36 @@ public class Player : Unit
     //대쉬 이동
     private IEnumerator SpaceCoroutine(float t, Vector3 velocity)
     {
+        componentController.CallDashStart();
         float timer = 0;
         canMove = false;
         while (true)
         {
-            transform.Translate(velocity * spaceDis * Time.deltaTime);
+            _rigidbody.velocity = (spaceDis * velocity);
 
             timer += Time.deltaTime;
             if (timer > t)
                 break;
             yield return null;
         }
+        componentController.CallDashEnd();
         canMove = true;
     }
 
     private IEnumerator UpGG(Vector3 velocity)
     {
         float timer = 0;
-        //velocity = new Vector3(velocity.x, 0f, velocity.z);
         canMove = false;
-        rigid.velocity = velocity * 3;
         while (true)
         {
-            //transform.Translate(velocity * 3 * Time.deltaTime);
-
+            _rigidbody.velocity = (5 * velocity);
             timer += Time.deltaTime;
 
-            if (timer > 0.2f)
+            if (timer > 0.5f)
                 break;
             yield return null;
         }
+        _rigidbody.velocity = Vector3.zero;
         canMove = true;
     }
 
@@ -250,10 +276,40 @@ public class Player : Unit
 
     private void OnTriggerEnter(Collider other)
     {
-        if (god == false && other.tag.Equals("UpGroundPush"))
+        if (other.CompareTag("UpGroundPush"))
         {
-            Vector3 dir = other.GetComponent<UpGround>().playerHitDirection();
-            StartCoroutine(UpGG(dir));
+            if (!god)
+            {
+                Vector3 dir = (other.transform.position - transform.position) * -1;
+                StartCoroutine(UpGG(UpggDirCalculate(dir)));
+            }
         }
+    }
+
+    private Vector3 UpggDirCalculate(Vector3 vector)
+    {
+        float maxComponent = Mathf.Max(Mathf.Abs(vector.x), Mathf.Abs(vector.z));
+        
+        // 가장 큰 값을 제외한 나머지 요소를 0으로 만듭니다.
+        Vector3 resultVector = new Vector3();
+        if (maxComponent == Mathf.Abs(vector.x))
+        {
+            if(vector.x > 0)
+                resultVector.x = 1;
+            else
+                resultVector.x = -1;
+            resultVector.y = 0;
+            resultVector.z = 0;
+        }
+        else // maxComponent == vector.z
+        {
+            resultVector.x = 0;
+            resultVector.y = 0;
+            if(vector.z > 0)
+                resultVector.z = 1;
+            else
+                resultVector.z = -1;
+        }
+        return resultVector;
     }
 }

@@ -17,6 +17,7 @@ public class Launcher
     public float angle;
     //발사시 오차 범위
     protected float mistake = 0;
+    public float Mistake { get => mistake; set => mistake = value; }
     //다음 발사까지 걸리는 시간
     protected float firerate;
     public float FireRate { get { return firerate; } set { firerate = value; } }
@@ -26,8 +27,6 @@ public class Launcher
     protected Action fireCallback = null;
     protected PoolingManager.ePoolingObject bulletObject;
     public PoolingManager.ePoolingObject BulletPool { get { return bulletObject; } set { bulletObject = value; } }
-    protected float bulletSpeed = 8;
-    public float BulletSpeed { get { return bulletSpeed; } set { bulletSpeed = value; } }
 
     public Launcher(Unit unit, Transform launcher, Transform muzzle, float mistake, float firerate, Transform objectParent)
     {
@@ -37,7 +36,7 @@ public class Launcher
         this.mistake = mistake;
         this.firerate = firerate;
         this.objectParent = objectParent;
-        bulletObject = PoolingManager.ePoolingObject.TestBullet;
+        bulletObject = PoolingManager.ePoolingObject.PlayerBullet;
         FireCallbackAdd(BulletControl);
     }
 
@@ -50,7 +49,7 @@ public class Launcher
         //무기의 위치를 스크린위치로 변환해서 각도를 계산
         //raycast는 충돌을 하지 않는 경우에 각도를 구하지 않기에
         //ScreenToWorld는 길이를 정해줘야하는 문제가 있기에 높이가 다를 수 있음
-        angle = a.ScreenAngleCalculate(screen, Camera.main.WorldToScreenPoint(launcher.position));
+        angle = AngleCalculator.ScreenAngleCalculate(screen, Camera.main.WorldToScreenPoint(launcher.position));
 
         //localEulerAnlge을 쓰다가 문제가 발생 무기마다 각도의 기준이 다름
         //local좌표가 아닌 world좌표를 써야함
@@ -66,7 +65,7 @@ public class Launcher
         //무기의 위치를 스크린위치로 변환해서 각도를 계산
         //raycast는 충돌을 하지 않는 경우에 각도를 구하지 않기에
         //ScreenToWorld는 길이를 정해줘야하는 문제가 있기에 높이가 다를 수 있음
-        angle = a.WorldAngleCalculate(position, launcher.position);
+        angle = AngleCalculator.WorldAngleCalculate(position, launcher.position);
 
         //localEulerAnlge을 쓰다가 문제가 발생 무기마다 각도의 기준이 다름
         //local좌표가 아닌 world좌표를 써야함
@@ -83,8 +82,8 @@ public class Launcher
     {
         Bullet b = GetBullet();
         b.unit = parent;
-        b.transform.position = muzzle.position;
-        b.transform.eulerAngles = new Vector3(0, angle, 0);
+        b.transform.position = new Vector3(muzzle.position.x, 0.1f, muzzle.position.z) ;
+        b.transform.eulerAngles = new Vector3(0, angle + UnityEngine.Random.Range(- mistake, mistake), 0);
         b.Straight();
     }
 
@@ -99,9 +98,9 @@ public class Launcher
     {
         if (CanShot())
         {
-            if (fireCallback != null)
-                fireCallback();
-            firerateCoroutine = parent.StartCoroutine(FirerateTimerC());
+            fireCallback?.Invoke();
+            if(firerate != 0)
+                firerateCoroutine = parent.StartCoroutine(FirerateTimerC());
         }
     }
 
@@ -113,9 +112,8 @@ public class Launcher
 
     public virtual Bullet GetBullet()
     {
-        Bullet bullet = PoolingManager.Instance.CreateObject(BulletPool, objectParent).transform.GetComponent<Bullet>();
-        bullet.speed = bulletSpeed;
-        return bullet;
+        //Bullet bullet = PoolingManager.Instance.CreateObject(bulletObject, objectParent).transform.GetComponent<Bullet>();
+        return PoolingManager.Instance.CreateObject(bulletObject, objectParent).transform.GetComponent<Bullet>();
     }
 
     public void FireCallbackAdd(Action action)
@@ -127,7 +125,6 @@ public class Launcher
         }
 
         if (!fireCallback.GetInvocationList().Contains(action))
-            //hitDelegate = (Action<Unit, float>)Delegate.Combine(hitDelegate, action);
             fireCallback += action;
     }
 

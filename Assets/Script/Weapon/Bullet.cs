@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -10,8 +9,9 @@ public class Bullet : MonoBehaviour
     public float timer;
     public float speed; 
 
-    private Coroutine straight = null;
-    private Coroutine t = null;
+    protected Coroutine straight = null;
+    protected Coroutine timerCoroutine = null;
+
 
     public virtual void Straight()
     {
@@ -25,27 +25,27 @@ public class Bullet : MonoBehaviour
 
     public void TimerStart()
     {
-        if (t != null)
+        if (timerCoroutine != null)
         {
-            StopCoroutine(t);
+            StopCoroutine(timerCoroutine);
         }
-        t = StartCoroutine(OffTimer());
+        timerCoroutine = StartCoroutine(OffTimer(timer));
     }
 
     protected IEnumerator StraightC()
     {
         while(true)
         {
-            transform.Translate(transform.forward * speed *  Time.deltaTime, Space.World);
+            transform.Translate(speed *  Time.deltaTime * transform.forward, Space.World);
 
             yield return null;
         }
     }
 
-    protected IEnumerator OffTimer()
+    protected IEnumerator OffTimer(float timer)
     {
         yield return new WaitForSeconds(timer);
-        t = null;
+        timerCoroutine = null;
         if(straight != null)
         {
             StopCoroutine(straight);
@@ -63,13 +63,16 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (straight != null)
+        if (1 << other.gameObject.layer == LayerMask.GetMask("Wall") || 1 << other.gameObject.layer == LayerMask.GetMask("Player"))
         {
-            StopCoroutine(straight);
+            if (straight != null)
+            {
+                StopCoroutine(straight);
+            }
+
+            Judgment(other);
+
+            PoolingManager.Instance.RemovePoolingObject(gameObject);
         }
-
-        Judgment(other);
-
-        PoolingManager.Instance.RemovePoolingObject(gameObject);
     }
 }

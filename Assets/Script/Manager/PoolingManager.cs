@@ -7,8 +7,6 @@ public class PoolingManager : MonoBehaviour
     public enum ePoolingObject
     {
         PlayerBullet,
-        TestBullet,
-        Laser,
         EnemyBullet,
         Meteor,
         MeteorObj,
@@ -30,6 +28,20 @@ public class PoolingManager : MonoBehaviour
         UpGroundLaserObj,
         BlueBombing,
         BombingObj,
+        ComponuntBulle,
+        Mine,
+        Explosion,
+        GuidedUI,
+        Flame,
+        FireballParticle,
+        Defence,
+        JinBossNoamlBullet,
+        JinBossCannonBullet,
+        JinBossBounceBullet,
+        DefenceMachinePet,
+        FlameMachinePet,
+        GunMachinePet,
+        MineMachinePet,
     }
 
     [System.Serializable]

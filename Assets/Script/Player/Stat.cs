@@ -15,6 +15,7 @@ public class Stat : MonoBehaviour
     public float MAXHP { get { return maxHp; } set { maxHp += value; if (hp > maxHp) hp = maxHp; } }    
     //체력 자연 회복량
     private float naturalHP;
+    public float NaturalHP { get => naturalHP; set => naturalHP = value; }
     private float mp;
     public float MP { get { return mp; } }
     private float maxMp;
@@ -108,7 +109,7 @@ public class Stat : MonoBehaviour
     public void MinusHp(float figure)
     {
         hp -= figure;
-        //Debug.Log($"{user.name}의 남은 체력 {hp}");
+        Debug.Log($"{user.name}의 남은 체력 {hp}");
         if(nrhp == null && naturalHPing)
         {
             nrhp = StartCoroutine(Natural_Recovery_HP());
@@ -222,7 +223,6 @@ public class Stat : MonoBehaviour
             {
                 hp += naturalHP;
                 t = 0;
-
             }
 
             yield return null;

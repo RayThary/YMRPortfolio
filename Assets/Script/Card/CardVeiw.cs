@@ -15,8 +15,6 @@ public class CardVeiw : MonoBehaviour
 
     public void Select()
     {
-        GameManager.instance.GetPlayer.weapon.CardAdd(card);
-        CardManager.Selected();
-        //GameManager.instance.GetPlayerTransform.position = new Vector3();
+        CardManager.Selected(card);
     }
 }
