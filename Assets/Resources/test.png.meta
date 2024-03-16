@@ -4822,7 +4822,7 @@ TextureImporter:
         width: 27
         height: 30
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -4830,6 +4830,27 @@ TextureImporter:
       bones: []
       spriteID: de57d80817104764baed91d1503de0d0
       internalID: -854117102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PullObject
+      rect:
+        serializedVersion: 2
+        x: 107
+        y: 222
+        width: 28
+        height: 28
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ce90e6c011a3d043a44acab15277508
+      internalID: 720226103
       vertices: []
       indices: 
       edges: []
@@ -4851,6 +4872,7 @@ TextureImporter:
       BlueBoom4: 2054029358
       EndSeaal2: -406034120
       EndSeal: -388383194
+      PullObject: 720226103
       RedButterfly: -1195068078
       RedButterflyBomb: -1796082034
       RedLaser: 2104244175

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -43,4 +44,15 @@ public enum bullet
 
 }
 
+public enum Tags
+{
+    Player,
+}
 
+public static class GameTags
+{
+    public static string GetGameTag(Tags _value)
+    {
+        return _value.ToString();
+    }
+}
