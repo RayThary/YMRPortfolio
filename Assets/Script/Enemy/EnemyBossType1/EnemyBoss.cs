@@ -7,16 +7,20 @@ using UnityEngine.AI;
 
 public class EnemyBoss : Unit
 {
-    [SerializeField] private int patternType; // 임시패턴설정용
+    [SerializeField] private int pattenType; // 임시패턴설정용
     private BombingPatten bombing;
 
-    private bool bombingStart = false;
+    [SerializeField] private float attackDelay = 3;
+    private float attackDelayTimer = 0;
+
+    private bool attackAnimationCheck = false;
+    private bool animationCheck = false;
 
     private int bombingType;
     private int beforeBombingType = -1;
 
     [SerializeField] private float nextBombingTime = 0.2f;
-    private List<GameObject> pullObject = new List<GameObject>();
+    [SerializeField] private List<GameObject> pullObject = new List<GameObject>();
 
     private NavMeshAgent nav;
     private Rigidbody rigd;
@@ -39,11 +43,9 @@ public class EnemyBoss : Unit
     void Update()
     {
         enemyMove();
+        enemyAttackMotion();
         enemyAttackPattern();
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            patternType = 1;
-        }
+
 
     }
 
@@ -60,11 +62,56 @@ public class EnemyBoss : Unit
         nav.SetDestination(playerTrs.position);
     }
 
+    private void enemyAttackMotion()
+    {
+        if (pattenType == 0 && attackAnimationCheck == false)
+        {
+            attackDelayTimer += Time.deltaTime;
+            if (attackDelayTimer >= attackDelay)
+            {
+                attackAnimationCheck = true;
+
+            }
+        }
+
+        if (attackAnimationCheck && animationCheck == false)
+        {
+            animationCheck = true;
+            int patten = Random.Range(0, 1);//패턴개수에따라 다르게설정
+
+            if (patten == 0)
+            {
+                animator.SetTrigger("Attack");
+                animator.SetFloat("AttackState", 0);
+                animator.SetFloat("NormalState", 0);
+            }
+            else if (patten == 1)
+            {
+                Debug.Log("아직만들지않음");
+            }
+        }
+
+
+    }
+
     private void enemyAttackPattern()
     {
-        if (patternType == 1)
+        if (pattenType == 1)
         {
-            if(playerTrs.position.x>=7&&playerTrs.position.x<=22&& playerTrs.position.z >= 7 && playerTrs.position.z <= 22)
+            if (pullObject.Count > 0)
+            {
+                if (pullObject[0].activeSelf == false)
+                {
+                    
+                }
+            }
+            else
+            {
+                pullObject.Clear();
+            }
+
+
+            if (playerTrs.position.x >= 7 && playerTrs.position.x <= 22 && playerTrs.position.z >= 7 && playerTrs.position.z <= 22)
             {
                 for (int i = 0; i < 4; i++)
                 {
@@ -93,26 +140,29 @@ public class EnemyBoss : Unit
 
                     pullObject.Add(PoolingManager.Instance.CreateObject("PullObject", GameManager.instance.GetEnemyAttackObjectPatten));
                     pullObject[i].transform.position = targetVec;
+                    pullObject[i].GetComponent<PullObject>().RemoveObject(5);
 
                 }
-                patternType = 0;
-
+                pattenType = 0;
+                attackAnimationCheck = false;
+                animationCheck = false;
             }
             else
             {
-                Debug.Log("1");
-                patternType = 0;
+                pattenType = 2;//이떄는 외부에있으므로 다른패턴을쓴다
             }
 
-            
+
 
         }
 
 
-        if (patternType == 2)
+        if (pattenType == 2)
         {
             StartCoroutine(bombingPatten());
-            patternType = 0;
+            pattenType = 0;
+            attackAnimationCheck = false;
+            animationCheck = false;
         }
 
 
@@ -151,6 +201,12 @@ public class EnemyBoss : Unit
         }
     }
 
+    //애니메이터외부
+    private void Patten1And2Animation()
+    {
+        pattenType = Random.Range(1, 3);
+        attackDelayTimer = 0;
+    }
 
 
 }

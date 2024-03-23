@@ -45,6 +45,7 @@ public class PullObject : MonoBehaviour
     {
         hitCheck();
         zeroPostionCheck();
+        
     }
 
     private void hitCheck()
@@ -84,7 +85,6 @@ public class PullObject : MonoBehaviour
         {
 
             float distance = Vector3.Distance(transform.position, player.transform.position);
-            Debug.Log(distance);
             if (distance > 0.3f)
             {
                 if (!oneCheck)
@@ -100,4 +100,19 @@ public class PullObject : MonoBehaviour
             }
         }
     }
+
+    /// <summary>
+    /// 오브젝트 리무브시키는부분
+    /// </summary>
+    /// <param name="_value">몇초동안 지속시킬지정해주는곳</param>
+    public void RemoveObject(float _value)
+    {
+        Invoke("removeObject", _value);
+    }
+
+    private void removeObject()
+    {
+        PoolingManager.Instance.RemovePoolingObject(gameObject);
+    }
+
 }

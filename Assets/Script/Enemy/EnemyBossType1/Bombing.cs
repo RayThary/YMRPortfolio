@@ -26,7 +26,7 @@ public class Bombing : MonoBehaviour
         if (oneCheck)
         {
             timer += Time.deltaTime;
-            if (timer >= 2)
+            if (timer >= 0.7f)
             {
                 oneCheck = false;
                 timer = 0;
