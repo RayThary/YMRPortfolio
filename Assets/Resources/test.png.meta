@@ -4855,6 +4855,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: BlueLaser
+      rect:
+        serializedVersion: 2
+        x: 106
+        y: 529
+        width: 16
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 29231342f01df1b4eadca3bb6efabcce
+      internalID: -625311579
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -4870,6 +4891,7 @@ TextureImporter:
       BlueBoom2: -854117102
       BlueBoom3: -141052055
       BlueBoom4: 2054029358
+      BlueLaser: -625311579
       EndSeaal2: -406034120
       EndSeal: -388383194
       PullObject: 720226103
