@@ -27,8 +27,9 @@ public class BossEnemyEndType : Unit
     [SerializeField] private float vicinityCoolTime = 2;
     private float vicinityTimer = 0;
 
-    private bool vicinityAttack = false;
-    private bool vicinityAttackRangeCheck = false;
+    private bool vicinityAttack = false;// 데미지를 입히는시간 
+    private bool vicinityAttackRangeCheck = false; // 소환되고 사라지는시간
+    private GameObject attackRange;
 
     //돌진 패턴
     private bool farPattenCheck = false;
@@ -40,6 +41,7 @@ public class BossEnemyEndType : Unit
     private float farAttackStopTimer = 0;
     private Vector3 targetVec;
     private List<GameObject> bullet = new List<GameObject>();
+
 
     [SerializeField]private BoxCollider box;//돌진시 피격판정용
 
@@ -212,13 +214,15 @@ public class BossEnemyEndType : Unit
         {
             return;
         }
+        
         if (vicinityPattenCheck)
         {
             nav.speed = 0;
-            GameObject attackRange = null;
+            
             attackRange = PoolingManager.Instance.CreateObject("BossEndAttackRange", transform);
             attackRange.transform.position = transform.parent.position;
             attackRange.GetComponent<MeleeAttackRange>().Boss = this;
+            
             anim.SetFloat("AttackSpeed", 0.4f);
             anim.SetFloat("AttackState", 1);
             anim.SetFloat("SkillState", 0.5f);
@@ -242,6 +246,10 @@ public class BossEnemyEndType : Unit
                     vicinityTimer = 0;
                 }
             }
+        }
+        if (attackRange != null)
+        {
+            attackRange.GetComponent<MeleeAttackRange>().SetAttack(vicinityAttackRangeCheck, vicinityAttack);
         }
 
     }
@@ -290,6 +298,7 @@ public class BossEnemyEndType : Unit
     private void VicinityStartAnim()
     {
         vicinityAttackRangeCheck = true;
+        
     }
 
     private void VicinityAnim()
@@ -303,16 +312,6 @@ public class BossEnemyEndType : Unit
         vicinityAttackRangeCheck = false;
         vicinityAttack = false;
         vicinityCoolCheck = true;
-    }
-
-    //외부공격조건을주기위한것
-    public bool GetVicinityAttack()
-    {
-        return vicinityAttack;
-    }
-    public bool GetvicinityAttackRangeCheck()
-    {
-        return vicinityAttackRangeCheck;
     }
 
 }

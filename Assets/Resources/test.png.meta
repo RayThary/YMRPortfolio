@@ -4855,6 +4855,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: exHp
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 152
+        width: 14
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9246a02286959c945ad0b0bd101bfdd1
+      internalID: 1636683981
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -4878,6 +4899,7 @@ TextureImporter:
       RedLaser: 2104244175
       RedStart: 434536136
       blueObj: -1750052709
+      exHp: 1636683981
       test_0: 1891172804
       test_1: 1935509206
       test_10: 1810878203

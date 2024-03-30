@@ -113,6 +113,7 @@ public class PullObject : MonoBehaviour
     private void removeObject()
     {
         PoolingManager.Instance.RemovePoolingObject(gameObject);
+        player.Pull(transform.position, 0, 0);
     }
 
 }

@@ -43,6 +43,7 @@ public class PoolingManager : MonoBehaviour
         GunMachinePet,
         MineMachinePet,
         PullObject,
+        Type1Patten3,
     }
 
     [System.Serializable]

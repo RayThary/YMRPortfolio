@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class MeleeAttackRange : MonoBehaviour
 {
-    //endBoss스크립트
-    private BossEnemyEndType endType;
     private SphereCollider sphere;
 
+    [SerializeField]private bool attackStartCheck = false;//애니메이션의 시작시간
     private bool vicinityAttackCheck = false;//애니메이션의 공격중인시간
-    private bool attackStartCheck = false;//애니메이션의 시작시간
 
     [SerializeField]private bool attackAnimCheck = false;
     //반격없게할듯?
@@ -32,16 +30,12 @@ public class MeleeAttackRange : MonoBehaviour
     void Start()
     {
         player = GameManager.instance.GetPlayer;
-        endType = GetComponentInParent<BossEnemyEndType>();
         sphere = GetComponent<SphereCollider>();
         sphere.enabled = false;
     }
 
     void Update()
     {
-        vicinityAttackCheck = endType.GetVicinityAttack();
-        attackStartCheck = endType.GetvicinityAttackRangeCheck();
-
         if( attackStartCheck )
         {
             attackAnimCheck = true;
@@ -63,13 +57,21 @@ public class MeleeAttackRange : MonoBehaviour
             sphere.enabled = false;
         }
 
-
-
-
     }
     private void attackStart()
     {
         PoolingManager.Instance.RemovePoolingObject(gameObject);
         attackAnimCheck = false;
+    }
+
+    /// <summary>
+    /// 공격의 대미지를입히는시간과 소환물의시간을 지정해주는곳
+    /// </summary>
+    /// <param name="_startCheck">소환시작시 true 해주고 끝나고 false 해주는 소환시간을 지정해주는곳</param>
+    /// <param name="_attackCheck">대미지를 입힐때만 true 해줄 bool값</param>
+    public void SetAttack(bool _startCheck, bool _attackCheck)
+    {
+        attackStartCheck = _startCheck;
+        vicinityAttackCheck = _attackCheck;
     }
 }
