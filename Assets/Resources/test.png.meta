@@ -1748,7 +1748,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: test_78
+      name: HpHoop
       rect:
         serializedVersion: 2
         x: 430
@@ -4864,7 +4864,7 @@ TextureImporter:
         width: 14
         height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -4893,6 +4893,7 @@ TextureImporter:
       BlueBoom4: 2054029358
       EndSeaal2: -406034120
       EndSeal: -388383194
+      HpHoop: -1918888093
       PullObject: 720226103
       RedButterfly: -1195068078
       RedButterflyBomb: -1796082034
@@ -5103,7 +5104,6 @@ TextureImporter:
       test_73: -1312501752
       test_74: 388366018
       test_75: 1189770752
-      test_78: -1918888093
       test_79: 1402779021
       test_8: -419306383
       test_80: 126765057

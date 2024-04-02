@@ -28,6 +28,7 @@ public class EnemyBoss : Unit
 
     private Transform playerTrs;//플레이어위치
 
+
     protected new void Start()
     {
         base.Start();
