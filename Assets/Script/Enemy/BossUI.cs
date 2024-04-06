@@ -2,28 +2,53 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class BossUI : MonoBehaviour
 {
-    private Image hp;
-    [SerializeField] GameObject BossParent;
-    [SerializeField] Unit boss;
-    [SerializeField] private float maxHp;
-    [SerializeField] private float nowHp;
+    public static BossUI Instance;
 
-    void Start()
+    Stat statBoss = null;
+    TMP_Text textBossName;
+    GameObject objUiHp;
+    Image ImageHpMask;
+
+    public Stat StatBoss
     {
-        //boss = BossParent.transform.Find("UnitRoot").GetComponent<>;
-        hp = GetComponent<Image>();
-
+        set 
+        { 
+            statBoss = value;
+            objUiHp.SetActive(true);
+            textBossName.text = statBoss.BossName == string.Empty ? "Unknown Enemy" : statBoss.BossName;
+        }
     }
 
-    // Update is called once per frame
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
+        objUiHp = transform.Find("BackGround").gameObject;
+
+        textBossName = objUiHp.transform.Find("BossName").GetComponent<TMP_Text>();
+        ImageHpMask = objUiHp.transform.GetChild(0).GetComponent<Image>();
+    }
+
     void Update()
     {
-        if (boss != null)
+        if (statBoss != null)
         {
-            hp.fillAmount = boss.STAT.HP / boss.STAT.MAXHP;
+            ImageHpMask.fillAmount = statBoss.HP / statBoss.MAXHP;
+        }
+        else
+        {
+            objUiHp.SetActive(false);
         }
     }
 }

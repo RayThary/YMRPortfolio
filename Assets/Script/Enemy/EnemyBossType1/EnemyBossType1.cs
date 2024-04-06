@@ -29,6 +29,9 @@ public class EnemyBossType1 : Unit
     [SerializeField] private Transform attackTrs;//패턴3번의 망치가내려찍는위치
     private Vector3 patten3Pos;
 
+    private float halfPattenTime = 1;
+    private float halfPattenTimer = 0;
+
     private NavMeshAgent nav;
     private Animator animator;
 
@@ -44,6 +47,8 @@ public class EnemyBossType1 : Unit
         bombing = GetComponent<BombingPatten>();
         playerTrs = GameManager.instance.GetPlayerTransform;
         player = GameManager.instance.GetPlayer;
+
+        BossUI.Instance.StatBoss = stat;
     }
 
     void Update()
@@ -289,7 +294,17 @@ public class EnemyBossType1 : Unit
 
     private void enemyHalfPatten()
     {
-
+        if (stat.HP <= stat.MAXHP / 2)
+        {
+            halfPattenTimer += Time.deltaTime;
+            if (halfPattenTimer >= halfPattenTime)
+            {
+                GameObject obj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.CurveBulletPatten, GameManager.instance.GetEnemyAttackObjectPatten);
+                obj.GetComponent<Type1HalfPatten>().SetHalfPatten();
+                halfPattenTime = Random.Range(2, 5);
+                halfPattenTimer = 0;
+            }
+        }
     }
 
     //애니메이터외부

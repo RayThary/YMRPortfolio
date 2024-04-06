@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 using System;
 using System.Collections;
 using System.Linq;
@@ -6,8 +7,11 @@ using System.Linq;
 public class Stat : MonoBehaviour
 {
     private Unit user;
+    [SerializeField] string bossName;
+    public string BossName => bossName;
+
     //Ã¼·Â
-    [SerializeField]
+    [SerializeField] 
     private float hp;
     public float HP { get { return  hp; } }
     [SerializeField]
