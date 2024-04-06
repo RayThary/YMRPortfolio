@@ -14,6 +14,9 @@ public class bezir : MonoBehaviour
     [SerializeField] private List<Vector3> point = new List<Vector3>();
 
     LineRenderer line;
+
+    [SerializeField] private GameObject obj;
+    [Range(0, 1)] public float value;
     public Vector3 bezier(Vector3 P0, Vector3 P1, Vector3 P2, float t)
     {
         Vector3 m0 = Vector3.Lerp(P0, P1, t);
@@ -67,6 +70,7 @@ public class bezir : MonoBehaviour
     void Update()
     {
         s();
+        //obj.transform.position = bezier(p1.transform.position, p2.transform.position, p3.transform.position, value);
     }
 
     private void s()
@@ -89,5 +93,6 @@ public class bezir : MonoBehaviour
         {
             line.SetPositions(arrPoint);
         }
+        
     }
 }

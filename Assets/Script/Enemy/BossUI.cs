@@ -5,20 +5,25 @@ using UnityEngine.UI;
 
 public class BossUI : MonoBehaviour
 {
-    [SerializeField]private Image hp;
+    private Image hp;
+    [SerializeField] GameObject BossParent;
     [SerializeField] Unit boss;
-    [SerializeField]private float maxHp;
-    [SerializeField]private float nowHp;
+    [SerializeField] private float maxHp;
+    [SerializeField] private float nowHp;
 
     void Start()
     {
+        //boss = BossParent.transform.Find("UnitRoot").GetComponent<>;
         hp = GetComponent<Image>();
-         
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        hp.fillAmount = boss.STAT.HP / boss.STAT.MAXHP;
+        if (boss != null)
+        {
+            hp.fillAmount = boss.STAT.HP / boss.STAT.MAXHP;
+        }
     }
 }

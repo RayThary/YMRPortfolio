@@ -51,6 +51,7 @@ public class EnemyBossType1 : Unit
         enemyMove();
         enemyAttackMotion();
         enemyAttackPattern();
+        enemyHalfPatten();
     }
 
     private void enemyMove()
@@ -284,6 +285,11 @@ public class EnemyBossType1 : Unit
 
             yield return new WaitForSeconds(nextBombingTime);
         }
+    }
+
+    private void enemyHalfPatten()
+    {
+
     }
 
     //애니메이터외부

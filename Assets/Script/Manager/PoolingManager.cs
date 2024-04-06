@@ -44,6 +44,8 @@ public class PoolingManager : MonoBehaviour
         MineMachinePet,
         PullObject,
         Type1Patten3,
+        CurveBulletPatten,
+        CurveBullet,
     }
 
     [System.Serializable]
