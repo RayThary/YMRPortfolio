@@ -23,7 +23,7 @@ public class EnemyManager : MonoBehaviour
         childTrs = transform.GetComponentsInChildren<Transform>();
         for (int i = 0; i < stages.Length; i++)
         {
-            stages[i].Init(EnemyParent);
+            //stages[i].Init(EnemyParent);
         }
     }
 

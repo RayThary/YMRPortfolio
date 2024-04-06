@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestHalfPatten : MonoBehaviour
-{    
+public class Type1HalfPatten : MonoBehaviour
+{
     private List<Vector3> startTrsList = new List<Vector3>();
 
     private List<Vector3> midTrsList = new List<Vector3>();
@@ -11,7 +11,9 @@ public class TestHalfPatten : MonoBehaviour
 
     [SerializeField] private float speed;
     [SerializeField][Range(0, 1)] private float value = 0;
-    [SerializeField] private List<Transform> testObj = new List<Transform>();
+    [SerializeField] private List<GameObject> bulletObj = new List<GameObject>();
+    [SerializeField]private bool initPatten = false;
+    private bool pattenStart = false;
 
     private Vector3 bezier(Vector3 p0, Vector3 p1, Vector3 p2, float t)
     {
@@ -20,6 +22,7 @@ public class TestHalfPatten : MonoBehaviour
 
         return Vector3.Lerp(P1, P2, t);
     }
+
     void Start()
     {
         startTrsList.Clear();
@@ -30,6 +33,56 @@ public class TestHalfPatten : MonoBehaviour
 
         targetTrs = GameManager.instance.GetPlayerTransform.position;
 
+    }
+
+    void Update()
+    {
+        setPatten();
+        bulletMove();
+    }
+
+    private void setPatten()
+    {
+        if (initPatten == true)
+        {
+            
+            for (int i = 0; i < startTrsList.Count; i++)
+            {
+                bulletObj.Add(PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.CurveBullet, GameManager.instance.GetEnemyAttackObjectPatten));
+                bulletObj[i].transform.position = startTrsList[i];
+                bulletObj[i].GetComponentInChildren<TrailRenderer>().Clear();
+            }
+            setPostion();
+            initPatten = false;
+            pattenStart = true;
+        }
+    }
+
+    private void bulletMove()
+    {
+        if (pattenStart == false)
+        {
+            return;
+        }
+
+        for (int i = 0; i < startTrsList.Count; i++)
+        {
+            bulletObj[i].transform.position = bezier(startTrsList[i], midTrsList[i], targetTrs, value);
+        }
+        value += Time.deltaTime * speed * 0.1f;
+        if (value >= 1)
+        {
+            Debug.Log("파티클생성예정 , 아직안만듬");
+            for(int i =0;i<startTrsList.Count;i++)
+            {
+                PoolingManager.Instance.RemovePoolingObject(bulletObj[i]);
+            }
+            pattenStart = false;
+        }
+    }
+
+    private void setPostion()
+    {
         for (int i = 0; i < startTrsList.Count; i++)
         {
             midTrsList.Add(Vector3.Lerp(startTrsList[i], targetTrs, 0.5f));
@@ -57,24 +110,10 @@ public class TestHalfPatten : MonoBehaviour
             }
             midTrsList[i] = new Vector3(x, 0, z);
         }
-
-
     }
-
-    void Update()
+    public void SetHalfPatten()
     {
-        for (int i = 0; i < startTrsList.Count; i++)
-        {
-            testObj[i].position = bezier(startTrsList[i], midTrsList[i], targetTrs, value);
-            //testObj[i].GetComponentInChildren<TrailRenderer>().Clear();
-
-        }
-        value += Time.deltaTime * speed * 0.1f;
-        if (value >= 1)
-        {
-
-        }
+        bulletObj.Clear();
+        initPatten = true;
     }
-
-
 }
