@@ -15,6 +15,7 @@ public class Stat : MonoBehaviour
     public float MAXHP { get { return maxHp; } set { maxHp += value; if (hp > maxHp) hp = maxHp; } }    
     //체력 자연 회복량
     private float naturalHP;
+    public float NaturalHP { get => naturalHP; set => naturalHP = value; }
     private float mp;
     public float MP { get { return mp; } }
     private float maxMp;
@@ -112,25 +113,6 @@ public class Stat : MonoBehaviour
         if(nrhp == null && naturalHPing)
         {
             nrhp = StartCoroutine(Natural_Recovery_HP());
-        }
-        if (transform.CompareTag("Player"))
-            return;
-
-        if (hp <= 0)
-        {
-            Transform parent = transform;
-            while (parent != null)
-            {
-                if(parent.parent != null)
-                {
-                    parent = parent.parent;
-                }
-                else
-                {
-                    PoolingManager.Instance.RemovePoolingObject(parent.GetChild(0).gameObject);
-                    break;
-                }
-            }
         }
     }
 
@@ -241,7 +223,6 @@ public class Stat : MonoBehaviour
             {
                 hp += naturalHP;
                 t = 0;
-
             }
 
             yield return null;

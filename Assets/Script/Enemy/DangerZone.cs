@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DangerZone : MonoBehaviour
 {
+
     [SerializeField] private float time = 2;
 
     private SpriteRenderer spr;
@@ -14,15 +15,20 @@ public class DangerZone : MonoBehaviour
     [SerializeField] private float minAlpha = 0.5f;
 
     private float alpha = 0.9f;
+
     void Start()
     {
+
+
+
         spr = GetComponent<SpriteRenderer>();
         color = spr.color;
 
+
     }
 
-    
-    void Update()
+
+    protected virtual void Update()
     {
         alphaControl();
         objCheck();

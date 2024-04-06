@@ -15,9 +15,11 @@ public class GameManager : MonoBehaviour
     private Transform enemyAttackObj;
     public Transform GetEnemyAttackObjectPatten { get { return enemyAttackObj; } }
 
-    public bool b = false;
+    public bool CardTest = false;
 
     public Transform GetenemyObjectBox { get { return transform.GetChild(0); } }
+
+    public GameObject playerDeadButton;
     private void Awake()
     {
         if (instance == null)
@@ -32,7 +34,14 @@ public class GameManager : MonoBehaviour
         enemyAttackObj = transform.GetChild(0);
         enemyManager.Init();
         enemyManager.GetStage = enemyManager.Stages[0];
-        enemyManager.GetStage.spawnEnemy();
+        //enemyManager.GetStage.spawnEnemy();
+
+        //프레임 설정 / 화면비
+        RefreshRate rate = new RefreshRate();
+        rate.numerator = 120;
+        Screen.SetResolution(1920, 1080, FullScreenMode.MaximizedWindow, rate);
+        //프레임 제한 최대 60
+        Application.targetFrameRate = 60;//59 
     }
 
     void Start()
@@ -42,27 +51,13 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if(b)
+        if(CardTest)
         {
-            b = false;
+            CardTest = false;
             cardManager.ViewCards();
         }
-        //if(enemyManager.EnemyClear())
-        //{
-        //    Debug.Log("다음 스테이지로");
-        //    //    //카드 고르고 다음 라운드로
-        //    //    cardManager.ViewCards();
-        //    //    //스테이지 바꾸고 spawnEnemy
-        //    //    stageindex++;
-        //    //    nowStage = stages[stageindex];
-        //    //    spawnEnemy();
-        //    // stageindex = 0;
-        //    //cardManager.ViewCards();
-        //    //nowStage = stages[0];
-        //    //nowStage.spawnEnemy(EnemyParent);
-        //}
+     
     }
-
     public void CardSelectStep()
     {
 
@@ -72,4 +67,40 @@ public class GameManager : MonoBehaviour
     {
 
     }
+
+    public Collider NearbyTrnasform(Collider[] list, Transform center)
+    {
+        if (list.Length == 0)
+            return null;
+        int index = 0;
+        float min = Vector3.Distance(center.position, list[0].transform.position);
+        for (int i = 1; i < list.Length; i++)
+        {
+            float distnace = Vector3.Distance(center.position, list[i].transform.position);
+            if (distnace < min)
+            {
+                min = distnace;
+                index = i;
+            }
+        }
+        return list[index];
+    }
+
+    public void PlayerDead()
+    {
+        playerDeadButton.SetActive(true);
+    }
+
+    public void ExitGame()
+    {
+        //Debug.Log("종료 코드");
+        Application.Quit();
+    }
+
+    public void RestartGame()
+    {
+        //다시시작 코드
+        Debug.Log("다시시작 코드");
+    }
+
 }

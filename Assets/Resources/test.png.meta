@@ -614,7 +614,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: test_24
+      name: type3Shield
       rect:
         serializedVersion: 2
         x: 398
@@ -1181,7 +1181,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: test_51
+      name: BlueBoom1
       rect:
         serializedVersion: 2
         x: 272
@@ -1202,13 +1202,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: test_52
+      name: BlueBoom4
       rect:
         serializedVersion: 2
-        x: 300
-        y: 288
-        width: 64
-        height: 77
+        x: 368
+        y: 337
+        width: 27
+        height: 30
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1223,13 +1223,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: test_53
+      name: BlueBoom3
       rect:
         serializedVersion: 2
-        x: 337
-        y: 320
-        width: 58
-        height: 47
+        x: 336
+        y: 337
+        width: 27
+        height: 30
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1706,7 +1706,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: test_76
+      name: EndSeaal2
       rect:
         serializedVersion: 2
         x: 366
@@ -1727,7 +1727,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: test_77
+      name: EndSeal
       rect:
         serializedVersion: 2
         x: 397
@@ -1748,7 +1748,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: test_78
+      name: HpHoop
       rect:
         serializedVersion: 2
         x: 430
@@ -4771,6 +4771,111 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: RedStart
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 255
+        width: 32
+        height: 29
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bf65e15903341f447a49f0dac56522b7
+      internalID: 434536136
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blueObj
+      rect:
+        serializedVersion: 2
+        x: 106
+        y: 480
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3472acaa25f9351468d1a1550d10bfcd
+      internalID: -1750052709
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlueBoom2
+      rect:
+        serializedVersion: 2
+        x: 304
+        y: 337
+        width: 27
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de57d80817104764baed91d1503de0d0
+      internalID: -854117102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PullObject
+      rect:
+        serializedVersion: 2
+        x: 107
+        y: 222
+        width: 28
+        height: 28
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ce90e6c011a3d043a44acab15277508
+      internalID: 720226103
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: exHp
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 152
+        width: 14
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9246a02286959c945ad0b0bd101bfdd1
+      internalID: 1636683981
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -4782,9 +4887,20 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      BlueBoom1: -2121336891
+      BlueBoom2: -854117102
+      BlueBoom3: -141052055
+      BlueBoom4: 2054029358
+      EndSeaal2: -406034120
+      EndSeal: -388383194
+      HpHoop: -1918888093
+      PullObject: 720226103
       RedButterfly: -1195068078
       RedButterflyBomb: -1796082034
       RedLaser: 2104244175
+      RedStart: 434536136
+      blueObj: -1750052709
+      exHp: 1636683981
       test_0: 1891172804
       test_1: 1935509206
       test_10: 1810878203
@@ -4935,7 +5051,6 @@ TextureImporter:
       test_231: -803374949
       test_232: -1894669998
       test_233: -1980761926
-      test_24: -2141625848
       test_25: 203196023
       test_26: -2054549189
       test_27: -1779196231
@@ -4965,9 +5080,6 @@ TextureImporter:
       test_49: -490005884
       test_5: 1442840862
       test_50: 1437409921
-      test_51: -2121336891
-      test_52: 2054029358
-      test_53: -141052055
       test_54: 699253852
       test_55: 1135115126
       test_56: 291306169
@@ -4992,9 +5104,6 @@ TextureImporter:
       test_73: -1312501752
       test_74: 388366018
       test_75: 1189770752
-      test_76: -406034120
-      test_77: -388383194
-      test_78: -1918888093
       test_79: 1402779021
       test_8: -419306383
       test_80: 126765057
@@ -5017,6 +5126,7 @@ TextureImporter:
       test_97: 756145880
       test_98: 1922050608
       test_99: -2110634808
+      type3Shield: -2141625848
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

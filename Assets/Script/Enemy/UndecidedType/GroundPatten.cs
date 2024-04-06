@@ -3,29 +3,48 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using static GroundPatten;
 
 public class GroundPatten : MonoBehaviour
 {
     [SerializeField] private GameObject nowMap;
     private List<GameObject> maps = new List<GameObject>();
 
-    [SerializeField] private bool Hrizontal;
+    [SerializeField] private float HrizontalSetUpGroundTime = 1;
+    [SerializeField] private bool Horizontal;
+
+    [SerializeField] private float ViticalSetUpGroundTime = 1;
     [SerializeField] private bool Vitical;
 
+
+    [SerializeField] private float UpSetUpGroundTime = 1;
     [SerializeField] private bool Up;
+    [SerializeField] private float RightSetUpGroundTime = 1;
     [SerializeField] private bool Right;
 
 
+    [SerializeField] private float CloseWallSetUpGroundTime = 1;
+    [SerializeField] private int CloseWallRadius = 4;
 
 
     private List<GameObject> mapUnder = new List<GameObject>();
     private List<GameObject> mapUnderTrs = new List<GameObject>();
 
+    private List<(int, int)> listUpground = new List<(int, int)>();
+    private void addUpground((int, int) point)
+    {
+        listUpground.Add(point);
+    }
+    private void removeUpground((int, int) point)
+    {
+        listUpground.Remove(point);
+    }
 
     public enum PattenName
     {
-        HrizontalAndVerticalPatten,
-        WavePatten,
+        HorizontalAndVerticalPatten,
+        WavePattenHrizontal,
+        WavePattenVitical,
         OpenWallGroundPatten
     }
 
@@ -50,10 +69,7 @@ public class GroundPatten : MonoBehaviour
     {
         nowMapCheck();
         groundPatten();
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            pattenStart = true;
-        }
+
     }
 
     private void nowMapCheck()
@@ -79,40 +95,57 @@ public class GroundPatten : MonoBehaviour
     {
         if (pattenStart)
         {
-            if (pattenName == PattenName.HrizontalAndVerticalPatten)
+            if (pattenName == PattenName.HorizontalAndVerticalPatten)
             {
-                StartCoroutine(hrizontalAndverticalPatten());
+                if (Horizontal)
+                {
+                    horizontalPatten();
+                }
+                if (Vitical)
+                {
+                    verticalPatten();
+                }
+
                 pattenStart = false;
             }
 
-            if (pattenName == PattenName.WavePatten)
+            if (pattenName == PattenName.WavePattenHrizontal)
             {
                 if (Right)
                 {
-                    StartCoroutine(wavePattenRightOrLeft());
+                    StartCoroutine(wavePattenRightStart());
                 }
+                else
+                {
+                    StartCoroutine(wavePattenLeftStart());
+                }
+
+                pattenStart = false;
+            }
+
+            if (pattenName == PattenName.WavePattenVitical)
+            {
                 if (Up)
                 {
-                    StartCoroutine(wavePattenUpOrDown());
+                    StartCoroutine(wavePattenUpStart());
+                }
+                else
+                {
+                    StartCoroutine(wavePattenDownStart());
                 }
                 pattenStart = false;
             }
 
             if (pattenName == PattenName.OpenWallGroundPatten)
             {
-                openWallGroundPatten(4);
+                closeWallGroundPatten(CloseWallRadius);//반지름의크기 ex) 4 = 8*8 로만들어진벽
                 pattenStart = false;
             }
         }
     }
 
 
-    IEnumerator hrizontalAndverticalPatten()
-    {
-        verticalPatten();
-        yield return new WaitForSeconds(5);
-        horizontalPatten();
-    }
+
     private void verticalPatten()
     {
         mapUnderTrs.Clear();
@@ -134,8 +167,12 @@ public class GroundPatten : MonoBehaviour
         for (int i = 0; i < mapUnderTrs.Count; i++)
         {
             GameObject obj;
-            obj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundObj, GameManager.instance.GetEnemyAttackObjectPatten);
+            obj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundPushObj, GameManager.instance.GetEnemyAttackObjectPatten);
             obj.transform.position = mapUnderTrs[i].transform.position;
+            UpGround upGround = obj.GetComponent<UpGround>();
+            upGround.Horizontal = true;
+            DangerZone danger = obj.GetComponentInChildren<DangerZone>();
+            danger.SetTime(ViticalSetUpGroundTime);
         }
 
     }
@@ -161,16 +198,23 @@ public class GroundPatten : MonoBehaviour
         for (int i = 0; i < mapUnderTrs.Count; i++)
         {
             GameObject obj;
-            obj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundObj, GameManager.instance.GetEnemyAttackObjectPatten);
+
+            obj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundPushObj, GameManager.instance.GetEnemyAttackObjectPatten);
             obj.transform.position = mapUnderTrs[i].transform.position;
+
+            UpGround upGround = obj.GetComponentInChildren<UpGround>();
+            upGround.Horizontal = true;
+
+            DangerZone danger = obj.GetComponentInChildren<DangerZone>();
+            danger.SetTime(HrizontalSetUpGroundTime);
         }
 
     }
 
-    IEnumerator wavePattenRightOrLeft()
+    IEnumerator wavePattenRightStart()
     {
         mapUnderTrs.Clear();
-        for (int i = 1; i < 25; i++)
+        for (int i = 1; i < 28; i++)
         {
             GameObject obj;
             List<GameObject> objTrs = new List<GameObject>();
@@ -179,30 +223,44 @@ public class GroundPatten : MonoBehaviour
             objTrs = mapUnder.FindAll((x) => x.name.Contains($"{{{i},") == true);
             for (int j = 0; j < objTrs.Count; j++)
             {
-                obj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundObj, GameManager.instance.GetEnemyAttackObjectPatten);
+                obj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundPushObj, GameManager.instance.GetEnemyAttackObjectPatten);
                 obj.transform.position = objTrs[j].transform.position;
+
+                UpGround upGround = obj.GetComponent<UpGround>();
+                upGround.Vertical = true;
+
+                DangerZone danger = obj.GetComponentInChildren<DangerZone>();
+                danger.SetTime(RightSetUpGroundTime);
             }
             yield return new WaitForSeconds(1.8f);
         }
-
-        for (int i = 25; i > 0; i--)
-        {
-            GameObject obj;
-            List<GameObject> objTrs = new List<GameObject>();
-            objTrs.Clear();
-
-            objTrs = mapUnder.FindAll((x) => x.name.Contains($"{{{i},") == true);
-            for (int j = 0; j < objTrs.Count; j++)
-            {
-                obj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundObj, GameManager.instance.GetEnemyAttackObjectPatten);
-                obj.transform.position = objTrs[j].transform.position;
-            }
-            yield return new WaitForSeconds(1.8f);
-        }
-
     }
 
-    IEnumerator wavePattenUpOrDown()
+    IEnumerator wavePattenLeftStart()
+    {
+        for (int i = 28; i > 0; i--)
+        {
+            GameObject obj;
+            List<GameObject> objTrs = new List<GameObject>();
+            objTrs.Clear();
+
+            objTrs = mapUnder.FindAll((x) => x.name.Contains($"{{{i},") == true);
+            for (int j = 0; j < objTrs.Count; j++)
+            {
+                obj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundPushObj, GameManager.instance.GetEnemyAttackObjectPatten);
+                obj.transform.position = objTrs[j].transform.position;
+
+                UpGround upGround = obj.GetComponent<UpGround>();
+                upGround.Vertical = true;
+
+                DangerZone danger = obj.GetComponentInChildren<DangerZone>();
+                danger.SetTime(RightSetUpGroundTime);//오른쪽에서 시작했다 왼쪽으로갈때 같은시간을쓰는중 나중에 분리해줄필요있을지도?
+            }
+            yield return new WaitForSeconds(1.8f);
+        }
+    }
+
+    IEnumerator wavePattenDownStart()
     {
         mapUnderTrs.Clear();
         for (int i = 1; i < 25; i++)
@@ -214,12 +272,23 @@ public class GroundPatten : MonoBehaviour
             objTrs = mapUnder.FindAll((x) => x.name.Contains($",{i}}}") == true);
             for (int j = 0; j < objTrs.Count; j++)
             {
-                obj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundObj, GameManager.instance.GetEnemyAttackObjectPatten);
+                obj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundPushObj, GameManager.instance.GetEnemyAttackObjectPatten);
                 obj.transform.position = objTrs[j].transform.position;
+
+                UpGround upGround = obj.GetComponent<UpGround>();
+                upGround.Horizontal = true;
+
+                DangerZone danger = obj.GetComponentInChildren<DangerZone>();
+                danger.SetTime(UpSetUpGroundTime);
             }
-            yield return new WaitForSeconds(1.8f);
+            yield return new WaitForSeconds(1f);
         }
 
+      
+    }
+
+    IEnumerator wavePattenUpStart()
+    {
         for (int i = 25; i > 0; i--)
         {
             GameObject obj;
@@ -229,14 +298,20 @@ public class GroundPatten : MonoBehaviour
             objTrs = mapUnder.FindAll((x) => x.name.Contains($",{i}}}") == true);
             for (int j = 0; j < objTrs.Count; j++)
             {
-                obj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundObj, GameManager.instance.GetEnemyAttackObjectPatten);
+                obj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundPushObj, GameManager.instance.GetEnemyAttackObjectPatten);
                 obj.transform.position = objTrs[j].transform.position;
+
+                UpGround upGround = obj.GetComponent<UpGround>();
+                upGround.Horizontal = true;
+
+                DangerZone danger = obj.GetComponentInChildren<DangerZone>();
+                danger.SetTime(UpSetUpGroundTime);
             }
-            yield return new WaitForSeconds(1.8f);
+            yield return new WaitForSeconds(1f);
         }
     }
 
-    private void openWallGroundPatten(int _value)
+    private void closeWallGroundPatten(int _value)
     {
         mapUnderTrs.Clear();
 
@@ -328,7 +403,7 @@ public class GroundPatten : MonoBehaviour
         }
 
 
-        if ( x > 28 - _value)
+        if (x > 28 - _value)
         {
             spawnTrs = spawnTrs.FindAll((x) => x.x < leftX == false);
         }
@@ -341,10 +416,101 @@ public class GroundPatten : MonoBehaviour
 
         for (int i = 0; i < spawnTrs.Count; i++)
         {
-            GameObject obj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundObj, GameManager.instance.GetEnemyAttackObjectPatten);
+            GameObject obj = PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.UpGroundPushObj, GameManager.instance.GetEnemyAttackObjectPatten);
             obj.transform.position = spawnTrs[i];
+            UpGround upGround = obj.GetComponent<UpGround>();
+            upGround.SetStopTime(true, 3);
+
+            upGround.CubeWall = true;
+
+            Vector3 upPos = obj.transform.position + new Vector3(0, 0, 1);
+            Vector3 downPos = obj.transform.position + new Vector3(0, 0, -1);
+            Vector3 rightPos = obj.transform.position + new Vector3(1, 0, 0);
+            Vector3 leftPos = obj.transform.position + new Vector3(-1, 0, 0);
+
+            if (spawnTrs.Exists((x) => x == upPos || x == downPos))
+            {
+                upGround.Vertical = true;
+            }
+            if (spawnTrs.Exists((x) => x == rightPos || x == leftPos))
+            {
+                upGround.Horizontal = true;
+            }
+
+            DangerZone danger = obj.GetComponentInChildren<DangerZone>();
+            danger.SetTime(CloseWallSetUpGroundTime);
         }
 
     }
 
+
+    /// <summary>
+    /// type 설명
+    /// </summary>
+    /// <param name="_value">사용할패턴</param>
+    /// <param name="_type">_type 가 true 일땐 Horizontal , Up 이 True가된다.</param>
+    public void GroundPattenStart(PattenName _value, bool _type)
+    {
+        if (_value == PattenName.HorizontalAndVerticalPatten)
+        {
+            pattenName = PattenName.HorizontalAndVerticalPatten;
+            if (_type)
+            {
+                Horizontal = true;
+                Vitical = false;
+                pattenStart = true;
+            }
+            else
+            {
+                Horizontal = false;
+                Vitical = true;
+                pattenStart = true;
+            }
+        }
+        else if (_value == PattenName.WavePattenHrizontal)
+        {
+            pattenName = PattenName.WavePattenHrizontal;
+            if (_type)
+            {
+                Right = true;
+                pattenStart = true;
+            }
+            else
+            {
+                Right = false;
+                pattenStart = true;
+            }
+        }
+        else if (_value == PattenName.WavePattenVitical)
+        {
+            pattenName = PattenName.WavePattenVitical;
+            if (_type)
+            {
+                Up = true;
+                pattenStart = true;
+            }
+            else
+            {
+                Up = false;
+                pattenStart = true;
+            }
+        }
+        else
+        {
+            Debug.LogError("이상하게넣어줌");
+        }
+    }
+
+    public void GroundPattenStart(PattenName _value)
+    {
+        if (_value == PattenName.OpenWallGroundPatten)
+        {
+            pattenName = PattenName.OpenWallGroundPatten;
+            pattenStart = true;
+        }
+        else
+        {
+            Debug.LogError("이상하게넣어줌");
+        }
+    }
 }

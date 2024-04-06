@@ -7,7 +7,7 @@ public class LaserPatten : MonoBehaviour
 {
 
     [SerializeField] private float moveSpeed = 1;
-    private LineRenderer linRen;
+    private LineRenderer lineRen;
     private Transform parentTrs;
 
     private BoxCollider box;
@@ -16,11 +16,11 @@ public class LaserPatten : MonoBehaviour
     private Vector3 targetVec;
 
     private bool firstCheck = false;
+
+    public bool test = false;
+
     private void OnTriggerEnter(Collider other)
     {
-
-
-
         if (other.gameObject.layer == LayerMask.NameToLayer("Wall")) 
         {
             firstCheck = false;
@@ -30,12 +30,15 @@ public class LaserPatten : MonoBehaviour
     }
     void Start()
     {
-        linRen = GetComponentInParent<LineRenderer>();
-        parentTrs = linRen.GetComponent<Transform>();
+        lineRen = GetComponentInParent<LineRenderer>();
+        parentTrs = lineRen.GetComponent<Transform>();
 
         box = GetComponent<BoxCollider>();
 
         playerTrs = GameManager.instance.GetPlayerTransform;
+        Vector3 spawnPos = parentTrs.position;
+        spawnPos.y = 0f;
+        lineRen.SetPosition(0, spawnPos);
     }
 
     // Update is called once per frame
@@ -44,13 +47,15 @@ public class LaserPatten : MonoBehaviour
         tartgetMove();
         laserMove();
         hitCheck();
+        
     }
 
     private void tartgetMove()
     {
         if (firstCheck == false)
         {
-            transform.position= parentTrs.position;
+            parentTrs.position = transform.position;
+            lineRen.SetPosition(0, parentTrs.position);
             targetVec = playerTrs.transform.position - transform.position;
             targetVec.y = 0f;
             firstCheck = true;
@@ -60,10 +65,7 @@ public class LaserPatten : MonoBehaviour
     }
     private void laserMove()
     {
-        Vector3 spawnPos = parentTrs.position;
-        spawnPos.y = 0f;
-        linRen.SetPosition(0, spawnPos);
-        linRen.SetPosition(1, transform.position);
+        lineRen.SetPosition(1, transform.position);
     }
 
 
@@ -71,7 +73,6 @@ public class LaserPatten : MonoBehaviour
     {
         if (Physics.Linecast(parentTrs.position, transform.position, LayerMask.GetMask("Player")))
         {
-            Debug.Log("hit");
             Player player = GameManager.instance.GetPlayer;
             player.Hit(null, 1);
         }
