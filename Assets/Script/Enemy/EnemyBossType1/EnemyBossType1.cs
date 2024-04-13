@@ -266,7 +266,7 @@ public class EnemyBossType1 : Unit
             attackDelayTimer = 0;
             attackAnimationCheck = false;
             animationCheck = false;
-            Debug.Log(patten3Pos);
+            Debug.Log($"Patten3 ={patten3Pos}");
 
         }
 
@@ -379,7 +379,7 @@ public class EnemyBossType1 : Unit
     {
         patten3Pos = attackTrs.position;
         patten3Pos.y = 0.1f;
-        Debug.Log(patten3Pos);
+        Debug.Log($"animation ={patten3Pos}");
         pattenType = 3;
     }
 
