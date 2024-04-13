@@ -482,4 +482,10 @@ public class Stat : MonoBehaviour
                 attackDelegate(perpetrator, figure);
         }
     }
+    //maxHP , hp 수정하는부분이없어서 만듬
+    public void SetHp(float _value)
+    {
+        hp = _value;
+        maxHp = _value;
+    }
 }

@@ -16,11 +16,18 @@ public class BulletMove : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer == LayerMask.NameToLayer("Player"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            player.Hit(boss, 2);
+            if (boss == null)
+            {
+                player.Hit(null, 2);
+            }
+            else
+            {
+                player.Hit(boss, 2);
+            }
         }
-        else if(other.gameObject.layer == LayerMask.NameToLayer("Wall"))
+        else if (other.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
             Destroy(gameObject);
         }

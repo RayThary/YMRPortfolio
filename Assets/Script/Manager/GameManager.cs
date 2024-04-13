@@ -20,6 +20,13 @@ public class GameManager : MonoBehaviour
     public Transform GetenemyObjectBox { get { return transform.GetChild(0); } }
 
     public GameObject playerDeadButton;
+
+    [SerializeField] private BoxCollider stage;
+    public BoxCollider GetStage { get { return stage; } }
+
+    [SerializeField]private int stageNum = 1;
+    public int GetStageNum { get { return stageNum; } }
+
     private void Awake()
     {
         if (instance == null)
@@ -30,11 +37,12 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this);
         }
+
+        DontDestroyOnLoad(this);
+
         player = FindObjectOfType<Player>();
         enemyAttackObj = transform.GetChild(0);
-        enemyManager.Init();
-        enemyManager.GetStage = enemyManager.Stages[0];
-        //enemyManager.GetStage.spawnEnemy();
+        stage = GetComponentInChildren<BoxCollider>();
 
         //프레임 설정 / 화면비
         RefreshRate rate = new RefreshRate();
@@ -86,10 +94,16 @@ public class GameManager : MonoBehaviour
         return list[index];
     }
 
+    public void SetStageNum()
+    {
+        stageNum++;
+    }
+
     public void PlayerDead()
     {
         playerDeadButton.SetActive(true);
     }
+
 
     public void ExitGame()
     {

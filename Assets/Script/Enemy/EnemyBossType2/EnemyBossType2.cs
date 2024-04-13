@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
+using UnityEngine.UIElements;
 
 public class EnemyBossType2 : Unit
 {
@@ -65,7 +66,8 @@ public class EnemyBossType2 : Unit
         playerTrs = GameManager.instance.GetPlayerTransform;
         target = GameManager.instance.GetPlayerTransform;
         anim = GetComponent<Animator>();
-        meteorBoxSize = GameManager.instance.enemyManager.GetStage.BoxCollider.size;
+        meteorBoxSize = GameManager.instance.GetStage.size;
+        
     }
 
 
@@ -219,8 +221,11 @@ public class EnemyBossType2 : Unit
 
     private Vector3 GetRandomPosition()
     {
-        Vector3 basicPos = GameManager.instance.enemyManager.GetStage.Map.transform.position;
+        Vector3 basicPos = new Vector3(14.5f, 0, 14.5f);
         Vector3 size = meteorBoxSize;
+
+
+
 
         int count = 0;
         float posX = basicPos.x + Random.Range(-size.x / 2, size.x / 2);

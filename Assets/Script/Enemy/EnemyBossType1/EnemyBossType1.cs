@@ -34,29 +34,50 @@ public class EnemyBossType1 : Unit
 
     private NavMeshAgent nav;
     private Animator animator;
+    private BoxCollider box;
 
     private Transform playerTrs;//플레이어위치
     private Player player;
     private Vector3 beforePlayerTrs;
 
+    private bool deathCheck = false;
+    
     protected new void Start()
     {
         base.Start();
         nav = GetComponentInParent<NavMeshAgent>();
+        box = GetComponent<BoxCollider>();
         animator = GetComponent<Animator>();
         bombing = GetComponent<BombingPatten>();
         playerTrs = GameManager.instance.GetPlayerTransform;
         player = GameManager.instance.GetPlayer;
 
         BossUI.Instance.StatBoss = stat;
+        float hp = 100;
+        for(int i = 1; i < 4; i++)
+        {
+            if (i == GameManager.instance.GetStageNum)
+            {
+                stat.originalHP = hp;
+                stat.SetHp(hp);
+                break;
+            }
+            hp += 50;
+        }
     }
 
     void Update()
     {
+        if (deathCheck)
+        {
+            box.enabled = false;   
+            return;
+        }
         enemyMove();
         enemyAttackMotion();
         enemyAttackPattern();
         enemyHalfPatten();
+        enemyDie();
     }
 
     private void enemyMove()
@@ -307,6 +328,17 @@ public class EnemyBossType1 : Unit
         }
     }
 
+    private void enemyDie()
+    {
+        if (stat.HP <= 0)
+        {
+            deathCheck = true;
+
+            animator.SetTrigger("Die");
+
+        }
+    }
+
     //애니메이터외부
     private void Patten1And2Animation()
     {
@@ -339,6 +371,7 @@ public class EnemyBossType1 : Unit
     private void Patten3PostionCheck()
     {
         patten3Pos = attackTrs.position;
+        patten3Pos.y = 0.1f;
         pattenType = 3;
     }
 
