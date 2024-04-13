@@ -27,6 +27,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]private int stageNum = 1;
     public int GetStageNum { get { return stageNum; } }
 
+    private bool StartCheck = true;
+
+
     private void Awake()
     {
         if (instance == null)
@@ -97,6 +100,16 @@ public class GameManager : MonoBehaviour
     public void SetStageNum()
     {
         stageNum++;
+    }
+
+    public void SetStart(bool _value)
+    {
+        StartCheck = _value;
+    }
+
+    public bool GetStart()
+    {
+        return StartCheck;
     }
 
     public void PlayerDead()

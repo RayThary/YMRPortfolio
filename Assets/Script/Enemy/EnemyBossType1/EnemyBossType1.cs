@@ -68,6 +68,12 @@ public class EnemyBossType1 : Unit
 
     void Update()
     {
+        if (GameManager.instance.GetStart() == false)
+        {
+            return;
+        }
+
+
         if (deathCheck)
         {
             box.enabled = false;   
@@ -260,6 +266,7 @@ public class EnemyBossType1 : Unit
             attackDelayTimer = 0;
             attackAnimationCheck = false;
             animationCheck = false;
+            Debug.Log(patten3Pos);
 
         }
 
@@ -372,6 +379,7 @@ public class EnemyBossType1 : Unit
     {
         patten3Pos = attackTrs.position;
         patten3Pos.y = 0.1f;
+        Debug.Log(patten3Pos);
         pattenType = 3;
     }
 

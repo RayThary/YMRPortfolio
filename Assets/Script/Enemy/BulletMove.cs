@@ -8,7 +8,7 @@ public class BulletMove : MonoBehaviour
     private Unit boss;
     public Unit Boss { set => boss = value; }
 
-
+    [SerializeField] private float Damge = 2;
     [SerializeField] private float Speed;
 
     private Player player;
@@ -20,11 +20,11 @@ public class BulletMove : MonoBehaviour
         {
             if (boss == null)
             {
-                player.Hit(null, 2);
+                player.Hit(null, Damge);
             }
             else
             {
-                player.Hit(boss, 2);
+                player.Hit(boss, Damge);
             }
         }
         else if (other.gameObject.layer == LayerMask.NameToLayer("Wall"))

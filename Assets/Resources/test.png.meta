@@ -4876,6 +4876,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: EnemyRedBullet
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 496
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c02b5d58bb3431d4ca90cab675d47975
+      internalID: -704817604
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -4893,6 +4914,7 @@ TextureImporter:
       BlueBoom4: 2054029358
       EndSeaal2: -406034120
       EndSeal: -388383194
+      EnemyRedBullet: -704817604
       HpHoop: -1918888093
       PullObject: 720226103
       RedButterfly: -1195068078

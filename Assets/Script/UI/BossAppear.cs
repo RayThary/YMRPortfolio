@@ -21,10 +21,15 @@ public class BossAppear : MonoBehaviour
 
     private bool stopCheck = false;
     private bool readyCheck = false;
+
     private bool startCheck = false;
+
+
 
     void Start()
     {
+        GameManager.instance.SetStart(false);
+
         anim = GetComponent<Animator>();
 
         rectTrs = transform.GetChild(1).GetComponent<RectTransform>();
@@ -86,17 +91,11 @@ public class BossAppear : MonoBehaviour
     }
 
 
-    public bool GetStartCheck()
-    {
-        return startCheck;
-    }
-
     //애니메이션용
 
     private void SetStartCheck()
     {
-        startCheck = true;
-        Debug.Log("1");
+        GameManager.instance.SetStart(true);
     }
 
 }
