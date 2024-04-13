@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public class SoundManager : MonoBehaviour
 {
@@ -11,7 +12,9 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioSource m_btnAudioSource;
     [SerializeField] private AudioMixer m_mixer;
     [SerializeField] private AudioClip m_backGroundClip;
-    
+
+
+    [SerializeField] Slider slider;
     private void Awake()
     {
         if (instance == null)
@@ -27,6 +30,9 @@ public class SoundManager : MonoBehaviour
     private void Start()
     {
         StartCoroutine("bgStart");
+        //m_backGroundSound.PlayOneShot(오디오,클립) 무조건한번 실행
+        //slider.onValueChanged.AddListener((x) => { m_mixer.SetFloat("Master", x); });//슬라이더연결
+        
     }
 
 

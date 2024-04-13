@@ -732,15 +732,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68f0af56ea72212428c08b2d8fa05b05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objPatten1: {fileID: 8107354721529028118, guid: c3868180b7d58d24085637668821ae3a, type: 3}
-  trsArea: {fileID: 0}
-  MeteorSapwnCount: 3
-  objPatten2: {fileID: 7747638319077484056, guid: 9cc527392caf10b488479d13a1ba49cd, type: 3}
+  godTimer: 0
+  patten2ObjCheck: {fileID: 0}
   patten2DurationTime: 10
   objPatten3: {fileID: 362274270047863809, guid: 4e6f0c00ff4fab3458b02cdbc7535b7d, type: 3}
-  patten1Check: 0
-  patten2Check: 0
-  patten3Check: 0
+  basicAttackTime: 2
+  noMeleeCheck: 0
 --- !u!65 &4046218168148850628
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -801,6 +798,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2f8409e6226b6c46807ca083d53efbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hp: 0
+  maxHp: 0
+  ad: 0
   originalHP: 100
   originalNaturalHP: 0
   originalMP: 0

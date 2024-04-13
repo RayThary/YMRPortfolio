@@ -61,7 +61,7 @@ public class Tower : Unit
     {
         if (player != null)
         {
-            float angle = a.WorldAngleCalculate(transform.position, player.transform.position);
+            float angle = AngleCalculator.WorldAngleCalculate(transform.position, player.transform.position);
             desired = angle;
         }
     }

@@ -12,13 +12,13 @@ GameObject:
   - component: {fileID: 5647797709011778417}
   - component: {fileID: 3069367345564637629}
   - component: {fileID: 46197914966201272}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: BigBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &9215857248703524787
 Transform:
   m_ObjectHideFlags: 0
@@ -28,12 +28,12 @@ Transform:
   m_GameObject: {fileID: 362274270047863809}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 1, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8875431286724313770}
   m_Father: {fileID: 0}
-  m_RootOrder: 19
+  m_RootOrder: 27
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5647797709011778417
 MonoBehaviour:
@@ -47,16 +47,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73bc5f2a19b9d9b4a8bab684bdd61494, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1
+  moveSpeed: 2
   rotateSpeed: 120
-  bulletSpawnCount: 10
-  bulletParent: {fileID: 0}
   muzzles:
   - {fileID: 4817976662766529105}
   - {fileID: 4798111855101180581}
   - {fileID: 2506738095732970649}
   - {fileID: 5507273173595767674}
   boss: {fileID: 0}
+  rate: 0.1
 --- !u!54 &3069367345564637629
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -101,7 +100,7 @@ SphereCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Radius: 0.15
   m_Center: {x: 0, y: 0, z: 0}
@@ -182,7 +181,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 683684587125322814, guid: 38e5fdbb5e3ac0c4b9e9f60cc92147ad, type: 3}
+  m_Sprite: {fileID: 2011353276, guid: e9a3776a54076f440bd55ffe7010c633, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -10,10 +9,11 @@ public class Bullet : MonoBehaviour
     public float timer;
     public float speed; 
 
-    private Coroutine straight = null;
-    private Coroutine t = null;
+    protected Coroutine straight = null;
+    protected Coroutine timerCoroutine = null;
 
-    public void Straight()
+
+    public virtual void Straight()
     {
         if(straight != null)
         {
@@ -25,27 +25,27 @@ public class Bullet : MonoBehaviour
 
     public void TimerStart()
     {
-        if (t != null)
+        if (timerCoroutine != null)
         {
-            StopCoroutine(t);
+            StopCoroutine(timerCoroutine);
         }
-        t = StartCoroutine(OffTimer());
+        timerCoroutine = StartCoroutine(OffTimer(timer));
     }
 
-    private IEnumerator StraightC()
+    protected IEnumerator StraightC()
     {
         while(true)
         {
-            transform.Translate(transform.forward * speed *  Time.deltaTime, Space.World);
+            transform.Translate(speed *  Time.deltaTime * transform.forward, Space.World);
 
             yield return null;
         }
     }
 
-    private IEnumerator OffTimer()
+    protected IEnumerator OffTimer(float timer)
     {
         yield return new WaitForSeconds(timer);
-        t = null;
+        timerCoroutine = null;
         if(straight != null)
         {
             StopCoroutine(straight);
@@ -63,18 +63,16 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        
-        if(other.gameObject.name == "test")
+        if (1 << other.gameObject.layer == LayerMask.GetMask("Wall") || 1 << other.gameObject.layer == LayerMask.GetMask("Player"))
         {
-            return;
-        }
-        if (straight != null)
-        {
-            StopCoroutine(straight);
-        }
+            if (straight != null)
+            {
+                StopCoroutine(straight);
+            }
 
-        Judgment(other);
+            Judgment(other);
 
-        PollingManager.Instance.RemovePoolingObject(gameObject);
+            PoolingManager.Instance.RemovePoolingObject(gameObject);
+        }
     }
 }
