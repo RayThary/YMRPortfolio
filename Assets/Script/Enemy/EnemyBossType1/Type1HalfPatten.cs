@@ -10,9 +10,9 @@ public class Type1HalfPatten : MonoBehaviour
     private Vector3 targetTrs;//도착지점
 
     [SerializeField] private float speed;
-    [SerializeField][Range(0, 1)] private float value = 0;
-    [SerializeField] private List<GameObject> bulletObj = new List<GameObject>();
-    [SerializeField]private bool initPatten = false;
+     private float value = 0;
+     private List<GameObject> bulletObj = new List<GameObject>();
+    private bool initPatten = false;
     private bool pattenStart = false;
 
     private Vector3 bezier(Vector3 p0, Vector3 p1, Vector3 p2, float t)
@@ -72,7 +72,6 @@ public class Type1HalfPatten : MonoBehaviour
         value += Time.deltaTime * speed * 0.1f;
         if (value >= 1)
         {
-            Debug.Log("파티클생성예정 , 아직안만듬");
             for(int i =0;i<startTrsList.Count;i++)
             {
                 PoolingManager.Instance.RemovePoolingObject(bulletObj[i]);
@@ -113,6 +112,8 @@ public class Type1HalfPatten : MonoBehaviour
     }
     public void SetHalfPatten()
     {
+        
+
         bulletObj.Clear();
         initPatten = true;
     }

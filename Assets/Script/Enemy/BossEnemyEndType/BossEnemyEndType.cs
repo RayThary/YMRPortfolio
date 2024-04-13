@@ -89,12 +89,12 @@ public class BossEnemyEndType : Unit
 
     void Update()
     {
-
-
         endBossMove();
         farPatten();
         vicinityPatten();
         HaxagonPatten();
+
+
     }
 
     private void endBossMove()
