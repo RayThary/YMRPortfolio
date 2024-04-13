@@ -23,7 +23,7 @@ public class Shot : AttackType
 
         _player.componentController.CallAddComponent(bullet);
 
-        bullet.Fire(_player, 2, _timer);
+        bullet.Fire(_player, _speed, _timer);
         return true;
     }
 

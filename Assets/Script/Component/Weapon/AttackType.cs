@@ -10,6 +10,8 @@ public abstract class AttackType : IAttackType
     public float Rate { get => Mathf.Max(0.1f, _rate); set { _rate += value; } }
     protected float _timer;
     public float Timer { get { return Mathf.Max(1f, _rate); } set { _timer = value; } }
+    protected float _speed = 2;
+    public float Speed { get { return _speed; } set { _speed = value; } }
     protected bool shot = true;
     protected Player _player;
 

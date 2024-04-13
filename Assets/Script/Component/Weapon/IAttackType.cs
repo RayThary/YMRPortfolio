@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 
 public interface IAttackType
 {
@@ -7,4 +6,5 @@ public interface IAttackType
     abstract bool Fire();
     float Rate { get; set; }
     float Timer { get; set; }   
+    float Speed { get; set; }
 }

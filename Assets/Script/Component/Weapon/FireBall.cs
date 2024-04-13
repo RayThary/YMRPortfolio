@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.ParticleSystem;
 
 public class FireBall : AttackType
 {
@@ -24,7 +23,7 @@ public class FireBall : AttackType
 
         _player.componentController.CallAddComponent(bullet);
 
-        bullet.Fire(_player, 2, _timer);
+        bullet.Fire(_player, _speed, _timer);
 
         RemoveParticelSystem();
 
@@ -77,6 +76,6 @@ public class FireBall : AttackType
 
     private ComponentBullet CreateBullet()
     {
-        return PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.ComponuntBulle, null).GetComponent<ComponentBullet>();
+        return PoolingManager.Instance.CreateObject(PoolingManager.ePoolingObject.FireBall, null).GetComponent<ComponentBullet>();
     }
 }

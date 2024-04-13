@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Events;
 using System;
 using System.Collections;
 using System.Linq;
@@ -7,11 +6,8 @@ using System.Linq;
 public class Stat : MonoBehaviour
 {
     private Unit user;
-    [SerializeField] string bossName;
-    public string BossName => bossName;
-
     //체력
-    [SerializeField] 
+    [SerializeField]
     private float hp;
     public float HP { get { return  hp; } }
     [SerializeField]
@@ -481,11 +477,5 @@ public class Stat : MonoBehaviour
             if (perpetrator != null)
                 attackDelegate(perpetrator, figure);
         }
-    }
-    //maxHP , hp 수정하는부분이없어서 만듬
-    public void SetHp(float _value)
-    {
-        hp = _value;
-        maxHp = _value;
     }
 }
