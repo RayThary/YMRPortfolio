@@ -6,10 +6,34 @@ using UnityEngine.UI;
 
 public class CardManager : MonoBehaviour
 {
+    private static CardManager _instance;
+    public static CardManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindObjectOfType<CardManager>();
+                if (_instance == null)
+                {
+                    GameObject go = new("CardManager");
+                    _instance = go.AddComponent<CardManager>();
+                }
+                DontDestroyOnLoad(_instance.gameObject);
+            }
+            return _instance;
+        }
+    }
+
+
     public CardVeiw[] view;
     public List<Card> publicCards = new();
     public List<Card> selectCards = new();
     private Player player;
+
+    private void Awake()
+    {
+    }
 
     private void Start()
     {
@@ -18,7 +42,6 @@ public class CardManager : MonoBehaviour
         {
             view[i].Init(this);
         }
-
         publicCards.Add(new QuickAttackCard(player));
         publicCards.Add(new PenetrationCard(player));
         publicCards.Add(new MineCard(player));
@@ -38,8 +61,12 @@ public class CardManager : MonoBehaviour
         publicCards.Add(new GunMachineCard(player));
         publicCards.Add(new FlameMachineCard(player));
         publicCards.Add(new DefenceMachineCard(player));
-        publicCards.Add(new ShotgunCard(player));
         publicCards.Add(new Evolution(player));
+        //총만 가능할지도
+        publicCards.Add(new ShotgunCard(player));
+        publicCards.Add(new Quickly(player));
+        //지팡이
+        publicCards.Add(new FireB(player));
     }
 
     public void ViewCards()
@@ -65,6 +92,7 @@ public class CardManager : MonoBehaviour
             view[i].gameObject.SetActive(false);
             view[i].card = null;
         }
+        GameManager.instance.CardSelected();
     }
 }
 
@@ -459,9 +487,28 @@ public class DefenceMachineCard : Card
         }
     }
 }
+[System.Serializable]
+public class Evolution : Card
+{
+    public Evolution(Player player) : base(player)
+    {
+        exp = "체력 10증가 공격력 2증가.";
+    }
 
+    public override void Activation()
+    {
+        user.STAT.MAXHP = 10;
+        user.STAT.AD = 2;
+    }
 
-//
+    public override void Deactivation()
+    {
+        user.STAT.MAXHP = -10;
+        user.STAT.AD = -2;
+    }
+}
+
+//활
 
 [System.Serializable]
 public class ShotgunCard : Card
@@ -496,24 +543,62 @@ public class ShotgunCard : Card
         weaponDepot.RemoveShot(shots[1]);
     }
 }
-
 [System.Serializable]
-public class Evolution : Card
+public class Quickly : Card
 {
-    public Evolution(Player player) : base(player)
+    WeaponDepot depot;
+    public Quickly(Player player) : base(player)
     {
-        exp = "체력 10증가 공격력 2증가.";
+        exp = "공격속도가 0.1초 빨라집니다. 총알의 속도도 빨라집니다.";
+        depot = player.GetComponent<WeaponDepot>();
     }
 
     public override void Activation()
     {
-        user.STAT.MAXHP = 10;
-        user.STAT.AD = 2;
+        if (!depot)
+        {
+            for (int i = 0; i < depot.Launcher.AttackTypes.Count; i++)
+            {
+                depot.Launcher.AttackTypes[i].Rate = -0.1f;
+                depot.Launcher.AttackTypes[i].Speed += 2f;
+            }
+        }
     }
 
     public override void Deactivation()
     {
-        user.STAT.MAXHP = -10;
-        user.STAT.AD = -2;
+        if (!depot)
+        {
+            for (int i = 0; i < depot.Launcher.AttackTypes.Count; i++)
+            {
+                depot.Launcher.AttackTypes[i].Rate = 0.1f;
+                depot.Launcher.AttackTypes[i].Speed -= 2f;
+            }
+        }
+    }
+}
+
+// 지팡이
+
+[System.Serializable]
+public class FireB : Card
+{
+    FireBall fireBall;
+    public FireB(Player player) : base(player)
+    {
+        exp = "새로운 공격인 파이어 볼이 추가됩니다";
+        //파이어볼의 공격속도는 아무 의미가 없음 (rate)
+        fireBall = new FireBall(player.GetComponent<WeaponDepot>().Launcher, player, player.GetComponent<WeaponDepot>().Muzzle, 1f, 10);
+        fireBall.Speed = 5;
+    }
+
+    public override void Activation()
+    {
+        user.GetComponent<WeaponDepot>().Launcher.AddAttackType(fireBall);
+    }
+
+    public override void Deactivation()
+    {
+        user.GetComponent<WeaponDepot>().Launcher.RemoveAttackType(fireBall);
     }
 }

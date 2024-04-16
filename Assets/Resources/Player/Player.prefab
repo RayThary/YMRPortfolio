@@ -4018,7 +4018,6 @@ MonoBehaviour:
   muzzle: {fileID: 9168988903682186009}
   bow: {fileID: 3647343455650780053}
   wand: {fileID: 376045189595538398}
-  Knife: {fileID: 0}
 --- !u!114 &934922146812428978
 MonoBehaviour:
   m_ObjectHideFlags: 0

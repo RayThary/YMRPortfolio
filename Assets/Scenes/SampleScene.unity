@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -29005,6 +29005,10 @@ PrefabInstance:
       propertyPath: spaceImage
       value: 
       objectReference: {fileID: 1265431512}
+    - target: {fileID: 934922146812428978, guid: 7bc9c3fa2e3146046b62348320b7c2f1, type: 3}
+      propertyPath: originalSpeed
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3189620322496369218, guid: 7bc9c3fa2e3146046b62348320b7c2f1, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -39321,6 +39325,9 @@ MonoBehaviour:
     count: 10
     description: "* \uBAA8\uC591\uC73C\uB85C \uC870\uAE08\uC758\uB51C\uB808\uC774\uB97C
       \uC8FC\uC5B4\uC11C \uCD1D\uC54C\uC744\uBC1C\uC0AC\uD558\uB294 \uC624\uBE0C\uC81D\uD2B8"
+  - obj: {fileID: 6009053421921428543, guid: 2435946b7ceb8e047a43bfb3e0c84242, type: 3}
+    count: 20
+    description: "\uD30C\uC774\uC5B4\uBCFC"
 --- !u!4 &609085456
 Transform:
   m_ObjectHideFlags: 0
@@ -58578,12 +58585,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e5c5c8dd01d3fb4a8756f611ca849ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyManager: {fileID: 1601524412}
   cardManager: {fileID: 1607198114}
   CardTest: 0
   playerDeadButton: {fileID: 8756934176217659321, guid: a4618d7a503ca8a468d5ebafa88f6886, type: 3}
   stage: {fileID: 0}
   stageNum: 1
+  cardSelectWindow: {fileID: 0}
 --- !u!1 &979526300
 GameObject:
   m_ObjectHideFlags: 0
@@ -91777,38 +91784,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05567cb5385cb4e4f959a67d9be8b279, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nowStage:
-    map: {fileID: 0}
-    mapBoxCollder: {fileID: 0}
-    cameraCollder: {fileID: 0}
-    enemyList: []
-    min: 0
-    max: 0
-    enemyProbabilities: []
-  EnemyParent: {fileID: 0}
-  stages:
-  - map: {fileID: 981135311}
-    mapBoxCollder: {fileID: 863557066}
-    cameraCollder: {fileID: 535663285}
-    enemyList: []
-    min: 1
-    max: 1
-    enemyProbabilities:
-    - enemyType: 3
-      token: 5
-    - enemyType: 4
-      token: 0
-  - map: {fileID: 0}
-    mapBoxCollder: {fileID: 0}
-    cameraCollder: {fileID: 0}
-    enemyList: []
-    min: 7
-    max: 10
-    enemyProbabilities:
-    - enemyType: 3
-      token: 7
-    - enemyType: 4
-      token: 3
 --- !u!1 &1602187425
 GameObject:
   m_ObjectHideFlags: 0

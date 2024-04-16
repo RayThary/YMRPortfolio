@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public EnemyManager enemyManager;
     public CardManager cardManager;
     public static GameManager instance;
 
@@ -29,6 +30,11 @@ public class GameManager : MonoBehaviour
 
     private bool StartCheck = true;
 
+    private List<int> stageList = new List<int>();
+
+    [SerializeField]
+    //카드 고를때 화면을 가릴 이미지
+    private Image cardSelectWindow;
 
     private void Awake()
     {
@@ -53,6 +59,11 @@ public class GameManager : MonoBehaviour
         Screen.SetResolution(1920, 1080, FullScreenMode.MaximizedWindow, rate);
         //프레임 제한 최대 60
         Application.targetFrameRate = 60;//59 
+
+        for (int i = 1; i < 5; i++)
+        {
+            stageList.Add(i);
+        }
     }
 
     void Start()
@@ -69,14 +80,37 @@ public class GameManager : MonoBehaviour
         }
      
     }
+
+    //보스가 죽으면 실행
     public void CardSelectStep()
     {
-
+        //근데 무기를 장착중인지 확인 해야함
+        WeaponDepot w = player.GetComponent<WeaponDepot>();
+        //장착하고 있는 무기의 갯수가 0개가 아니다!
+        if (w.Launcher.AttackTypes.Count != 0)
+        {
+            //화면 가려주고
+            cardSelectWindow.rectTransform.sizeDelta = new Vector2(Screen.width, Screen.height);
+            //카드 보여주고
+            CardTest = true;
+        }
     }
 
+    public void CardSelected()
+    {
+        NextStageStep();
+    }
+
+    //CardSelected 작동한 후에 실행
     public void NextStageStep()
     {
-
+        //화면 다시 열어주고
+        cardSelectWindow.rectTransform.sizeDelta = new Vector2(0, 0);
+        //스테이지 중에 랜덤으로 하나 골라서 씬 로드
+        int stage = stageList[Random.Range(0, stageList.Count)];
+        stageList.Remove(stage);
+        SceneManager.LoadScene("BossType" + stage);
+        //여기서 선택한 씬을 기록
     }
 
     public Collider NearbyTrnasform(Collider[] list, Transform center)
@@ -112,8 +146,11 @@ public class GameManager : MonoBehaviour
         return StartCheck;
     }
 
+
+
     public void PlayerDead()
     {
+        Time.timeScale = 0;
         playerDeadButton.SetActive(true);
     }
 
@@ -126,8 +163,10 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
-        //다시시작 코드
-        Debug.Log("다시시작 코드");
+        //NextStageStep 에서 선택한 씬을 다시 로드
+
+        //플레이어의 스탯을 다시 로드
+        player.STAT.Init();
     }
 
 }

@@ -7,11 +7,14 @@ public class WeaponDepot : MonoBehaviour
 {
     private NewLauncher _launcher;
     public NewLauncher Launcher { get => _launcher; }
-    public Transform muzzle;
+    [SerializeField]
+    private Transform muzzle;
+    public Transform Muzzle { get => muzzle; }  
     private Player player;
-    public Transform bow;
-    public Transform wand;
-    public Transform Knife;
+    [SerializeField]
+    private Transform bow;
+    [SerializeField]
+    private Transform wand;
 
 
     // Start is called before the first frame update
@@ -19,15 +22,10 @@ public class WeaponDepot : MonoBehaviour
     {
         player = GetComponent<Player>();
         _launcher = new NewLauncher();
-        _launcher.AddAttackType(new Shot(_launcher, player, muzzle, PoolingManager.ePoolingObject.ComponuntBulle, 0, 1, 10));
         //launcher.AddAttackType(new Shot(launcher, player, muzzle, PoolingManager.ePoolingObject.ComponuntBulle, 45, 1.5f, 10));
-        //launcher.AddAttackType(new Ignite(launcher, player, PoolingManager.ePoolingObject.Flame, 1));
-        //launcher.AddAttackType(new Swing(launcher, player, muzzle, PoolingManager.ePoolingObject.ComponentTrack, 1));
-
-
-        //Knife.gameObject.SetActive(true);
-        bow.gameObject.SetActive(true);
-
+        //_launcher.AddAttackType(new FireBall(_launcher, player, muzzle, 1, 10));
+        //FireB fireB = new FireB(player);
+        //fireB.Activation();
 
 
         //player.Hit(null, 10);
@@ -45,6 +43,34 @@ public class WeaponDepot : MonoBehaviour
         {
             _launcher.LeftUp();
         }
+    }
+
+    //모든 무기 해제
+    public void Disarming()
+    {
+        _launcher = new NewLauncher();
+    }
+
+    //모든 카드 해제
+    public void CardDisarming()
+    {
+        for(int i = 0; i < CardManager.Instance.selectCards.Count; i++)
+        {
+            CardManager.Instance.selectCards[i].Deactivation();
+        }
+        CardManager.Instance.selectCards.Clear();
+    }
+    public void EquipBow()
+    {
+        _launcher.AddAttackType(new Shot(_launcher, player, muzzle, PoolingManager.ePoolingObject.ComponuntBulle, 0, 1, 10));
+        bow.gameObject.SetActive(true);
+        wand.gameObject.SetActive(false);
+    }
+    public void EquipWand()
+    {
+        _launcher.AddAttackType(new Ignite(_launcher, player, PoolingManager.ePoolingObject.Flame, 1, 5));
+        wand.gameObject.SetActive(true);
+        bow.gameObject.SetActive(false);
     }
 
     public Shot AddShot(PoolingManager.ePoolingObject ePoolingObject, float angle, float rate, float timer)

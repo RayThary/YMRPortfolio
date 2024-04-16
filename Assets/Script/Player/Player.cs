@@ -86,7 +86,6 @@ public class Player : Unit
             spaceTimer -= Time.deltaTime;
             spaceImage.fillAmount = spaceTimer / spaceCooltime;
         }
-
     }
 
     private void MoveCalculate()
@@ -132,7 +131,7 @@ public class Player : Unit
         // 이동을 적용합니다.
         if (canMove)
         {
-            _rigidbody.velocity = (moveVelocity );
+            _rigidbody.velocity = (moveVelocity * stat.SPEED);
         }
     }
 
@@ -162,7 +161,6 @@ public class Player : Unit
             //플레이어는 체력이 0이되면 게임이 끝난거임
             if (stat.HP <= 0)
             {
-                Time.timeScale = 0;
                 //게임 다시시작
                 GameManager.instance.PlayerDead();
                 return;

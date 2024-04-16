@@ -46,6 +46,7 @@ public class PoolingManager : MonoBehaviour
         Type1Patten3,
         CurveBulletPatten,
         CurveBullet,
+        FireBall,
     }
 
     [System.Serializable]
