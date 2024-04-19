@@ -10,6 +10,7 @@ public class EnemyBossType2 : Unit
 
     private Transform target;
     private Animator anim;
+    private BoxCollider box;
     private float attsp = 0.5f;//공격속도
 
     //메테오공격(패턴1)
@@ -54,11 +55,16 @@ public class EnemyBossType2 : Unit
 
     private Transform playerTrs;
 
-    //테스트용
+
     private bool patten1Check = false;//메테오 패턴1써보는곳
     private bool patten2Check = false;//근접패턴 적이오면 주위구체3개소환하는곳
     private bool patten3Check = false;//반피패턴 x자로 레이저가빙빙돌게된다
     private bool patten4Check = false;//큰총알패턴
+
+    private bool deathCheck = false;
+
+    [SerializeField] private bool testHpSet = false;
+
     protected new void Start()
     {
         base.Start();
@@ -67,17 +73,55 @@ public class EnemyBossType2 : Unit
         target = GameManager.instance.GetPlayerTransform;
         anim = GetComponent<Animator>();
         meteorBoxSize = GameManager.instance.GetStage.size;
-        
+        box = GetComponent<BoxCollider>();
+
+        float hp = 100;
+        if (GameManager.instance.GetStageNum == 1)
+        {
+            hp = 100;
+            stat.SetHp(hp);
+        }
+        else if (GameManager.instance.GetStageNum == 2)
+        {
+            hp = 150;
+            stat.SetHp(hp);
+        }
+        else
+        {
+            hp = 100;
+            stat.SetHp(hp);
+            Debug.LogError($"StageNumError , StageNum ={GameManager.instance.GetStageNum}");
+        }
+
+        if (testHpSet)
+        {
+            hp = 10;
+        }
+
+
     }
 
 
     void Update()
     {
+        if (GameManager.instance.GetStart() == false)
+        {
+            return;
+        }
+
+
+        if (deathCheck)
+        {
+            box.enabled = false;
+            return;
+        }
+
         enemyMove();
         enemyAttack();//기본공격
         bigBullet();
         enemyMeleeAttack();
         enemyHalfHealthPatten();
+        enemyDie();
     }
 
     private void enemyMove()
@@ -150,7 +194,7 @@ public class EnemyBossType2 : Unit
         }
         else
         {
-            if (dis < 3 )
+            if (dis < 3)
             {
                 basicAttackTime = 2;
             }
@@ -346,9 +390,20 @@ public class EnemyBossType2 : Unit
         {
             patten3ObjCheck = PoolingManager.Instance.CreateObject("WindMillPatten", GameManager.instance.GetEnemyAttackObjectPatten);
             patten3Check = true;
-            patten3ObjCheck.GetComponent<WindMillPattenUnit>().Boss=this;
+            patten3ObjCheck.GetComponent<WindMillPattenUnit>().Boss = this;
         }
 
+    }
+
+    private void enemyDie()
+    {
+        if (stat.HP <= 0)
+        {
+            deathCheck = true;
+
+            anim.SetTrigger("Die");
+
+        }
     }
 
     //애니메이션용

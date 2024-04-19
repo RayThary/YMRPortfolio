@@ -738,6 +738,7 @@ MonoBehaviour:
   objPatten3: {fileID: 362274270047863809, guid: 4e6f0c00ff4fab3458b02cdbc7535b7d, type: 3}
   basicAttackTime: 2
   noMeleeCheck: 0
+  testHpSet: 0
 --- !u!65 &4046218168148850628
 BoxCollider:
   m_ObjectHideFlags: 0

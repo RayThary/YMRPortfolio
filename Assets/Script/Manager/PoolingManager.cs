@@ -13,7 +13,6 @@ public class PoolingManager : MonoBehaviour
         RotatingSphere,
         BigBullet,
         WindMillPatten,
-        GuidedBullet,
         HaxagonLaser,
         BossEndAttackRange,
         BlueBullet,

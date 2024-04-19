@@ -54,15 +54,22 @@ public class EnemyBossType1 : Unit
 
         BossUI.Instance.StatBoss = stat;
         float hp = 100;
-        for(int i = 1; i < 4; i++)
+
+        if (GameManager.instance.GetStageNum == 1)
         {
-            if (i == GameManager.instance.GetStageNum)
-            {
-                stat.originalHP = hp;
-                stat.SetHp(hp);
-                break;
-            }
-            hp += 50;
+            hp = 100;
+            stat.SetHp(hp);
+        }
+        else if (GameManager.instance.GetStageNum == 2)
+        {
+            hp = 150;
+            stat.SetHp(hp);
+        }
+        else
+        {
+            hp = 100;
+            stat.SetHp(hp);
+            Debug.LogError($"StageNumError , StageNum ={GameManager.instance.GetStageNum}");
         }
     }
 

@@ -26534,7 +26534,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de7faaf58c86aee4fa3cd4913afad96b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trs: {fileID: 0}
 --- !u!4 &359105946
 Transform:
   m_ObjectHideFlags: 0
@@ -29712,6 +29711,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1670343586394167873, guid: fd4fe3a66a53b4444b47e3dcec795164, type: 3}
+      propertyPath: testHpSet
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1670343586394167873, guid: fd4fe3a66a53b4444b47e3dcec795164, type: 3}
       propertyPath: patten1Check
       value: 1
       objectReference: {fileID: 0}
@@ -29785,7 +29788,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6476762748271128446, guid: fd4fe3a66a53b4444b47e3dcec795164, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -58857,10 +58860,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e5c5c8dd01d3fb4a8756f611ca849ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyManager: {fileID: 1601524412}
   cardManager: {fileID: 1607198114}
   CardTest: 0
   playerDeadButton: {fileID: 8756934176217659321, guid: a4618d7a503ca8a468d5ebafa88f6886, type: 3}
+  stage: {fileID: 0}
+  stageNum: 1
+  cardSelectWindow: {fileID: 0}
 --- !u!1 &979526300
 GameObject:
   m_ObjectHideFlags: 0
@@ -92297,38 +92302,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05567cb5385cb4e4f959a67d9be8b279, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nowStage:
-    map: {fileID: 0}
-    mapBoxCollder: {fileID: 0}
-    cameraCollder: {fileID: 0}
-    enemyList: []
-    min: 0
-    max: 0
-    enemyProbabilities: []
-  EnemyParent: {fileID: 0}
-  stages:
-  - map: {fileID: 981135311}
-    mapBoxCollder: {fileID: 863557066}
-    cameraCollder: {fileID: 535663285}
-    enemyList: []
-    min: 1
-    max: 1
-    enemyProbabilities:
-    - enemyType: 3
-      token: 5
-    - enemyType: 4
-      token: 0
-  - map: {fileID: 0}
-    mapBoxCollder: {fileID: 0}
-    cameraCollder: {fileID: 0}
-    enemyList: []
-    min: 7
-    max: 10
-    enemyProbabilities:
-    - enemyType: 3
-      token: 7
-    - enemyType: 4
-      token: 3
 --- !u!1 &1602187425
 GameObject:
   m_ObjectHideFlags: 0
@@ -108840,7 +108813,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 300, y: -490}
+  m_AnchoredPosition: {x: 300, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1925275874
