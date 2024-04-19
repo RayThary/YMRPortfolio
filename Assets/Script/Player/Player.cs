@@ -45,6 +45,9 @@ public class Player : Unit
 
     private Rigidbody _rigidbody;
     public ComponentController componentController;
+    private void Awake()
+    {
+    }
 
     protected new void Start()
     {
@@ -53,6 +56,7 @@ public class Player : Unit
         spriteAlpha = GetComponent<SpriteAlphaControl>();
         animator = transform.GetChild(0).GetComponent<Animator>();
         componentController = new ComponentController(this);
+        DontDestroyOnLoad(this);
     }
 
 
