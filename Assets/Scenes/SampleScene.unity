@@ -29003,15 +29003,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 23018044173033137, guid: 7bc9c3fa2e3146046b62348320b7c2f1, type: 3}
       propertyPath: moveSpeed
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 23018044173033137, guid: 7bc9c3fa2e3146046b62348320b7c2f1, type: 3}
       propertyPath: spaceImage
       value: 
       objectReference: {fileID: 1265431512}
+    - target: {fileID: 543539494286466918, guid: 7bc9c3fa2e3146046b62348320b7c2f1, type: 3}
+      propertyPath: isTestPlayer
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 934922146812428978, guid: 7bc9c3fa2e3146046b62348320b7c2f1, type: 3}
       propertyPath: originalSpeed
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3189620322496369218, guid: 7bc9c3fa2e3146046b62348320b7c2f1, type: 3}
       propertyPath: m_RootOrder
@@ -29072,6 +29076,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8802860837535315168, guid: 7bc9c3fa2e3146046b62348320b7c2f1, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2018017262}
+    - targetCorrespondingSourceObject: {fileID: 8802860837535315168, guid: 7bc9c3fa2e3146046b62348320b7c2f1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2018017263}
+    - targetCorrespondingSourceObject: {fileID: 8802860837535315168, guid: 7bc9c3fa2e3146046b62348320b7c2f1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2018017264}
   m_SourcePrefab: {fileID: 100100000, guid: 7bc9c3fa2e3146046b62348320b7c2f1, type: 3}
 --- !u!1 &404325925
 GameObject:
@@ -112650,6 +112660,55 @@ SortingGroup:
   m_SortingLayer: 0
   m_SortingOrder: 5
   m_SortAtRoot: 0
+--- !u!114 &2018017263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 345212215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64f0f366d7f7a0a47a8fdc4d609fd33a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  godTimer: 1
+  spaceImage: {fileID: 0}
+  spaceCooltime: 1
+  spaceDis: 5
+  travel: 0.1
+  hit_invincibility: 1
+--- !u!114 &2018017264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 345212215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2f8409e6226b6c46807ca083d53efbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bossName: 
+  hp: 0
+  maxHp: 0
+  ad: 1
+  originalHP: 5000
+  originalNaturalHP: 0
+  originalMP: 0
+  originalNaturalMP: 0
+  originalDefence: 0
+  originalResistance: 0
+  originalAd: 1
+  originalAp: 0
+  originalSpeed: 3
+  naturalHPing: 1
+  naturalMPing: 0
+  poison: 1
+  burn: 1
+  shock: 1
+  bleeding: 1
 --- !u!1 &2021329360
 GameObject:
   m_ObjectHideFlags: 0

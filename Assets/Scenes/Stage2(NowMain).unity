@@ -29130,6 +29130,10 @@ PrefabInstance:
       propertyPath: spaceImage
       value: 
       objectReference: {fileID: 1265431512}
+    - target: {fileID: 934922146812428978, guid: 7bc9c3fa2e3146046b62348320b7c2f1, type: 3}
+      propertyPath: originalSpeed
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3189620322496369218, guid: 7bc9c3fa2e3146046b62348320b7c2f1, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -29788,7 +29792,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6476762748271128446, guid: fd4fe3a66a53b4444b47e3dcec795164, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

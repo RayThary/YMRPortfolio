@@ -109,7 +109,8 @@ public class GameManager : MonoBehaviour
         //스테이지 중에 랜덤으로 하나 골라서 씬 로드
         int stage = stageList[Random.Range(0, stageList.Count)];
         stageList.Remove(stage);
-        SceneManager.LoadScene("BossType" + stage);
+        //SceneManager.LoadScene("BossType" + stage);
+        SceneManager.LoadScene(1);
         //여기서 선택한 씬을 기록
     }
 

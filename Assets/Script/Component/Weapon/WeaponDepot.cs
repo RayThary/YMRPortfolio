@@ -5,6 +5,8 @@ using UnityEngine;
 //player라 생각하고 
 public class WeaponDepot : MonoBehaviour
 {
+    [SerializeField]
+    private bool isTestPlayer = false; //나중에 지워주세요
     private NewLauncher _launcher;
     public NewLauncher Launcher { get => _launcher; }
     [SerializeField]
@@ -29,6 +31,11 @@ public class WeaponDepot : MonoBehaviour
 
 
         //player.Hit(null, 10);
+
+        if (isTestPlayer)
+        {
+            EquipBow();
+        }
     }
 
     // Update is called once per frame

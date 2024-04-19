@@ -21,15 +21,17 @@ public class BulletMove : MonoBehaviour
             if (boss == null)
             {
                 player.Hit(null, Damge);
+                PoolingManager.Instance.RemovePoolingObject(gameObject);
             }
             else
             {
                 player.Hit(boss, Damge);
+                PoolingManager.Instance.RemovePoolingObject(gameObject);
             }
         }
         else if (other.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
-            Destroy(gameObject);
+            PoolingManager.Instance.RemovePoolingObject(gameObject);
         }
     }
     void Start()

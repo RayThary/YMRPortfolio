@@ -5,15 +5,14 @@ using UnityEngine.UI;
 
 public class Player : Unit
 {
-    [SerializeField]
-    private float moveSpeed = 5.0f; // 이동 속도 조절용 변수
+    
     public float MoveSpeed 
     { 
-        get { return moveSpeed; }
+        get { return stat.SPEED; }
         set 
         {
-            moveSpeed = value;
-            animator.SetFloat("MoveSpeed", moveSpeed * 0.2f);
+            stat.SPEED = value;
+            animator.SetFloat("MoveSpeed", stat.SPEED * 0.2f);
         } 
     }
     float horizontalInput = 0;
@@ -53,7 +52,6 @@ public class Player : Unit
         _rigidbody = GetComponent<Rigidbody>();
         spriteAlpha = GetComponent<SpriteAlphaControl>();
         animator = transform.GetChild(0).GetComponent<Animator>();
-        MoveSpeed = moveSpeed;
         componentController = new ComponentController(this);
     }
 
@@ -99,7 +97,7 @@ public class Player : Unit
 
         // 이동 벡터의 길이를 1로 정규화하고 속도를 곱합니다.
         moveDirection.Normalize();
-        moveVelocity = moveDirection * moveSpeed;
+        moveVelocity = moveDirection;
     }
 
     //당기는 방향
