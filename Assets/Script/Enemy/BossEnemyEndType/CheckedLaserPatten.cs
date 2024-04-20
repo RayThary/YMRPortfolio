@@ -46,7 +46,6 @@ public class CheckedLaserPatten : MonoBehaviour
     void Start()
     {
         lineRen = GetComponent<LineRenderer>();
-        box = GameManager.instance.GetStage;
 
         if (UPAndDown)
         {

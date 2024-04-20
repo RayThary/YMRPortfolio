@@ -27,7 +27,6 @@ public class WindMillPatten : MonoBehaviour
 
     void Start()
     {
-        box = GameManager.instance.GetStage;
         lineRen = GetComponent<LineRenderer>();
         midPoint = new Vector3(box.bounds.center.x, 0.1f, box.bounds.center.z);
 

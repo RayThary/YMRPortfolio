@@ -24,6 +24,8 @@ public class BossType3 : Unit
 
     private int pattenNum = 0;
 
+    private bool halfPattenCheck = false;
+    private bool shieldPattenCheck = false;
 
     [SerializeField] private float shieldChangeTime = 10;
     private float shieldChangeTimer = 0;
@@ -251,7 +253,10 @@ public class BossType3 : Unit
         {
             return;
         }
-       
+        else
+        {
+            halfPattenCheck = true;
+        }
         int shieldNum;
         ParticleSystem.MainModule main = particle.main;
 
@@ -262,12 +267,14 @@ public class BossType3 : Unit
             if (shieldNum > 5)
             {
                 main.startColor = Color.black;
+                shieldPattenCheck = true;
                 objShield.SetActive(true);
                 shieldChangeTime = 5;
             }
             else
             {
                 main.startColor = Color.white;
+                shieldPattenCheck = false;
                 objShield.SetActive(false);
                 shieldChangeTime = beforeShieldChangeTime;
                 basicAttackTime = basicAttackTime * 0.5f;

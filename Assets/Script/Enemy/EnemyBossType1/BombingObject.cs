@@ -52,6 +52,7 @@ public class BombingObject : MonoBehaviour
     {
         if (lineFasleCheck && line.enabled == false)
         {
+
             StartCoroutine(bombing());
             lineFasleCheck = false;
         }
@@ -75,7 +76,6 @@ public class BombingObject : MonoBehaviour
                 }
                 obj = PoolingManager.Instance.CreateObject("BlueBombing", GameManager.instance.GetEnemyAttackObjectPatten);
                 obj.transform.position = bombingStartPos;
-                obj.GetComponent<Bombing>().SetSpawnCheck();
                 yield return new WaitForSeconds(bombingIntervalTimer);
             }
         }
@@ -95,7 +95,6 @@ public class BombingObject : MonoBehaviour
                 }
                 obj = PoolingManager.Instance.CreateObject("BlueBombing", GameManager.instance.GetEnemyAttackObjectPatten);
                 obj.transform.position = bombingStartPos;
-                obj.GetComponent<Bombing>().SetSpawnCheck();
                 yield return new WaitForSeconds(bombingIntervalTimer);
             }
         }
@@ -115,7 +114,6 @@ public class BombingObject : MonoBehaviour
                 }
                 obj = PoolingManager.Instance.CreateObject("BlueBombing", GameManager.instance.GetEnemyAttackObjectPatten);
                 obj.transform.position = bombingStartPos;
-                obj.GetComponent<Bombing>().SetSpawnCheck();
                 yield return new WaitForSeconds(bombingIntervalTimer);
             }
         }
@@ -135,12 +133,11 @@ public class BombingObject : MonoBehaviour
                 }
                 obj = PoolingManager.Instance.CreateObject("BlueBombing", GameManager.instance.GetEnemyAttackObjectPatten);
                 obj.transform.position = bombingStartPos;
-                obj.GetComponent<Bombing>().SetSpawnCheck();
-
                 yield return new WaitForSeconds(bombingIntervalTimer);
             }
         }
-        PoolingManager.Instance.RemovePoolingObject(gameObject);
+
+
     }
 
 
@@ -163,6 +160,7 @@ public class BombingObject : MonoBehaviour
         startLeft = _startLeft;
         bombingIntervalTimer = _bombingIntervalTimer;
         firstCheck = true;
+        
     }
 
 }

@@ -34,6 +34,9 @@ public class BombingPatten : MonoBehaviour
 
     void Start()
     {
+
+
+
         centerTrs = GameManager.instance.GetPlayerTransform;
     }
 
@@ -216,9 +219,5 @@ public class BombingPatten : MonoBehaviour
     }*/
     #endregion
 
-    public void BombingStart(BombingType _value)
-    {
-        bType = _value;
-        bombingStartCheck = true;
-    }
+
 }

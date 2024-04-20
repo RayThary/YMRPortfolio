@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class TEst : MonoBehaviour
 {
@@ -17,15 +16,12 @@ public class TEst : MonoBehaviour
 
     void Start()
     {
-       
+
     }
 
     void Update()
     {
-        if (Input.anyKeyDown == true)
-        {
-            SceneManager.LoadScene(1);
-        }
+
     }
 
 }
