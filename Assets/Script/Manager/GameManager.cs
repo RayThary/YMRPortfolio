@@ -36,6 +36,8 @@ public class GameManager : MonoBehaviour
     //카드 고를때 화면을 가릴 이미지
     private Image cardSelectWindow;
 
+    private bool bossDieCheck = false;
+
     private void Awake()
     {
         if (instance == null)
@@ -78,6 +80,13 @@ public class GameManager : MonoBehaviour
             CardTest = false;
             cardManager.ViewCards();
         }
+
+        if (bossDieCheck)
+        {
+            PoolingManager.Instance.RemoveAllPoolingObject(transform.GetChild(0).gameObject);
+            bossDieCheck = false;
+        }
+
      
     }
 
@@ -130,6 +139,11 @@ public class GameManager : MonoBehaviour
             }
         }
         return list[index];
+    }
+
+    public void SetBossDieCheck(bool _value)
+    {
+        bossDieCheck = _value;
     }
 
     public void SetStageNum()
